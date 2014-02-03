@@ -6,3 +6,12 @@ function loadSprite(src, id) {
 
     return sprite;
 }
+
+function spritesLoaded(sprites) {
+    for (var i = 0; i < sprites.length; i++) {
+        if (sprites[i][2] === false)
+            return false;
+    }
+
+    return true;
+}

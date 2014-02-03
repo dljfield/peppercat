@@ -35,19 +35,14 @@ Map.prototype.loadSprites = function() {
     this.sprites = [];
 
     this.sprites[0] = loadSprite('sprite/tile_black.png', 0);
-    this.sprites[1] = loadSprite('sprite/tile_grass.png', 1);
-    this.sprites[2] = loadSprite('sprite/tile_rockgrass.png', 2);
+    this.sprites[1] = loadSprite('sprite/tile_grass_iso.png', 1);
+    this.sprites[2] = loadSprite('sprite/tile_rock.png', 2);
 };
 
 Map.prototype.spritesLoaded = function() {
-    for (var i = 0; i < this.sprites.length; i++) {
-        if (sprites[i][2] === false)
-            return false;
-    }
-
-    return true;
+    spritesLoaded(this.sprites);
 };
 
 Map.prototype.getSprite = function(id) {
     return this.sprites[id][1];
-}
+};

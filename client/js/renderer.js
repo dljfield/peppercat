@@ -14,7 +14,6 @@ Renderer.prototype.drawFrame = function() {
 };
 
 Renderer.prototype.drawMap = function() {
-
     // make sure the sprite tiles are loaded first
     if (this.map.spritesLoaded === false)
         setTimeout(this.drawMap(), 100);
@@ -27,11 +26,22 @@ Renderer.prototype.drawMap = function() {
 
             var sprite = this.map.getSprite((mapLayout[mapY] && mapLayout[mapY][mapX] != undefined) ? mapLayout[mapY][mapX] : 0);
 
-            this.render(sprite, x * 32, y * 32);
+            var isoCoords = this.isometric(x, y)
+
+            this.render(sprite, isoCoords.x * 32, isoCoords.y * 32);
         }
     }
 };
 
 Renderer.prototype.render = function(sprite, x, y) {
     this.ctx.drawImage(sprite, x, y);
+};
+
+Renderer.prototype.isometric = function(x, y) {
+    var isoCoords = {};
+
+    isoCoords.x = x - y;
+    isoCoords.y = (x + y) / 2;
+
+    return isoCoords;
 };

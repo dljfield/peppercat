@@ -17,4 +17,4 @@ function Camera(game) {
 Camera.prototype.setXY = function(x, y) {
     this.x = x;
     this.y = y;
-}
+};
