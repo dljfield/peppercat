@@ -14,7 +14,9 @@ function Camera(game) {
     this.tilesY = this.height / 32;
 }
 
-Camera.prototype.setXY = function(x, y) {
-    this.x = x;
-    this.y = y;
+Camera.prototype = {
+    setXY: function(x, y) {
+        this.x = x;
+        this.y = y;
+    }
 };

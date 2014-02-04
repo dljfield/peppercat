@@ -10,18 +10,20 @@ function Game(canvas) {
     this.renderer = new Renderer(this, this.camera, this.map);
 }
 
-Game.prototype.setMap = function(map) {
-    this.map.loadMap(map);
-};
+Game.prototype = {
+    setMap: function(map) {
+        this.map.loadMap(map);
+    },
 
-Game.prototype.getCtx = function() {
-    return this.ctx;
-};
+    getCtx: function() {
+        return this.ctx;
+    },
 
-Game.prototype.getCanvas = function() {
-    return this.canvas;
-};
+    getCanvas: function() {
+        return this.canvas;
+    },
 
-Game.prototype.start = function() {
-    this.renderer.drawFrame();
-};
+    start: function() {
+        this.renderer.drawFrame();
+    }
+}
