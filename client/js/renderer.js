@@ -27,7 +27,7 @@ Renderer.prototype = {
 
                 var sprite = this.map.getSprite((mapLayout[mapY] && mapLayout[mapY][mapX] != undefined) ? mapLayout[mapY][mapX] : 0);
 
-                var isoCoords = this.isometric(x, y)
+                var isoCoords = toIsometric(x, y)
 
                 this.render(sprite, isoCoords.x * 32, isoCoords.y * 32);
             }
@@ -36,14 +36,5 @@ Renderer.prototype = {
 
     render: function(sprite, x, y) {
         this.ctx.drawImage(sprite, x, y);
-    },
-
-    isometric: function(x, y) {
-        var isoCoords = {};
-
-        isoCoords.x = x - y;
-        isoCoords.y = (x + y) / 2;
-
-        return isoCoords;
     }
 };

@@ -1,3 +1,7 @@
+/**
+ * Helper functions that don't need to be in a class.
+ */
+
 function loadSprite(src, id) {
     var sprite = [id, new Image(), false]; // [id#, sprite, loaded?]
 
@@ -14,4 +18,13 @@ function spritesLoaded(sprites) {
     }
 
     return true;
+}
+
+function toIsometric(x, y) {
+	var isoCoords = {};
+
+    isoCoords.x = x - y;
+    isoCoords.y = (x + y) / 2;
+
+    return isoCoords;
 }
