@@ -4,15 +4,15 @@ function Game(canvas) {
     this.canvas = canvas;
     this.ctx    = canvas.getContext('2d');
 
-    this.map = new Map();
+    this.scene = new Scene(SCENE_1);
     this.camera = new Camera(this);
     this.camera.setXY(-9, 0)
-    this.renderer = new Renderer(this, this.camera, this.map);
+    this.renderer = new Renderer(this, this.camera, this.scene);
 }
 
 Game.prototype = {
-    setMap: function(map) {
-        this.map.loadMap(map);
+    setScene: function(scene) {
+        this.scene.loadScene(scene);
     },
 
     getCtx: function() {
