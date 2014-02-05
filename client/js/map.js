@@ -10,7 +10,7 @@ var testmap = [
     [2,1,1,1,1,1,1,1,1,2],
     [2,1,1,1,1,1,1,1,1,2],
     [2,1,1,1,1,1,1,1,1,2],
-    [2,2,2,2,2,2,2,2,2,2],
+    [2,2,2,2,2,2,2,2,3,2],
 ];
 
 function Map(map) {
@@ -34,9 +34,9 @@ Map.prototype = {
     loadSprites: function() {
         this.sprites = [];
 
-        this.sprites[0] = loadSprite('sprite/tile_black.png', 0);
-        this.sprites[1] = loadSprite('sprite/tile_grass_iso.png', 1);
-        this.sprites[2] = loadSprite('sprite/tile_rock.png', 2);
+        this.sprites[1] = loadSprite('sprite/tile_floor.png', 1);
+        this.sprites[2] = loadSprite('sprite/tile_wall.png', 2);
+        this.sprites[3] = loadSprite('sprite/tile_books_cut.png', 3);
     },
 
     spritesLoaded: function() {
@@ -44,6 +44,9 @@ Map.prototype = {
     },
 
     getSprite: function(id) {
-        return this.sprites[id][1];
+        if (id != 0)
+            return this.sprites[id][1];
+        else
+            return 0;
     }
 };

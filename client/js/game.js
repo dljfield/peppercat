@@ -6,7 +6,7 @@ function Game(canvas) {
 
     this.map = new Map();
     this.camera = new Camera(this);
-    this.camera.setXY(-10, 0);
+    this.camera.setXY(-9, 0)
     this.renderer = new Renderer(this, this.camera, this.map);
 }
 

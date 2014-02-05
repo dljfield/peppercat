@@ -27,9 +27,10 @@ Renderer.prototype = {
 
                 var sprite = this.map.getSprite((mapLayout[mapY] && mapLayout[mapY][mapX] != undefined) ? mapLayout[mapY][mapX] : 0);
 
-                var isoCoords = toIsometric(x, y)
+                var isoCoords = toIsometric(x, y);
 
-                this.render(sprite, isoCoords.x * 32, isoCoords.y * 32);
+                if (sprite != 0)
+                    this.render(sprite, isoCoords.x * TILE_SIZE, isoCoords.y * TILE_SIZE);
             }
         }
     },

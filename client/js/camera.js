@@ -10,8 +10,8 @@ function Camera(game) {
     this.y = 0;
 
     // sets the number of tiles that need to be rendered
-    this.tilesX = this.width / 32;
-    this.tilesY = this.height / 32;
+    this.tilesX = this.width / TILE_SIZE;
+    this.tilesY = this.height / TILE_SIZE;
 }
 
 Camera.prototype = {
