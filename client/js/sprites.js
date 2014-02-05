@@ -9,8 +9,8 @@ function Sprites(spriteList) {
 
 Sprites.prototype = {
 	loadSpriteList: function(spriteList) {
-		for (name in spriteList) {
-			this.sprites[name] = this.loadSprite(spriteList[name])
+		for (id in spriteList) {
+			this.sprites[id] = this.loadSprite(spriteList[id])
 		}
 	},
 

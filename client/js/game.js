@@ -3,10 +3,11 @@
 function Game(canvas) {
     this.canvas = canvas;
     this.ctx    = canvas.getContext('2d');
+    this.ctx.translate(320, 100); // render nearer the centre of the canvas so that 0,0 isn't in some random place
 
     this.scene = new Scene(SCENE_1);
     this.camera = new Camera(this);
-    this.camera.setXY(-9, 0)
+    // this.camera.setXY(5, -1);
     this.renderer = new Renderer(this, this.camera, this.scene);
 }
 

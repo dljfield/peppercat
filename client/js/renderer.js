@@ -8,39 +8,44 @@ function Renderer(game, camera, scene) {
 
 Renderer.prototype = {
     drawFrame: function() {
+        if (this.scene.spritesLoaded() === false)
+            setTimeout(this.drawFrame(), 100);
+
         this.drawTerrain();
-        // draw player
-        // draw items
-        // etc
+        this.drawCells();
     },
 
     drawTerrain: function() {
-        // make sure the sprite tiles are loaded first
-        if (this.scene.spritesLoaded === false)
-            setTimeout(this.drawTerrain(), 100);
+        var terrain = this.scene.getTerrain();
 
-        for (var y = 0; y < this.camera.tilesY; y++) { // rows
-            for (var x = 0; x < this.camera.tilesX; x++) { // columns
-                var sceneX = x + this.camera.x;
-                var sceneY = y + this.camera.y;
-                var terrainLayout = this.scene.getTerrain();
+        for (var y = 0; y < terrain.length; y++) {
+            for (var x = 0; x < terrain[y].length; x++) {
+                var isoCoords = this.toIsometric(x + this.camera.x, y + this.camera.y),
+                    tile      = this.scene.getTerrainTile(x, y);
 
-                var sprite = this.scene.getSprite((terrainLayout[sceneY] && terrainLayout[sceneY][sceneX] != undefined) ? terrainLayout[sceneY][sceneX] : "empty");
-
-                var isoCoords = this.toIsometric(x, y);
-
-                if (sprite != 0)
-                    this.render(sprite, isoCoords.x * TILE_SIZE, isoCoords.y * TILE_SIZE);
+                if (tile != undefined)
+                    this.render(tile, isoCoords.x * TILE_SIZE, isoCoords.y * TILE_SIZE);
             }
         }
     },
 
-    drawItems: function() {
-        // draw the items on top of the the terrain
+    drawCells: function() {
+        var cells = this.scene.getCells();
+
+        for (id in cells) {
+            var isoCoords = this.toIsometric(cells[id].x + this.camera.x, cells[id].y + this.camera.y);
+            for (item in cells[id].items) {
+                var sprite = this.scene.getItemSprite(cells[id].items[item]);
+                this.render(sprite, isoCoords.x * TILE_SIZE, isoCoords.y * TILE_SIZE - cells[id].items[item].height);
+            }
+        }
     },
 
     render: function(sprite, x, y) {
+        // this.ctx.save();
+        // this.ctx.translate(320, 100);
         this.ctx.drawImage(sprite, x, y);
+        // this.ctx.restore();
     },
 
     toIsometric: function(x, y) {
@@ -51,5 +56,4 @@ Renderer.prototype = {
 
         return isoCoords;
     }
-
 };
