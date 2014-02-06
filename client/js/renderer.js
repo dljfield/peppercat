@@ -38,6 +38,11 @@ Renderer.prototype = {
                 var sprite = this.scene.getItemSprite(cells[id].items[item]);
                 this.render(sprite, isoCoords.x * TILE_SIZE, isoCoords.y * TILE_SIZE - cells[id].items[item].height);
             }
+
+            for (character in cells[id].characters) {
+                var sprite = this.scene.getItemSprite(cells[id].characters[character]);
+                this.render(sprite, isoCoords.x * TILE_SIZE, isoCoords.y * TILE_SIZE - cells[id].characters[character].height);
+            }
         }
     },
 

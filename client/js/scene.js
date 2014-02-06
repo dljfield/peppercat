@@ -28,4 +28,4 @@ Scene.prototype = {
     getTerrain: function() {
         return this.terrain;
     }
-};
+}
