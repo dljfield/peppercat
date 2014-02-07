@@ -17,17 +17,17 @@ var SCENE_1 = {
 	],
 	"cells": {
 		0: {
-			"x": 7,
-			"y": 11,
+			"x": 4,
+			"y": 10,
 			"items": {
-
+				"wall_1": { "sprite": "t_002", "height": 158 }
 			},
 			"characters": {
-				"player_1": { "sprite": "p_001", "height": 64 }
+
 			}
 		},
 		1: {
-			"x": 4,
+			"x": 7,
 			"y": 10,
 			"items": {
 				"wall_1": { "sprite": "t_002", "height": 158 }
@@ -38,12 +38,12 @@ var SCENE_1 = {
 		},
 		2: {
 			"x": 7,
-			"y": 10,
+			"y": 11,
 			"items": {
-				"wall_1": { "sprite": "t_002", "height": 158 }
+
 			},
 			"characters": {
-
+				"player_1": { "sprite": "p_001", "height": 64 }
 			}
 		}
 	},

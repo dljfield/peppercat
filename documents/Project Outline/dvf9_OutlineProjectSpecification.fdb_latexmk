@@ -1,22 +1,23 @@
 # Fdb version 3
-["bibtex dvf9_OutlineProjectSpecification"] 1391783360 "dvf9_OutlineProjectSpecification.aux" "dvf9_OutlineProjectSpecification.bbl" "dvf9_OutlineProjectSpecification" 1391783366
+["bibtex dvf9_OutlineProjectSpecification"] 1391787894 "dvf9_OutlineProjectSpecification.aux" "dvf9_OutlineProjectSpecification.bbl" "dvf9_OutlineProjectSpecification" 1391787896
   "./IEEEannot.bst" 1321399534 62401 9010fdc9c7c707b35b8c6ba9ab2af6aa ""
-  "dvf9_OutlineProjectSpecification.aux" 1391783362 583 13cffc030bcfadb62ab485eec9892879 ""
+  "dvf9_OutlineProjectSpecification.aux" 1391787895 716 de44aae97da8dc0e8ef8eef123065d58 ""
   "dvf9_OutlineProjectSpecification.bcf" 0 -1 0 ""
   "mmp.bib" 1391781772 2442 a4e9836aa47b0cf6d08c1ca14d8b0f28 ""
   (generated)
   "dvf9_OutlineProjectSpecification.bbl"
   "dvf9_OutlineProjectSpecification.blg"
-["makeindex dvf9_OutlineProjectSpecification.idx"] 1391782717 "dvf9_OutlineProjectSpecification.idx" "dvf9_OutlineProjectSpecification.ind" "dvf9_OutlineProjectSpecification" 1391783366
-  "dvf9_OutlineProjectSpecification.idx" 1391783361 0 d41d8cd98f00b204e9800998ecf8427e ""
+["makeindex dvf9_OutlineProjectSpecification.idx"] 1391782717 "dvf9_OutlineProjectSpecification.idx" "dvf9_OutlineProjectSpecification.ind" "dvf9_OutlineProjectSpecification" 1391787896
+  "dvf9_OutlineProjectSpecification.idx" 1391787895 0 d41d8cd98f00b204e9800998ecf8427e ""
   (generated)
   "dvf9_OutlineProjectSpecification.ilg"
   "dvf9_OutlineProjectSpecification.ind"
-["pdflatex"] 1391783360 "dvf9_OutlineProjectSpecification.tex" "dvf9_OutlineProjectSpecification.pdf" "dvf9_OutlineProjectSpecification" 1391783366
-  "dvf9_OutlineProjectSpecification.aux" 1391783362 583 13cffc030bcfadb62ab485eec9892879 ""
-  "dvf9_OutlineProjectSpecification.bbl" 1391783360 2394 9d98b6e25be777903929707b3222fffa "bibtex dvf9_OutlineProjectSpecification"
+["pdflatex"] 1391787894 "dvf9_OutlineProjectSpecification.tex" "dvf9_OutlineProjectSpecification.pdf" "dvf9_OutlineProjectSpecification" 1391787896
+  "dvf9_OutlineProjectSpecification.aux" 1391787895 716 de44aae97da8dc0e8ef8eef123065d58 ""
+  "dvf9_OutlineProjectSpecification.bbl" 1391787894 2394 9d98b6e25be777903929707b3222fffa "bibtex dvf9_OutlineProjectSpecification"
   "dvf9_OutlineProjectSpecification.ind" 1391782717 0 d41d8cd98f00b204e9800998ecf8427e "makeindex dvf9_OutlineProjectSpecification.idx"
-  "dvf9_OutlineProjectSpecification.tex" 1391783359 10051 dbf2fad8699e797460a8f0a0dbea0a26 ""
+  "dvf9_OutlineProjectSpecification.tex" 1391787891 10174 c3162875224189ac91a7eabd55d4a225 ""
+  "figures/figure-1.png" 1391787864 56278 6395021c190841fa5474a26cd65be332 ""
   "mmpv2.sty" 1391714499 3086 42ee89a6b6d0ce92bbcafa6c306e934f ""
   "s:/texlive/2013/texmf-dist/fonts/map/fontname/texfonts.map" 1391706173 3287 e6b82fe08f5336d4d5ebc73fb1152e87 ""
   "s:/texlive/2013/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm" 1391705881 1004 54797486969f23fa377b128694d548df ""
