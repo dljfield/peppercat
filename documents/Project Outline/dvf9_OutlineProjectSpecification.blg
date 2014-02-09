@@ -14,44 +14,44 @@ Database file #1: mmp.bib
 ** Sorting version - not for use with work to be submitted to the IEEE.
 
 Done.
-You've used 5 entries,
+You've used 6 entries,
             4538 wiz_defined-function locations,
-            927 strings with 9066 characters,
-and the built_in function-call counts, 4077 in all, are:
-= -- 349
-> -- 91
-< -- 27
-+ -- 48
-- -- 20
-* -- 206
-:= -- 632
-add.period$ -- 11
-call.type$ -- 5
-change.case$ -- 26
-chr.to.int$ -- 69
-cite$ -- 5
-duplicate$ -- 262
-empty$ -- 321
-format.name$ -- 23
-if$ -- 901
+            931 strings with 9288 characters,
+and the built_in function-call counts, 3366 in all, are:
+= -- 256
+> -- 51
+< -- 9
++ -- 18
+- -- 12
+* -- 175
+:= -- 610
+add.period$ -- 16
+call.type$ -- 6
+change.case$ -- 28
+chr.to.int$ -- 27
+cite$ -- 6
+duplicate$ -- 251
+empty$ -- 340
+format.name$ -- 12
+if$ -- 715
 int.to.chr$ -- 0
-int.to.str$ -- 5
-missing$ -- 44
-newline$ -- 40
-num.names$ -- 10
-pop$ -- 121
+int.to.str$ -- 6
+missing$ -- 42
+newline$ -- 54
+num.names$ -- 12
+pop$ -- 133
 preamble$ -- 1
-purify$ -- 19
+purify$ -- 18
 quote$ -- 2
-skip$ -- 302
+skip$ -- 237
 stack$ -- 0
-substring$ -- 196
-swap$ -- 197
-text.length$ -- 4
+substring$ -- 61
+swap$ -- 128
+text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 6
-type$ -- 37
+type$ -- 23
 warning$ -- 0
-while$ -- 21
-width$ -- 6
-write$ -- 70
+while$ -- 16
+width$ -- 7
+write$ -- 88
