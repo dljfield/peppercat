@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.1415926-2.5-0.9999.3 (TeX Live 2013/W32TeX) (format=xelatex 2014.2.6)  9 FEB 2014 03:16
+This is XeTeX, Version 3.1415926-2.5-0.9999.3 (TeX Live 2013/W32TeX) (format=xelatex 2014.2.6)  9 FEB 2014 16:26
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -998,7 +998,7 @@ File: figures/figure-1.png Graphic file (type QTm)
 . This font family consists of the following shapes:
 .................................................
  [2] (./dvf9_OutlineProjectSpecification.bbl
-Underfull \hbox (badness 10000) in paragraph at lines 31--35
+Underfull \hbox (badness 10000) in paragraph at lines 33--37
 []\EU1/AdobeGaramondPro(0)/m/n/10.95 laetissima, “Isometric Painted Game Assets
 ,” []$[][][][] [] [] [] [][][][][][][][][][][] [] [][][] [] [][][][][][][] []
  []
@@ -1028,7 +1028,7 @@ Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 146.
 Here is how much of TeX's memory you used:
  22650 strings out of 493918
  414414 string characters out of 6151720
- 474724 words of memory out of 5000000
+ 475724 words of memory out of 5000000
  25708 multiletter control sequences out of 15000+600000
  10595 words of font info for 72 fonts, out of 8000000 for 9000
  1144 hyphenation exceptions out of 8191

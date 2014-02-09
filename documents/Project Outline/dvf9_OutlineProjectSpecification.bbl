@@ -25,7 +25,9 @@ D.~Crockford, \emph{{JavaScript: The Good Parts}}, 1st~ed.\hskip 1em plus 0.5em
   \url{http://www.amazon.com/exec/obidos/redirect?tag=citeulike07-20\&path=ASIN/0596517742}
   0596517742.
 \BIBentrySTDinterwordspacing
-
+ \begin{quotation}\noindent A high quality and well respected book on the
+  JavaScript language, for use as a reference while coding the client-side of
+  my project. \end{quotation}
 
 \bibitem{GameArt}
 laetissima, ``{Isometric Painted Game Assets},''
@@ -52,7 +54,9 @@ P.~Rettig, \emph{{Professional HTML5 Mobile Game Development}}, 1st~ed.\hskip
   1em plus 0.5em minus 0.4em\relax Wrox, Aug. 2012. [Online]. Available:
   \url{http://www.amazon.com/exec/obidos/redirect?tag=citeulike07-20\&path=ASIN/B0094P2TU6}
 \BIBentrySTDinterwordspacing
-
+ \begin{quotation}\noindent A general book on game programming in
+  \textsc{html5}, including real time multiplayer via websockets in Chapter 21.
+  \end{quotation}
 
 \bibitem{citeulike:10333642}
 \BIBentryALTinterwordspacing
@@ -61,7 +65,9 @@ S.~Stefanov, \emph{{JavaScript Patterns}}, 1st~ed.\hskip 1em plus 0.5em minus
   \url{http://www.amazon.com/exec/obidos/redirect?tag=citeulike07-20\&path=ASIN/0596806752}
   0596806752.
 \BIBentrySTDinterwordspacing
-
+ \begin{quotation}\noindent A more advanced book on the JavaScript language to
+  use as a reference alongside \textit{JavaScript: The Good Parts}
+  \cite{citeulike:2742125}. \end{quotation}
 
 \bibitem{citeulike:13000435}
 \BIBentryALTinterwordspacing
@@ -70,6 +76,7 @@ N.~C. Zakas, \emph{{Professional JavaScript for Web Developers}}, 3rd~ed.\hskip
   \url{http://www.amazon.com/exec/obidos/redirect?tag=citeulike07-20\&path=ASIN/1118026691}
   1118026691.
 \BIBentrySTDinterwordspacing
-
+ \begin{quotation}\noindent A highly recommended book covering the JavaScript
+  language. \end{quotation}
 
 \end{thebibliography}

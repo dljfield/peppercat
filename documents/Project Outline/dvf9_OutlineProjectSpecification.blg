@@ -16,14 +16,14 @@ Database file #1: mmp.bib
 Done.
 You've used 6 entries,
             4538 wiz_defined-function locations,
-            931 strings with 9288 characters,
-and the built_in function-call counts, 3366 in all, are:
+            935 strings with 9736 characters,
+and the built_in function-call counts, 3374 in all, are:
 = -- 256
 > -- 51
 < -- 9
 + -- 18
 - -- 12
-* -- 175
+* -- 183
 := -- 610
 add.period$ -- 16
 call.type$ -- 6
