@@ -34,4 +34,4 @@ Sprites.prototype = {
 		}
 		return true;
 	}
-}
+};

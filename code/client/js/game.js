@@ -7,8 +7,8 @@ function Game(canvas) {
 
     this.scene = new Scene(SCENE_1);
     this.camera = new Camera(this);
-    // this.camera.setXY(5, -1);
-    this.renderer = new Renderer(this, this.camera, this.scene);
+    this.camera.setXY(5, -1);
+    this.renderer = new Renderer(this.canvas, this.camera, this.scene);
 }
 
 Game.prototype = {
@@ -16,15 +16,17 @@ Game.prototype = {
         this.scene.loadScene(scene);
     },
 
-    getCtx: function() {
-        return this.ctx;
-    },
-
-    getCanvas: function() {
-        return this.canvas;
+    tick: function() {
+        // update and stuff
+        setTimeout(this.tick.bind(this), 1000 / FPS);
     },
 
     start: function() {
-        this.renderer.drawFrame();
+        if (this.scene.spritesLoaded() === false) {
+            setTimeout(this.start, 100);
+        } else {
+            this.renderer.drawFrame();
+            this.tick();
+        }
     }
-}
+};
