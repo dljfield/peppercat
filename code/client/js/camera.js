@@ -1,6 +1,6 @@
 /* Sets the visible area */
 
-function Camera(game) {
+function Camera() {
     this.x = 0;
     this.y = 0;
 }

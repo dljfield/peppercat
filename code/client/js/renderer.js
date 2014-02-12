@@ -73,5 +73,14 @@ Renderer.prototype = {
         isoCoords.y = (x + y) / 2;
 
         return isoCoords;
+    },
+
+    toCartesian: function(x, y) {
+        var cartCoords = {};
+
+        cartCoords.x = (2 * y + x) / 2;
+        cartCoords.y = (2 * y - x) / 2;
+
+        return cartCoords;
     }
 };

@@ -5,4 +5,4 @@ var FPS       = 30;
 
 var game = new Game(document.getElementById('canvas'));
 
-window.onload = function() { game.start(); };
+window.onload = function() { game.init(); };

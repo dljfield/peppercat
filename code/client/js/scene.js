@@ -27,5 +27,17 @@ Scene.prototype = {
 
     getTerrain: function() {
         return this.terrain;
+    },
+
+    setCell: function(x, y, cell) {
+        this.cells[y][x] = cell;
+    },
+
+    getTileCoordinates: function(point) {
+        var tempPt = {};
+        tempPt.x = Math.floor(point.x / TILE_SIZE);
+        tempPt.y = Math.floor(point.y / TILE_SIZE);
+
+        return tempPt;
     }
 };
