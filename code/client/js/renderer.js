@@ -1,70 +1,96 @@
-/* This is responsible for rendering things to the canvas */
+var Renderer = Class.extend({
 
-function Renderer(canvas, camera, scene) {
-    this.camera = camera;
-    this.scene  = scene;
-    this.canvas = canvas;
-    this.ctx    = (canvas && canvas.getContext) ? canvas.getContext("2d") : null;
-}
+    init: function() {},
 
-Renderer.prototype = {
-    drawFrame: function() {
-        this.clearFrame();
+    drawFrame: function(canvas, context, camera, scene) {
+        this.clearFrame(canvas, context);
 
-        this.drawTerrain();
-        this.drawCells();
-
-        requestAnimationFrame(this.drawFrame.bind(this));
+        context.save();
+        context.translate(camera.x, camera.y);
+        this.drawTerrain(context, scene);
+        this.drawEntities(context, scene);
+        context.restore();
     },
 
-    clearFrame: function() {
-        this.ctx.save();
-        this.ctx.setTransform(1, 0, 0, 1, 0, 0);
-        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-        this.ctx.restore();
+    clearFrame: function(canvas, context) {
+        context.save();
+        context.setTransform(1, 0, 0, 1, 0, 0);
+        context.clearRect(0, 0, canvas.width, canvas.height);
+        context.restore();
     },
 
-    drawTerrain: function() {
-        var terrain = this.scene.getTerrain();
-
+    drawTerrain: function(context, scene) {
+        var terrain = scene.getTerrain();
         for (var y = 0; y < terrain.length; y++) {
             for (var x = 0; x < terrain[y].length; x++) {
-                var isoCoords = this.toIsometric(x + this.camera.x, y + this.camera.y),
-                    tile      = this.scene.getTerrainTile(x, y);
+
+                var isoCoords = this.toIsometric(x, y),
+                    tile      = (terrain[y] && terrain[y][x]) ? scene.getSprite(terrain[y][x]) : undefined;
 
                 if (tile != undefined)
-                    this.render(tile, isoCoords.x * TILE_SIZE, isoCoords.y * TILE_SIZE);
+                    this.draw(context, tile, isoCoords.x * (TILE_WIDTH / 2), isoCoords.y * (TILE_HEIGHT / 2));
             }
         }
     },
 
-    /**
-     * Nested Monstrosity
-     */
-    drawCells: function() {
-        var cells = this.scene.getCells();
+    drawEntities: function(context, scene) {
+        // create array to render from
+        entitiesDrawArray = new Array(scene.getSize().y);
+        for (var i = 0, len = entitiesDrawArray.length; i < len; i++) {
+            entitiesDrawArray[i] = new Array(scene.getSize().x);
+        }
 
-        for (var y = 0, ly = cells.length; y < ly; y++) {
-            for (var x = 0, lx = cells[y].length; x < lx; x++) {
-                if (cells[y][x] !== undefined) {
-                   var isoCoords = this.toIsometric(x + this.camera.x, y + this.camera.y);
-                   for (item in cells[y][x].items) {
-                       var sprite = this.scene.getItemSprite(cells[y][x].items[item]);
-                       this.render(sprite, isoCoords.x * TILE_SIZE, isoCoords.y * TILE_SIZE - (cells[y][x].items[item].height - TILE_SIZE));
-                   }
+        // place the entities in their correct positions in the array
+        var entities = scene.getEntities();
+        for (entity in entities) {
+            entitiesDrawArray[entities[entity].y][entities[entity].x] = {"sprite": entities[entity].sprite, "height": entities[entity].height};
+        }
 
-                   for (character in cells[y][x].characters) {
-                       var sprite = this.scene.getItemSprite(cells[y][x].characters[character]);
-                       this.render(sprite, isoCoords.x * TILE_SIZE, isoCoords.y * TILE_SIZE - (cells[y][x].characters[character].height - TILE_SIZE));
-                   }
-                }
+        for (var y = 0; y < entitiesDrawArray.length; y++) {
+            for (var x = 0; x < entitiesDrawArray[y].length; x++) {
+                var isoCoords = this.toIsometric(x, y),
+                    sprite      = (entitiesDrawArray[y] && entitiesDrawArray[y][x]) ? scene.getSprite(entitiesDrawArray[y][x].sprite) : undefined;
+
+                if (sprite != undefined)
+                    this.draw(context, sprite, isoCoords.x * (TILE_WIDTH / 2), isoCoords.y * (TILE_HEIGHT / 2) - (entitiesDrawArray[y][x].height - (TILE_HEIGHT / 2)));
             }
         }
     },
 
-    render: function(sprite, x, y) {
-        this.ctx.drawImage(sprite, x, y);
+    draw: function(context, sprite, x, y) {
+        context.drawImage(sprite, x, y);
     },
+
+    ////////////////////////////
+    // FUCKIN DEPTH SORTIN M8 //
+    ////////////////////////////
+
+    depthSort: function(entities) {
+        var buckets = [];
+
+        for (entity in entities) {
+            var depth = this.calculateDepth(entities[entity]);
+            buckets[depth] = entities[entity];
+        }
+
+        var result = [];
+
+        for (bucket in buckets) {
+            for (entity in buckets[bucket]) {
+                result.push(buckets[bucket][entity]);
+            }
+        }
+
+        return result;
+    },
+
+    calculateDepth: function(entity) {
+         return entity.x + entity.y + entity.z;
+    },
+
+    //////////////////////
+    // END DEPTH SORTIN //
+    //////////////////////
 
     toIsometric: function(x, y) {
         var isoCoords = {};
@@ -73,14 +99,6 @@ Renderer.prototype = {
         isoCoords.y = (x + y) / 2;
 
         return isoCoords;
-    },
-
-    toCartesian: function(x, y) {
-        var cartCoords = {};
-
-        cartCoords.x = (2 * y + x) / 2;
-        cartCoords.y = (2 * y - x) / 2;
-
-        return cartCoords;
     }
-};
+
+});

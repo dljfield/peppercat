@@ -1,13 +1,16 @@
-/* Sets the visible area */
+var Camera = Class.extend({
 
-function Camera() {
-    this.x = 0;
-    this.y = 0;
-}
+    x: null,
+    y: null,
 
-Camera.prototype = {
-    setXY: function(x, y) {
+    init: function() {
+        this.x = 0;
+        this.y = 0;
+    },
+
+    setPos: function(x, y) {
         this.x = x;
         this.y = y;
     }
-};
+
+});
