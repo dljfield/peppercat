@@ -26,7 +26,7 @@ var Engine = Class.extend({
         var entities = this.scene.getEntities();
 
         for (var i = 0, len = entities.length; i < len; i++) {
-            entities[i].update(this.input);
+            entities[i].update(this.input, this.scene);
         }
 
         this.scene.setEntities(entities);

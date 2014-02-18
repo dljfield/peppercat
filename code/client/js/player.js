@@ -11,10 +11,10 @@ var Player = Character.extend({
 		this._super(x, y, z, height, collidable, sprite);
 	},
 
-	update: function(input) {
+	update: function(input, scene) {
 		var processedInput = null;
 		if (input) {
-			processedInput = this.processInput(input);
+			processedInput = this.processInput(input, scene);
 		}
 
 		if (processedInput) {
@@ -22,7 +22,7 @@ var Player = Character.extend({
 		}
 	},
 
-	processInput: function(input) {
+	processInput: function(input, scene) {
 		var cartCoords = (function(x, y){
 			var coords = {};
 			coords.x = (2 * y + x) / 2;
@@ -37,8 +37,9 @@ var Player = Character.extend({
 			return coords;
 		})(cartCoords.x, cartCoords.y);
 
-		console.log(tileCoords);
-		return tileCoords;
+		if (scene.validCoordinates(tileCoords)) {
+			return tileCoords;
+		}
 	},
 
 	updatePosition: function(position) {

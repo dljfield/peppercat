@@ -62,6 +62,20 @@ var Scene = Class.extend({
         }
 
         return sprites;
+    },
+
+    validCoordinates: function(coords) {
+
+        if ((coords.x >= this.size.x || coords.y >= this.size.y) || (coords.x < 0 || coords.y < 0))
+            return false;
+
+        for (var i = 0, len = this.entities.length; i < len; i++) {
+            if (this.entities[i].x === coords.x && this.entities[i].y === coords.y && this.entities[i].collidable === true) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
 });
