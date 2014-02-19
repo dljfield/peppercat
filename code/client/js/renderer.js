@@ -34,26 +34,14 @@ var Renderer = Class.extend({
     },
 
     drawEntities: function(context, scene) {
-        // create array to render from
-        entitiesDrawArray = new Array(scene.getSize().y);
-        for (var i = 0, len = entitiesDrawArray.length; i < len; i++) {
-            entitiesDrawArray[i] = new Array(scene.getSize().x);
-        }
+        var sortedEntities = this.depthSort(scene.getEntities());
 
-        // place the entities in their correct positions in the array
-        var entities = scene.getEntities();
-        for (entity in entities) {
-            entitiesDrawArray[entities[entity].y][entities[entity].x] = {"sprite": entities[entity].sprite, "height": entities[entity].height};
-        }
+        for (var i = 0, ilen = sortedEntities.length; i < ilen; i++) {
+            var isoCoords = this.toIsometric(sortedEntities[i].x, sortedEntities[i].y),
+                sprite    = scene.getSprite(sortedEntities[i].sprite);
 
-        for (var y = 0; y < entitiesDrawArray.length; y++) {
-            for (var x = 0; x < entitiesDrawArray[y].length; x++) {
-                var isoCoords = this.toIsometric(x, y),
-                    sprite      = (entitiesDrawArray[y] && entitiesDrawArray[y][x]) ? scene.getSprite(entitiesDrawArray[y][x].sprite) : undefined;
-
-                if (sprite != undefined)
-                    this.draw(context, sprite, isoCoords.x * (TILE_WIDTH / 2), isoCoords.y * (TILE_HEIGHT / 2) - (entitiesDrawArray[y][x].height - (TILE_HEIGHT / 2)));
-            }
+            if (sprite != undefined)
+                this.draw(context, sprite, isoCoords.x * (TILE_WIDTH / 2), isoCoords.y * (TILE_HEIGHT / 2) - (sortedEntities[i].height - (TILE_HEIGHT / 2)));
         }
     },
 
@@ -61,16 +49,15 @@ var Renderer = Class.extend({
         context.drawImage(sprite, x, y);
     },
 
-    ////////////////////////////
-    // FUCKIN DEPTH SORTIN M8 //
-    ////////////////////////////
-
     depthSort: function(entities) {
         var buckets = [];
 
         for (entity in entities) {
             var depth = this.calculateDepth(entities[entity]);
-            buckets[depth] = entities[entity];
+
+            if (!buckets[depth])
+                buckets[depth] = [];
+            buckets[depth].push(entities[entity]);
         }
 
         var result = [];
@@ -85,12 +72,8 @@ var Renderer = Class.extend({
     },
 
     calculateDepth: function(entity) {
-         return entity.x + entity.y + entity.z;
+         return entity.x + entity.y  + entity.z;
     },
-
-    //////////////////////
-    // END DEPTH SORTIN //
-    //////////////////////
 
     toIsometric: function(x, y) {
         var isoCoords = {};
