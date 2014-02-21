@@ -20,8 +20,8 @@ var SCENE_1 = {
 		0: {
 			"name": "wall_1",
 			"type": "object",
-			"x": 5,
-			"y": 5,
+			"x": 7,
+			"y": 8,
 			"z": 0,
 			"height": 158,
 			"collidable": true,
@@ -40,8 +40,8 @@ var SCENE_1 = {
 		2: {
 			"name": "wall_3",
 			"type": "object",
-			"x": 5,
-			"y": 6,
+			"x": 2,
+			"y": 1,
 			"z": 0,
 			"height": 158,
 			"collidable": true,
@@ -50,8 +50,8 @@ var SCENE_1 = {
 		3: {
 			"name": "wall_4",
 			"type": "object",
-			"x": 4,
-			"y": 6,
+			"x": 1,
+			"y": 9,
 			"z": 0,
 			"height": 158,
 			"collidable": true,
@@ -60,8 +60,8 @@ var SCENE_1 = {
 		4: {
 			"name": "player_1",
 			"type": "player",
-			"x": 7,
-			"y": 7,
+			"x": 5,
+			"y": 5,
 			"z": 0,
 			"height": 64,
 			"collidable": true,

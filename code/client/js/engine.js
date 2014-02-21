@@ -19,7 +19,7 @@ var Engine = Class.extend({
         this.camera   = new Camera();
         this.renderer = new Renderer();
 
-        this.camera.setPos(320, 100)
+        this.camera.setPos(435, 100)
     },
 
     tick: function() {

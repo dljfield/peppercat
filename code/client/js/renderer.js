@@ -36,7 +36,7 @@ var Renderer = Class.extend({
     drawEntities: function(context, scene) {
         var sortedEntities = this.depthSort(scene.getEntities());
 
-        for (var i = 0, ilen = sortedEntities.length; i < ilen; i++) {
+        for (var i = 0, len = sortedEntities.length; i < len; i++) {
             var isoCoords = this.toIsometric(sortedEntities[i].x, sortedEntities[i].y),
                 sprite    = scene.getSprite(sortedEntities[i].sprite);
 
