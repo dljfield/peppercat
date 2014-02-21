@@ -18,7 +18,7 @@ var Player = Character.extend({
 		}
 
 		if (processedInput) {
-			this.updatePosition(processedInput);
+			this.updatePosition(scene, processedInput);
 		}
 	},
 
@@ -42,9 +42,19 @@ var Player = Character.extend({
 		}
 	},
 
-	updatePosition: function(position) {
-		this.x = position.x;
-		this.y = position.y;
+	updatePosition: function(scene, position) {
+		var path = this.findPath(scene, position);
+
+		// this.x = position.x;
+		// this.y = position.y;
+	},
+
+	findPath: function(scene, position) {
+		var graph = scene.sceneGraph();
+		var start = graph.nodes[this.y][this.x];
+		var end   = graph.nodes[position.y][position.x];
+
+		return astar.search(graph.nodes, start, end);
 	}
 
 });

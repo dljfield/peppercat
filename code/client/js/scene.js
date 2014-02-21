@@ -76,6 +76,22 @@ var Scene = Class.extend({
         }
 
         return true;
+    },
+
+    sceneGraph: function() {
+        var graphArray = new Array(this.size.y);
+        for (i = 0, ilen = graphArray.length; i < ilen; i++) {
+            graphArray[i] = new Array(this.size.x);
+            for (j = 0, jlen = graphArray[i].length; j < jlen; j++) {
+                graphArray[i][j] = 1;
+            }
+        }
+
+        for (entity in this.entities) {
+            graphArray[this.entities[entity].y][this.entities[entity].x] = 0;
+        }
+
+        return new Graph(graphArray);
     }
 
 });
