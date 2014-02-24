@@ -44,8 +44,6 @@ var Engine = Class.extend({
         canvasPosition.x = ((event.x - this.camera.x) - this.canvas.offsetLeft) - (TILE_WIDTH / 2);
         canvasPosition.y = ((event.y - this.camera.y) - this.canvas.offsetTop);
 
-        document.getElementById('output').innerHTML = "<p> x: " + event.x + ", y: " + event.y + "<p> x: " + canvasPosition.x + ", y: " + canvasPosition.y;
-
         this.input = canvasPosition;
     },
 

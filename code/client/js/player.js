@@ -6,6 +6,9 @@ var Player = Character.extend({
 	height: null,
 	collidable: false,
 	sprite: null,
+	path: null,
+	destination: null,
+	speed: 0.125,
 
 	init: function(x, y, z, height, collidable, sprite) {
 		this._super(x, y, z, height, collidable, sprite);
@@ -17,9 +20,7 @@ var Player = Character.extend({
 			processedInput = this.processInput(input, scene);
 		}
 
-		if (processedInput) {
-			this.updatePosition(scene, processedInput);
-		}
+		this.updatePosition(scene, processedInput);
 	},
 
 	processInput: function(input, scene) {
@@ -38,21 +39,60 @@ var Player = Character.extend({
 		})(cartCoords.x, cartCoords.y);
 
 		if (scene.validCoordinates(tileCoords)) {
+			document.getElementById('output').innerHTML = "<p> x: " + tileCoords.x + ", y: " + tileCoords.y;
 			return tileCoords;
 		}
 	},
 
 	updatePosition: function(scene, position) {
-		var path = this.findPath(scene, position);
 
-		// this.x = position.x;
-		// this.y = position.y;
+		// if we've been given a new position, get a path for it and set the destination to the first node
+		if (scene && position) {
+			this.path = this.findPath(scene, position);
+			this.destination = this.path.shift();
+		}
+
+		// if we've moved to the current destination we need to get the next node on the list
+		if (this.destination && this.x === this.destination.x && this.y === this.destination.y) {
+			this.destination = this.path.shift();
+		}
+
+		// if we have a destination, move the player towards it based on the speed
+		if (this.destination) {
+			if (this.x < this.destination.x) {
+				if (this.destination.x - this.x <= this.speed) {
+					this.x = Math.ceil(this.x);
+				} else {
+					this.x += this.speed;
+				}
+			} else if (this.x > this.destination.x) {
+				if (this.x - this.destination.x <= this.speed) {
+					this.x = Math.floor(this.x);
+				} else {
+					this.x -= this.speed;
+				}
+			}
+
+			if (this.y < this.destination.y) {
+				if (this.destination.y - this.y <= this.speed) {
+					this.y = Math.ceil(this.y);
+				} else {
+					this.y += this.speed;
+				}
+			} else if (this.y > this.destination.y) {
+				if (this.y - this.destination.y <= this.speed) {
+					this.y = Math.floor(this.y);
+				} else {
+					this.y -= this.speed;
+				}
+			}
+		}
 	},
 
 	findPath: function(scene, position) {
 		var graph = scene.sceneGraph();
-		var start = graph.nodes[this.y][this.x];
-		var end   = graph.nodes[position.y][position.x];
+		var start = graph.nodes[this.x][this.y];
+		var end   = graph.nodes[position.x][position.y];
 
 		return astar.search(graph.nodes, start, end);
 	}
