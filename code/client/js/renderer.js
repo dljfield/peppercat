@@ -72,7 +72,7 @@ var Renderer = Class.extend({
     },
 
     calculateDepth: function(entity) {
-         return entity.x + entity.y  + entity.z;
+         return (entity.x * TILE_WIDTH / 2) + (entity.y * TILE_HEIGHT / 2) + entity.z;
     },
 
     toIsometric: function(x, y) {
