@@ -1,24 +1,24 @@
 // javascript-astar
 // http://github.com/bgrins/javascript-astar
 // Freely distributable under the MIT License.
-// Includes Binary Heap (with modifications) from Marijn Haverbeke. 
+// Includes Binary Heap (with modifications) from Marijn Haverbeke.
 // http://eloquentjavascript.net/appendix2.html
 
 
-var GraphNodeType = { 
-    OPEN: 1, 
-    WALL: 0 
+var GraphNodeType = {
+    OPEN: 1,
+    WALL: 0
 };
 
 // Creates a Graph class used in the astar search algorithm.
 function Graph(grid) {
     var nodes = [];
 
-    for (var x = 0; x < grid.length; x++) {
-        nodes[x] = [];
-        
-        for (var y = 0, row = grid[x]; y < row.length; y++) {
-            nodes[x][y] = new GraphNode(x, y, row[y]);
+    for (var y = 0; y < grid.length; y++) {
+        nodes[y] = [];
+
+        for (var x = 0, row = grid[y]; x < row.length; x++) {
+            nodes[y][x] = new GraphNode(y, x, row[x]);
         }
     }
 
@@ -30,30 +30,30 @@ Graph.prototype.toString = function() {
     var graphString = "\n";
     var nodes = this.nodes;
     var rowDebug, row, y, l;
-    for (var x = 0, len = nodes.length; x < len; x++) {
+    for (var y = 0, len = nodes.length; y < len; y++) {
         rowDebug = "";
-        row = nodes[x];
-        for (y = 0, l = row.length; y < l; y++) {
-            rowDebug += row[y].type + " ";
+        row = nodes[y];
+        for (x = 0, l = row.length; x < l; x++) {
+            rowDebug += row[x].type + " ";
         }
         graphString = graphString + rowDebug + "\n";
     }
     return graphString;
 };
 
-function GraphNode(x,y,type) {
+function GraphNode(y,x,type) {
     this.data = { };
-    this.x = x;
     this.y = y;
+    this.x = x;
     this.pos = {
-        x: x, 
-        y: y
+        y: y,
+        x: x
     };
     this.type = type;
 }
 
 GraphNode.prototype.toString = function() {
-    return "[" + this.x + " " + this.y + "]";
+    return "[" + this.y + " " + this.x + "]";
 };
 
 GraphNode.prototype.isWall = function() {
@@ -89,14 +89,14 @@ BinaryHeap.prototype = {
     },
     remove: function(node) {
         var i = this.content.indexOf(node);
-    
+
         // When it is found, the process seen in 'pop' is repeated
         // to fill up the hole.
         var end = this.content.pop();
 
         if (i !== this.content.length - 1) {
             this.content[i] = end;
-            
+
             if (this.scoreFunction(end) < this.scoreFunction(node)) {
                 this.sinkDown(i);
             }
@@ -140,7 +140,7 @@ BinaryHeap.prototype = {
         var length = this.content.length,
             element = this.content[n],
             elemScore = this.scoreFunction(element);
-        
+
         while(true) {
             // Compute the indices of the child elements.
             var child2N = (n + 1) << 1, child1N = child2N - 1;

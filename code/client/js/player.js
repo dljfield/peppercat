@@ -91,8 +91,8 @@ var Player = Character.extend({
 
 	findPath: function(scene, position) {
 		var graph = scene.sceneGraph();
-		var start = graph.nodes[this.x][this.y];
-		var end   = graph.nodes[position.x][position.y];
+		var start = graph.nodes[this.y][this.x];
+		var end   = graph.nodes[position.y][position.x];
 
 		return astar.search(graph.nodes, start, end);
 	}

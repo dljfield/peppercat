@@ -5,9 +5,9 @@
 
 var astar = {
     init: function(grid) {
-        for(var x = 0, xl = grid.length; x < xl; x++) {
-            for(var y = 0, yl = grid[x].length; y < yl; y++) {
-                var node = grid[x][y];
+        for(var y = 0, yl = grid.length; y < yl; y++) {
+            for(var x = 0, xl = grid[y].length; x < xl; x++) {
+                var node = grid[y][x];
                 node.f = 0;
                 node.g = 0;
                 node.h = 0;
@@ -19,8 +19,8 @@ var astar = {
         }
     },
     heap: function() {
-        return new BinaryHeap(function(node) { 
-            return node.f; 
+        return new BinaryHeap(function(node) {
+            return node.f;
         });
     },
     search: function(grid, start, end, diagonal, heuristic) {
@@ -104,45 +104,45 @@ var astar = {
         var y = node.y;
 
         // West
-        if(grid[x-1] && grid[x-1][y]) {
-            ret.push(grid[x-1][y]);
+        if(grid[y-1] && grid[y-1][x]) {
+            ret.push(grid[y-1][x]);
         }
 
         // East
-        if(grid[x+1] && grid[x+1][y]) {
-            ret.push(grid[x+1][y]);
+        if(grid[y+1] && grid[y+1][x]) {
+            ret.push(grid[y+1][x]);
         }
 
         // South
-        if(grid[x] && grid[x][y-1]) {
-            ret.push(grid[x][y-1]);
+        if(grid[y] && grid[y][x-1]) {
+            ret.push(grid[y][x-1]);
         }
 
         // North
-        if(grid[x] && grid[x][y+1]) {
-            ret.push(grid[x][y+1]);
+        if(grid[y] && grid[y][x+1]) {
+            ret.push(grid[y][x+1]);
         }
 
         if (diagonals) {
 
             // Southwest
-            if(grid[x-1] && grid[x-1][y-1]) {
-                ret.push(grid[x-1][y-1]);
+            if(grid[y-1] && grid[y-1][x-1]) {
+                ret.push(grid[y-1][x-1]);
             }
 
             // Southeast
-            if(grid[x+1] && grid[x+1][y-1]) {
-                ret.push(grid[x+1][y-1]);
+            if(grid[y+1] && grid[y+1][x-1]) {
+                ret.push(grid[y+1][x-1]);
             }
 
             // Northwest
-            if(grid[x-1] && grid[x-1][y+1]) {
-                ret.push(grid[x-1][y+1]);
+            if(grid[y-1] && grid[y-1][x+1]) {
+                ret.push(grid[y-1][x+1]);
             }
 
             // Northeast
-            if(grid[x+1] && grid[x+1][y+1]) {
-                ret.push(grid[x+1][y+1]);
+            if(grid[y+1] && grid[y+1][x+1]) {
+                ret.push(grid[y+1][x+1]);
             }
 
         }
