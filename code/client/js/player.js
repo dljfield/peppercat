@@ -49,7 +49,8 @@ var Player = Character.extend({
 		// if we've been given a new position, get a path for it and set the destination to the first node
 		if (scene && position) {
 			this.path = this.findPath(scene, position);
-			this.destination = this.path.shift();
+			if (!this.destination)
+				this.destination = this.path.shift();
 		}
 
 		// if we've moved to the current destination we need to get the next node on the list
@@ -60,6 +61,7 @@ var Player = Character.extend({
 		// if we have a destination, move the player towards it based on the speed
 		if (this.destination) {
 			if (this.x < this.destination.x) {
+				this.direction = 'right';
 				if (this.destination.x - this.x <= this.speed) {
 					this.x = Math.ceil(this.x);
 				} else {
@@ -91,7 +93,18 @@ var Player = Character.extend({
 
 	findPath: function(scene, position) {
 		var graph = scene.sceneGraph();
-		var start = graph.nodes[this.y][this.x];
+
+		var x, y;
+
+		if (this.destination) {
+		    x = this.destination.x;
+		    y = this.destination.y;
+		} else {
+		    x = this.x;
+		    y = this.y;
+		}
+
+		var start = graph.nodes[y][x];
 		var end   = graph.nodes[position.y][position.x];
 
 		return astar.search(graph.nodes, start, end);

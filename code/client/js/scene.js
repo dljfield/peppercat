@@ -88,7 +88,18 @@ var Scene = Class.extend({
         }
 
         for (entity in this.entities) {
-            graphArray[this.entities[entity].y][this.entities[entity].x] = 0;
+
+            var x, y;
+
+            if (this.entities[entity].destination) {
+                x = this.entities[entity].destination.x;
+                y = this.entities[entity].destination.y;
+            } else {
+                x = this.entities[entity].x;
+                y = this.entities[entity].y;
+            }
+
+            graphArray[y][x] = 0;
         }
 
         return new Graph(graphArray);
