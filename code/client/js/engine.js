@@ -41,8 +41,8 @@ var Engine = Class.extend({
     handleInput: function(event) {
         var canvasPosition = {};
 
-        canvasPosition.x = ((event.x - this.camera.x) - this.canvas.offsetLeft) - (TILE_WIDTH / 2);
-        canvasPosition.y = ((event.y - this.camera.y) - this.canvas.offsetTop);
+        canvasPosition.x = ((event.clientX - this.camera.x) - this.canvas.offsetLeft) - (TILE_WIDTH / 2);
+        canvasPosition.y = ((event.clientY - this.camera.y) - this.canvas.offsetTop);
 
         this.input = canvasPosition;
     },
