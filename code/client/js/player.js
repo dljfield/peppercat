@@ -61,15 +61,14 @@ var Player = Character.extend({
 		// if we have a destination, move the player towards it based on the speed
 		if (this.destination) {
 			if (this.x < this.destination.x) {
-				this.direction = 'right';
 				if (this.destination.x - this.x <= this.speed) {
-					this.x = Math.ceil(this.x);
+					this.x = this.destination.x;
 				} else {
 					this.x += this.speed;
 				}
 			} else if (this.x > this.destination.x) {
 				if (this.x - this.destination.x <= this.speed) {
-					this.x = Math.floor(this.x);
+					this.x = this.destination.x;
 				} else {
 					this.x -= this.speed;
 				}
@@ -77,13 +76,13 @@ var Player = Character.extend({
 
 			if (this.y < this.destination.y) {
 				if (this.destination.y - this.y <= this.speed) {
-					this.y = Math.ceil(this.y);
+					this.y = this.destination.y;
 				} else {
 					this.y += this.speed;
 				}
 			} else if (this.y > this.destination.y) {
 				if (this.y - this.destination.y <= this.speed) {
-					this.y = Math.floor(this.y);
+					this.y = this.destination.y;
 				} else {
 					this.y -= this.speed;
 				}
