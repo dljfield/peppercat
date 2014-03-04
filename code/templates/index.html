@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>peppercat</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+</head>
+<body>
+
+    <!-- CANVAS -->
+    <div id='canvas_container'>
+        <canvas id='game_canvas' height='600px' width='800px'></canvas>
+    </div>
+    <div id='output'></div>
+
+    <!-- DATA -->
+
+    <script src="{{ url_for('static', filename='data/SCENE_1.js') }}"></script>
+
+    <!-- SCRIPTS -->
+
+    <script src="{{ url_for('static', filename='js/lib/class.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/lib/graph.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/lib/astar.js') }}"></script>
+
+    <script src="{{ url_for('static', filename='js/engine.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/renderer.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/camera.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/scene.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/sprite.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/entity.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/character.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/player.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/game.js') }}"></script>
+
+</body>
+</html>

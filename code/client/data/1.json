@@ -1,4 +1,4 @@
-var SCENE_1 = {
+{
 	"size": {"x": 12, "y":14},
 	"terrain": [
 	    ["t_001","t_001","t_001","t_001","t_001","t_001","t_001","t_001","t_001","t_001"],
@@ -17,7 +17,7 @@ var SCENE_1 = {
 	    ["t_001","t_001","t_001",,"t_001","t_001","t_001","t_001","t_001","t_001","t_001","t_001"],
 	],
 	"entities": {
-		0: {
+		"0": {
 			"name": "wall_1",
 			"type": "object",
 			"x": 7,
@@ -27,7 +27,7 @@ var SCENE_1 = {
 			"collidable": true,
 			"sprite": "i_002"
 		},
-		1: {
+		"1": {
 			"name": "wall_2",
 			"type": "object",
 			"x": 4,
@@ -37,7 +37,7 @@ var SCENE_1 = {
 			"collidable": true,
 			"sprite": "i_002"
 		},
-		2: {
+		"2": {
 			"name": "wall_3",
 			"type": "object",
 			"x": 2,
@@ -47,7 +47,7 @@ var SCENE_1 = {
 			"collidable": true,
 			"sprite": "i_002"
 		},
-		3: {
+		"3": {
 			"name": "wall_4",
 			"type": "object",
 			"x": 1,
@@ -57,7 +57,7 @@ var SCENE_1 = {
 			"collidable": true,
 			"sprite": "i_002"
 		},
-		4: {
+		"4": {
 			"name": "player_1",
 			"type": "player",
 			"x": 5,
