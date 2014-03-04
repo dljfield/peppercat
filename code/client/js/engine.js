@@ -15,7 +15,7 @@ var Engine = Class.extend({
 
         this.canvas.addEventListener('click', this.handleInput.bind(this), false);
 
-        this.scene    = new Scene(SCENE_1);
+        this.scene    = new Scene('1');
         this.camera   = new Camera();
         this.renderer = new Renderer();
 

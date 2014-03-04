@@ -6,11 +6,7 @@ var Scene = Class.extend({
     entities: null,
 
     init: function(scene) {
-        this.terrain  = this.loadTerrain(scene);
-        this.entities = this.loadEntities(scene);
-        this.sprites  = this.loadSprites(scene.spriteList);
-
-        this.setSize(scene.size);
+        this.getSceneJSON(scene);
     },
 
     getTerrain: function() {
@@ -37,12 +33,39 @@ var Scene = Class.extend({
         this.size = size;
     },
 
+    getSceneJSON: function(scene) {
+        if (window.XMLHttpRequest) {
+            httpRequest = new XMLHttpRequest();
+            httpRequest.onreadystatechange = function() {
+                if (httpRequest.readyState === 4) {
+                    if (httpRequest.status === 200) {
+                        var parsedResponse = JSON.parse(httpRequest.response);
+                        this.loadScene(parsedResponse);
+                    } else {
+                        alert("There was an error getting the scene.");
+                    }
+                }
+            }.bind(this);
+            httpRequest.open('GET', 'http://localhost:5000/scene/' + scene, false);
+            httpRequest.send();
+        } else {
+            alert("You need to update your browser.");
+        }
+    },
+
+    loadScene: function(scene) {
+        this.size = scene.size;
+        this.loadTerrain(scene);
+        this.loadEntities(scene);
+        this.loadSprites(scene);
+    },
+
     loadTerrain: function(scene) {
-        return scene.terrain;
+        this.terrain = scene.terrain;
     },
 
     loadEntities: function(scene) {
-        var entities = []
+        var entities = [];
         for (entity in scene.entities) {
             if (scene.entities[entity].type === "player") {
                 entities[entity] = new Player(scene.entities[entity].x, scene.entities[entity].y, scene.entities[entity].z, scene.entities[entity].height, scene.entities[entity].collidable, scene.entities[entity].sprite);
@@ -51,17 +74,18 @@ var Scene = Class.extend({
             }
         }
 
-        return entities;
+        this.entities = entities;
     },
 
-    loadSprites: function(spriteList) {
+    loadSprites: function(scene) {
+        var spriteList = scene.spriteList;
         var sprites = [];
 
         for (id in spriteList) {
             sprites[id] = new Sprite(spriteList[id]);
         }
 
-        return sprites;
+        this.sprites = sprites;
     },
 
     validCoordinates: function(coords) {
