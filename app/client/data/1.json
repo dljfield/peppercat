@@ -66,6 +66,16 @@
 			"height": 64,
 			"collidable": true,
 			"sprite": "p_001"
+		},
+		"4": {
+			"name": "player_2",
+			"type": "player",
+			"x": 3,
+			"y": 5,
+			"z": 0,
+			"height": 64,
+			"collidable": true,
+			"sprite": "p_001"
 		}
 	},
 	"spriteList": {
