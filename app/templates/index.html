@@ -13,12 +13,13 @@
     </div>
     <div id='output'></div>
 
-    <!-- SCRIPTS -->
-
+    <!-- LIBS -->
+    <script src="{{ url_for('static', filename='js/lib/socket.io.js') }}"></script>
     <script src="{{ url_for('static', filename='js/lib/class.js') }}"></script>
     <script src="{{ url_for('static', filename='js/lib/graph.js') }}"></script>
     <script src="{{ url_for('static', filename='js/lib/astar.js') }}"></script>
 
+    <!-- GAME FILES -->
     <script src="{{ url_for('static', filename='js/engine.js') }}"></script>
     <script src="{{ url_for('static', filename='js/renderer.js') }}"></script>
     <script src="{{ url_for('static', filename='js/camera.js') }}"></script>

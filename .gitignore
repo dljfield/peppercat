@@ -1,3 +1,4 @@
 experimental/
 downloaded_art/
 venv/
+*.pyc
