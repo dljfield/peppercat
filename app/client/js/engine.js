@@ -6,6 +6,7 @@ var Engine = Class.extend({
     scene: null,
     camera: null,
     renderer: null,
+    network: null,
 
     input: null,
 
@@ -18,6 +19,7 @@ var Engine = Class.extend({
         this.scene    = new Scene('1');
         this.camera   = new Camera();
         this.renderer = new Renderer();
+        this.network  = new Network();
 
         this.camera.setPos(435, 100)
     },
