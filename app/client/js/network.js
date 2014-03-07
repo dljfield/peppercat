@@ -8,12 +8,17 @@ var Network = Class.extend({
 		this.gameSocket = io.connect(this.server + '/game');
 
 		this.registerEvents();
-		this.testEmit();
 	},
 
 	registerEvents: function() {
 		this.gameSocket.on('player_move', function(data) {
 			console.log(data);
+		});
+	},
+
+	playerMove: function(path) {
+		this.gameSocket.emit('player_move', {
+			'path': path
 		});
 	},
 

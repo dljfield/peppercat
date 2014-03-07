@@ -20,20 +20,22 @@ var Character = Entity.extend({
 		// get input from the server
 	},
 
-	updatePosition: function(scene, position) {
-
+	updatePathing: function(scene, position, network) {
 		// if we've been given a new position, get a path for it and set the destination to the first node
 		if (scene && position) {
 			this.path = this.findPath(scene, position);
 			if (!this.destination)
 				this.destination = this.path.shift();
+			network.playerMove(this.path);
 		}
 
 		// if we've moved to the current destination we need to get the next node on the list
 		if (this.destination && this.x === this.destination.x && this.y === this.destination.y) {
 			this.destination = this.path.shift();
 		}
+	},
 
+	updatePosition: function() {
 		// if we have a destination, move the player towards it based on the speed
 		if (this.destination) {
 			if (this.x < this.destination.x) {

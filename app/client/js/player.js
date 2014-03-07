@@ -14,13 +14,14 @@ var Player = Character.extend({
 		this._super(x, y, z, height, collidable, sprite);
 	},
 
-	update: function(input, scene) {
+	update: function(input, scene, network) {
 		var processedInput = null;
 		if (input) {
 			processedInput = this.processInput(input, scene);
 		}
 
-		this.updatePosition(scene, processedInput);
+		this.updatePathing(scene, processedInput, network)
+		this.updatePosition();
 	},
 
 	processInput: function(input, scene) {
