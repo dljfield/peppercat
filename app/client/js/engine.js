@@ -32,7 +32,7 @@ var Engine = Class.extend({
         }
 
         this.scene.setEntities(entities);
-        this.input = null;
+        this.setInput(null);
     },
 
     render: function() {
@@ -46,7 +46,11 @@ var Engine = Class.extend({
         canvasPosition.x = ((event.clientX - this.camera.x) - this.canvas.offsetLeft) - (TILE_WIDTH / 2);
         canvasPosition.y = ((event.clientY - this.camera.y) - this.canvas.offsetTop);
 
-        this.input = canvasPosition;
+        this.setInput(canvasPosition);
+    },
+
+    setInput: function(input) {
+        this.input = input;
     },
 
     start: function() {

@@ -69,6 +69,8 @@ var Scene = Class.extend({
         for (entity in scene.entities) {
             if (scene.entities[entity].type === "player") {
                 entities[entity] = new Player(scene.entities[entity].x, scene.entities[entity].y, scene.entities[entity].z, scene.entities[entity].height, scene.entities[entity].collidable, scene.entities[entity].sprite);
+            } else if (scene.entities[entity].type === "character") {
+                entities[entity] = new Character(scene.entities[entity].x, scene.entities[entity].y, scene.entities[entity].z, scene.entities[entity].height, scene.entities[entity].collidable, scene.entities[entity].sprite);
             } else {
                 entities[entity] = new Entity(scene.entities[entity].x, scene.entities[entity].y, scene.entities[entity].z, scene.entities[entity].height, scene.entities[entity].collidable, scene.entities[entity].sprite);
             }
