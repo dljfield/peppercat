@@ -8,7 +8,7 @@ var Engine = Class.extend({
     renderer: null,
     network: null,
 
-    input: null,
+    input: [],
 
     init: function(canvas) {
         this.canvas   = canvas;
@@ -16,7 +16,7 @@ var Engine = Class.extend({
 
         this.canvas.addEventListener('click', this.handleInput.bind(this), false);
 
-        this.scene    = new Scene('1');
+        this.scene    = new Scene();
         this.camera   = new Camera();
         this.renderer = new Renderer();
         this.network  = new Network();
@@ -32,7 +32,7 @@ var Engine = Class.extend({
         }
 
         this.scene.setEntities(entities);
-        this.setInput(null);
+        this.resetInput();
     },
 
     render: function() {
@@ -46,11 +46,20 @@ var Engine = Class.extend({
         canvasPosition.x = ((event.clientX - this.camera.x) - this.canvas.offsetLeft) - (TILE_WIDTH / 2);
         canvasPosition.y = ((event.clientY - this.camera.y) - this.canvas.offsetTop);
 
-        this.setInput(canvasPosition);
+        this.addInput("click", canvasPosition);
     },
 
-    setInput: function(input) {
-        this.input = input;
+    addInput: function(type, position) {
+        var input = {
+            "type": type,
+            "position": position
+        };
+
+        this.input.push(input);
+    },
+
+    resetInput: function() {
+        this.input = [];
     },
 
     start: function() {

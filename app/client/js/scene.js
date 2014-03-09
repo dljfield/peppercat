@@ -6,7 +6,10 @@ var Scene = Class.extend({
     entities: null,
 
     init: function(scene) {
-        this.getSceneJSON(scene);
+        if (scene)
+            this.getSceneJSON(scene);
+        else
+            this.getSceneJSON('1');
     },
 
     getTerrain: function() {
