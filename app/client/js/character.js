@@ -14,19 +14,33 @@ var Character = Entity.extend({
 		this._super(x, y, z, height, collidable, sprite);
 	},
 
-	update: function() {},
+	update: function(input, scene, network) {
+		var processedInput = null;
+		if (input.length !== 0) {
+			processedInput = this.processInput(input, scene);
+		}
 
-	processInput: function() {
-		// get input from the server
+		this.updatePathing(scene, processedInput, network)
+		this.updatePosition();
+	},
+
+	processInput: function(input) {
+		for (var i = 0, length = input.length; i < length; i++) {
+			if (input[i].type === "server") {
+				return input[i].position;
+			}
+		}
+		return false;
 	},
 
 	updatePathing: function(scene, position, network) {
 		// if we've been given a new position, get a path for it and set the destination to the first node
 		if (scene && position) {
 			this.path = this.findPath(scene, position);
-			if (!this.destination)
+			if (!this.destination) {
 				this.destination = this.path.shift();
-			network.playerMove(this.path);
+			}
+			// network.playerMove(this.path);
 		}
 
 		// if we've moved to the current destination we need to get the next node on the list

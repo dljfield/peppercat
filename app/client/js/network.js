@@ -2,24 +2,29 @@ var Network = Class.extend({
 
 	server: null,
 	gameSocket: null,
+	engine: null,
 
-	init: function() {
+	init: function(engine) {
 		this.server     = 'http://' + document.domain + ':' + location.port;
 		this.gameSocket = io.connect(this.server + '/game');
+
+		this.engine = engine;
 
 		this.registerEvents();
 	},
 
 	registerEvents: function() {
 		this.gameSocket.on('player_move', function(data) {
-			console.log(data);
-		});
+			engine.addInput(data.type, data.position)
+		}.bind(this));
 	},
 
-	playerMove: function(path) {
-		this.gameSocket.emit('player_move', {
-			'path': path
-		});
+	playerMove: function(input) {
+		if (input) {
+			this.gameSocket.emit('player_move', {
+				'position': input
+			});
+		}
 	},
 
 	testEmit: function() {

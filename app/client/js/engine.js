@@ -19,7 +19,7 @@ var Engine = Class.extend({
         this.scene    = new Scene();
         this.camera   = new Camera();
         this.renderer = new Renderer();
-        this.network  = new Network();
+        this.network  = new Network(this);
 
         this.camera.setPos(435, 100)
     },

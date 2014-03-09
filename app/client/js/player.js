@@ -18,6 +18,7 @@ var Player = Character.extend({
 		var processedInput = null;
 		if (input) {
 			processedInput = this.processInput(input, scene);
+			network.playerMove(processedInput);
 		}
 
 		this.updatePathing(scene, processedInput, network)
