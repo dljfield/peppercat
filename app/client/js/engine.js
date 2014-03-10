@@ -49,9 +49,10 @@ var Engine = Class.extend({
         this.addInput("click", canvasPosition);
     },
 
-    addInput: function(type, position) {
+    addInput: function(type, position, id) {
         var input = {
             "type": type,
+            "id": id,
             "position": position
         };
 

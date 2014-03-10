@@ -3,6 +3,7 @@ var Character = Entity.extend({
 	x: null,
 	y: null,
 	z: null,
+	id: null,
 	height: null,
 	collidable: false,
 	sprite: null,
@@ -10,8 +11,8 @@ var Character = Entity.extend({
 	destination: null,
 	speed: 0.125,
 
-	init: function(x, y, z, height, collidable, sprite) {
-		this._super(x, y, z, height, collidable, sprite);
+	init: function(id, x, y, z, height, collidable, sprite) {
+		this._super(id, x, y, z, height, collidable, sprite);
 	},
 
 	update: function(input, scene, network) {
@@ -26,7 +27,7 @@ var Character = Entity.extend({
 
 	processInput: function(input) {
 		for (var i = 0, length = input.length; i < length; i++) {
-			if (input[i].type === "server") {
+			if (input[i].type === "server" && input[i].id === this.id) {
 				return input[i].position;
 			}
 		}
@@ -81,5 +82,24 @@ var Character = Entity.extend({
 			}
 		}
 	},
+
+	findPath: function(scene, position) {
+		var graph = scene.sceneGraph();
+
+		var x, y;
+
+		if (this.destination) {
+		    x = this.destination.x;
+		    y = this.destination.y;
+		} else {
+		    x = this.x;
+		    y = this.y;
+		}
+
+		var start = graph.nodes[y][x];
+		var end   = graph.nodes[position.y][position.x];
+
+		return astar.search(graph.nodes, start, end);
+	}
 
 });

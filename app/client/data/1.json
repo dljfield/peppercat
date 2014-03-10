@@ -1,5 +1,5 @@
 {
-	"size": {"x": 12, "y":14},
+	"size": {"x": 12, "y": 14},
 	"terrain": [
 	    ["t_001","t_001","t_001","t_001","t_001","t_001","t_001","t_001","t_001","t_001"],
 	    ["t_001","t_001","t_001","t_001","t_001","t_001","t_001","t_001","t_001","t_001"],
@@ -18,7 +18,7 @@
 	],
 	"entities": {
 		"0": {
-			"name": "wall_1",
+			"id": "wall_1",
 			"type": "object",
 			"x": 7,
 			"y": 8,
@@ -28,7 +28,7 @@
 			"sprite": "i_002"
 		},
 		"1": {
-			"name": "wall_2",
+			"id": "wall_2",
 			"type": "object",
 			"x": 4,
 			"y": 5,
@@ -38,7 +38,7 @@
 			"sprite": "i_002"
 		},
 		"2": {
-			"name": "wall_3",
+			"id": "wall_3",
 			"type": "object",
 			"x": 2,
 			"y": 1,
@@ -48,7 +48,7 @@
 			"sprite": "i_002"
 		},
 		"3": {
-			"name": "wall_4",
+			"id": "wall_4",
 			"type": "object",
 			"x": 1,
 			"y": 9,
@@ -58,7 +58,7 @@
 			"sprite": "i_002"
 		},
 		"4": {
-			"name": "player_1",
+			"id": "player_1",
 			"type": "player",
 			"x": 5,
 			"y": 5,
@@ -68,7 +68,7 @@
 			"sprite": "p_001"
 		},
 		"5": {
-			"name": "player_2",
+			"id": "player_2",
 			"type": "character",
 			"x": 3,
 			"y": 5,
