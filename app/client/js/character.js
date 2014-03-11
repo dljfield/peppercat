@@ -21,29 +21,25 @@ var Character = Entity.extend({
 			processedInput = this.processInput(input, scene);
 		}
 
-		this.updatePathing(scene, processedInput, network)
+		this.updatePathing(processedInput);
 		this.updatePosition();
 	},
 
 	processInput: function(input) {
 		for (var i = 0, length = input.length; i < length; i++) {
 			if (input[i].type === "server" && input[i].id === this.id) {
-				return input[i].position;
+				return input[i].path;
 			}
 		}
 		return false;
 	},
 
-	updatePathing: function(scene, position, network) {
-		// if we've been given a new position, get a path for it and set the destination to the first node
-		if (scene && position) {
-			this.path = this.findPath(scene, position);
-			if (!this.destination) {
-				this.destination = this.path.shift();
-			}
-			// network.playerMove(this.path);
-		}
+	updatePathing: function(input) {
+		if (input)
+			this.path = input;
+	},
 
+	updateDestination: function() {
 		// if we've moved to the current destination we need to get the next node on the list
 		if (this.destination && this.x === this.destination.x && this.y === this.destination.y) {
 			this.destination = this.path.shift();
@@ -51,6 +47,8 @@ var Character = Entity.extend({
 	},
 
 	updatePosition: function() {
+		this.updateDestination();
+
 		// if we have a destination, move the player towards it based on the speed
 		if (this.destination) {
 			if (this.x < this.destination.x) {
@@ -82,24 +80,5 @@ var Character = Entity.extend({
 			}
 		}
 	},
-
-	findPath: function(scene, position) {
-		var graph = scene.sceneGraph();
-
-		var x, y;
-
-		if (this.destination) {
-		    x = this.destination.x;
-		    y = this.destination.y;
-		} else {
-		    x = this.x;
-		    y = this.y;
-		}
-
-		var start = graph.nodes[y][x];
-		var end   = graph.nodes[position.y][position.x];
-
-		return astar.search(graph.nodes, start, end);
-	}
 
 });

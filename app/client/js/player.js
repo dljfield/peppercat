@@ -53,4 +53,33 @@ var Player = Character.extend({
 		return false;
 	},
 
+	updatePathing: function(scene, position) {
+		// if we've been given a new position, get a path for it and set the destination to the first node
+		if (scene && position) {
+			this.path = this.findPath(scene, position);
+			if (!this.destination) {
+				this.destination = this.path.shift();
+			}
+		}
+	},
+
+	findPath: function(scene, position) {
+		var graph = scene.sceneGraph();
+
+		var x, y;
+
+		if (this.destination) {
+		    x = this.destination.x;
+		    y = this.destination.y;
+		} else {
+		    x = this.x;
+		    y = this.y;
+		}
+
+		var start = graph.nodes[y][x];
+		var end   = graph.nodes[position.y][position.x];
+
+		return astar.search(graph.nodes, start, end);
+	}
+
 });
