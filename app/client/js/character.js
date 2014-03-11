@@ -22,6 +22,7 @@ var Character = Entity.extend({
 		}
 
 		this.updatePathing(processedInput);
+		this.updateDestination();
 		this.updatePosition();
 	},
 
@@ -35,11 +36,16 @@ var Character = Entity.extend({
 	},
 
 	updatePathing: function(input) {
-		if (input)
+		if (input) {
 			this.path = input;
+		}
 	},
 
 	updateDestination: function() {
+		if (!this.destination && this.path) {
+			this.destination = this.path.shift();
+		}
+
 		// if we've moved to the current destination we need to get the next node on the list
 		if (this.destination && this.x === this.destination.x && this.y === this.destination.y) {
 			this.destination = this.path.shift();
@@ -47,8 +53,6 @@ var Character = Entity.extend({
 	},
 
 	updatePosition: function() {
-		this.updateDestination();
-
 		// if we have a destination, move the player towards it based on the speed
 		if (this.destination) {
 			if (this.x < this.destination.x) {

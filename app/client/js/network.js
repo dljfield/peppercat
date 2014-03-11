@@ -15,17 +15,17 @@ var Network = Class.extend({
 
 	registerEvents: function() {
 		this.gameSocket.on('player_move', function(data) {
-			engine.addInput(data.type, data.position, data.id)
+			this.engine.addInput(data.type, data.path, data.id);
+			console.log(data);
 		}.bind(this));
 	},
 
-	playerMove: function(input, id) {
-		if (input) {
+	playerMove: function(path, id) {
+		if (path && id) {
 			this.gameSocket.emit('player_move', {
 				'id': id,
-				'position': input
+				'path': path
 			});
-			this.gameSocket.emit('test_move', { "data": "buttes" });
 		}
 	},
 

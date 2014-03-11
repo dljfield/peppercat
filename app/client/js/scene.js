@@ -37,7 +37,7 @@ var Scene = Class.extend({
     },
 
     // THIS NETWORK STUFF SHOULD BE MOVED TO NETWORK.JS
-    getSceneJSON: function(scene) {
+    getSceneJSON: function(scene, network) {
         if (window.XMLHttpRequest) {
             httpRequest = new XMLHttpRequest();
             httpRequest.onreadystatechange = function() {
@@ -50,7 +50,7 @@ var Scene = Class.extend({
                     }
                 }
             }.bind(this);
-            httpRequest.open('GET', 'http://127.0.0.1:5000/scene/' + scene, false);
+            httpRequest.open('GET', 'http://' + document.domain + ':' + location.port + '/scene/' + scene, false);
             httpRequest.send();
         } else {
             alert("You need to update your browser.");

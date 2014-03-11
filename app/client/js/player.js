@@ -16,18 +16,25 @@ var Player = Character.extend({
 	},
 
 	update: function(input, scene, network) {
-		var processedInput = null;
+		var processedInput = null,
+			informServer   = false;
+
 		if (input.length !== 0) {
 			processedInput = this.processInput(input, scene);
-			network.playerMove(processedInput, this.id);
+			if (processedInput !== null)
+				informServer = true;
 		}
 
-		this.updatePathing(scene, processedInput, network)
+		// new paths
+		this.updatePathing(scene, processedInput, network);
+		this.updateServer(network, informServer);
+
+		// following paths
+		this.updateDestination();
 		this.updatePosition();
 	},
 
 	processInput: function(input, scene) {
-
 		for (var i = 0, length = input.length; i < length; i++) {
 			if (input[i].type === 'click') {
 				var cartCoords = (function(x, y){
@@ -50,16 +57,20 @@ var Player = Character.extend({
 				}
 			}
 		}
-		return false;
+
+		return null;
 	},
 
 	updatePathing: function(scene, position) {
 		// if we've been given a new position, get a path for it and set the destination to the first node
 		if (scene && position) {
 			this.path = this.findPath(scene, position);
-			if (!this.destination) {
-				this.destination = this.path.shift();
-			}
+		}
+	},
+
+	updateServer: function(network, informServer) {
+		if (informServer) {
+			network.playerMove(this.path, this.id);
 		}
 	},
 
