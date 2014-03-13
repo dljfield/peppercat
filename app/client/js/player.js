@@ -42,7 +42,7 @@ var Player = Character.extend({
 					coords.x = (2 * y + x) / 2;
 					coords.y = (2 * y - x) / 2;
 					return coords;
-				})(input[i].position.x, input[i].position.y);
+				})(input[i].x, input[i].y);
 
 				var tileCoords = (function(x, y){
 					var coords = {};

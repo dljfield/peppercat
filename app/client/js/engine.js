@@ -46,15 +46,13 @@ var Engine = Class.extend({
         canvasPosition.x = ((event.clientX - this.camera.x) - this.canvas.offsetLeft) - (TILE_WIDTH / 2);
         canvasPosition.y = ((event.clientY - this.camera.y) - this.canvas.offsetTop);
 
-        this.addInput("click", canvasPosition);
+        this.addInput(canvasPosition, "click");
     },
 
-    addInput: function(type, position, id) {
-        var input = {
-            "type": type,
-            "id": id,
-            "position": position
-        };
+    addInput: function(input, type) {
+        if (type) {
+            input.type = type;
+        }
 
         this.input.push(input);
     },

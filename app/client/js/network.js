@@ -15,7 +15,7 @@ var Network = Class.extend({
 
 	registerEvents: function() {
 		this.gameSocket.on('player_move', function(data) {
-			this.engine.addInput(data.type, data.path, data.id);
+			this.engine.addInput(data);
 			console.log(data);
 		}.bind(this));
 	},
