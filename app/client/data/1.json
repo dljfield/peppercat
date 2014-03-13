@@ -59,7 +59,7 @@
 		},
 		"4": {
 			"id": "player_1",
-			"type": "player",
+			"type": "character",
 			"x": 5,
 			"y": 5,
 			"z": 0,
@@ -75,13 +75,14 @@
 			"z": 0,
 			"height": 64,
 			"collidable": true,
-			"sprite": "p_001"
+			"sprite": "p_002"
 		}
 	},
 	"spriteList": {
 		"t_001": "client/sprite/tile_floor.png",
 		"i_001": "client/sprite/item_books.png",
 		"i_002": "client/sprite/tile_wall.png",
-		"p_001": "client/sprite/tile_ice.png"
+		"p_001": "client/sprite/tile_ice.png",
+		"p_002": "client/sprite/tile_ice_red.png"
 	}
 }

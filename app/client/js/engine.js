@@ -8,15 +8,20 @@ var Engine = Class.extend({
     renderer: null,
     network: null,
 
+    user: null,
+
     input: [],
 
-    init: function(canvas) {
-        this.canvas   = canvas;
-        this.context  = (canvas && canvas.getContext) ? canvas.getContext("2d") : null;
+    init: function() {
+        this.canvas   = this.createCanvas();
+        this.context  = (this.canvas && this.canvas.getContext) ? this.canvas.getContext("2d") : null;
 
         this.canvas.addEventListener('click', this.handleInput.bind(this), false);
 
-        this.scene    = new Scene();
+        this.user = {};
+        this.user.id = "player_1";
+
+        this.scene    = new Scene(this.user);
         this.camera   = new Camera();
         this.renderer = new Renderer();
         this.network  = new Network(this);
@@ -59,6 +64,18 @@ var Engine = Class.extend({
 
     resetInput: function() {
         this.input = [];
+    },
+
+    createCanvas: function() {
+        var canvas = document.createElement("canvas");
+        canvas.id     = "game_canvas";
+        canvas.height = 600;
+        canvas.width  = 800;
+
+        var canvasContainer = document.getElementById("canvas_container");
+        canvasContainer.appendChild(canvas);
+
+        return document.getElementById("game_canvas");
     },
 
     start: function() {

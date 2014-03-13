@@ -4,5 +4,4 @@ from flask.ext.socketio import emit
 @socketio.on('player_move', namespace = '/game')
 def player_move(data):
 	data['type'] = 'server'
-	data['id']   = 'player_2'
 	emit('player_move', data, broadcast = True)
