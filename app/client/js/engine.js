@@ -12,14 +12,14 @@ var Engine = Class.extend({
 
     input: [],
 
-    init: function() {
+    init: function(id) {
         this.canvas   = this.createCanvas();
         this.context  = (this.canvas && this.canvas.getContext) ? this.canvas.getContext("2d") : null;
 
         this.canvas.addEventListener('click', this.handleInput.bind(this), false);
 
-        this.user = {};
-        this.user.id = "player_1";
+        this.user    = {};
+        this.user.id = id;
 
         this.scene    = new Scene(this.user);
         this.camera   = new Camera();
