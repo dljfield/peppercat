@@ -1,4 +1,7 @@
 experimental/
 downloaded_art/
 venv/
+.vagrant/
+
 *.pyc
+*.exe

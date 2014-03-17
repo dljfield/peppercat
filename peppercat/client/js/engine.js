@@ -8,8 +8,6 @@ var Engine = Class.extend({
     renderer: null,
     network: null,
 
-    user: null,
-
     input: [],
 
     init: function(id) {
@@ -18,10 +16,10 @@ var Engine = Class.extend({
 
         this.canvas.addEventListener('click', this.handleInput.bind(this), false);
 
-        this.user    = {};
-        this.user.id = id;
+        var user    = {};
+            user.id = id;
 
-        this.scene    = new Scene(this.user);
+        this.scene    = new Scene(user);
         this.camera   = new Camera();
         this.renderer = new Renderer();
         this.network  = new Network(this);

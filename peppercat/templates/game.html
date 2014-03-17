@@ -1,15 +1,5 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>peppercat</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
-</head>
-<body>
-
-    <form action="" id="username_form">
-        <label for="username" id="label_username">Username: </label><input type="text" id="username">
-    </form>
+{% extends "layout.html" %}
+{% block content %}
 
     <!-- CANVAS -->
     <div id='canvas_container'></div>
@@ -33,5 +23,4 @@
     <script src="{{ url_for('static', filename='js/player.js') }}"></script>
     <script src="{{ url_for('static', filename='js/game.js') }}"></script>
 
-</body>
-</html>
+{% endblock %}

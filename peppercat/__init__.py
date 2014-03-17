@@ -6,10 +6,16 @@ app = Flask(__name__, static_folder = 'client')
 
 app.config.update(
 	DEBUG = True,
+	CSRF_ENABLED = True,
 	SECRET_KEY = 'dat-secret-key',
 	SCENES = os.path.dirname(__file__) + '/client/data'
 )
 
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data/development.sqlite3'
+
+from models import db
+db.init_app(app)
+
 socketio = SocketIO(app)
 
-from app import routes, sockets
+from peppercat import routes, sockets
