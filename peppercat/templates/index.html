@@ -1,9 +1,13 @@
 {% extends "layout.html" %}
 {% block content %}
 
+	<h2>Log In</h2>
+
     <form action="" id="username_form">
         {{ form.user.label }} {{ form.user }}
         {{ form.password.label }} {{ form.password }}
     </form>
+
+    <p>Alternatively you can <a href="{{ url_for("register") }}">register.</a></p>
 
 {% endblock %}

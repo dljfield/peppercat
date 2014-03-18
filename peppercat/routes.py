@@ -1,6 +1,6 @@
 from peppercat import app
-from flask import render_template, send_from_directory
-from forms import LoginForm
+from flask import request, render_template, send_from_directory, flash
+from forms import LoginForm, RegisterForm
 
 #############
 ### LOGIN ###
@@ -17,9 +17,18 @@ def index():
 def login():
 	pass
 
-@app.route('/register')
+@app.route('/register', methods=['GET', 'POST'])
 def register():
-	pass
+	form = RegisterForm()
+
+	if request.method == 'GET':
+	    return render_template('register.html', form = form)
+
+	elif request.method == 'POST':
+		if form.validate() == False:
+			return render_template('register.html', form = form)
+		else:
+			return "[1] Create a new user [2] sign in the user [3] redirect to the user's profile"
 
 ############
 ### GAME ###
