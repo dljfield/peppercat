@@ -17,7 +17,12 @@ var Engine = Class.extend({
         this.canvas.addEventListener('click', this.handleInput.bind(this), false);
 
         var user    = {};
+        if (id) {
             user.id = id;
+        } else {
+            console.log("FAILURE");
+            return -1
+        }
 
         this.scene    = new Scene(user);
         this.camera   = new Camera();

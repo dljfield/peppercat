@@ -24,6 +24,7 @@ class LoginForm(Form):
 
 class RegisterForm(Form):
 	email    = TextField('Email', validators=[Required("Please enter your email address."), Email("Please enter a valid email address.")])
+	username = TextField('Username', validators=[Required("Please enter a username.")])
 	password = PasswordField('Password', validators=[Required("Please enter a password.")])
 	submit   = SubmitField("Create account")
 

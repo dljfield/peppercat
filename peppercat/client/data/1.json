@@ -58,7 +58,7 @@
 			"sprite": "i_002"
 		},
 		"4": {
-			"id": "player_1",
+			"id": "testuser",
 			"type": "character",
 			"x": 5,
 			"y": 5,
@@ -68,7 +68,7 @@
 			"sprite": "p_001"
 		},
 		"5": {
-			"id": "player_2",
+			"id": "testuser2",
 			"type": "character",
 			"x": 3,
 			"y": 5,

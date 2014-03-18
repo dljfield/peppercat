@@ -47,7 +47,7 @@ def register():
 		if form.validate() == False:
 			return render_template('register.html', form = form)
 		else:
-			newuser = User(form.email.data, form.password.data)
+			newuser = User(form.email.data, form.username.data, form.password.data)
 			db.session.add(newuser)
 			db.session.commit()
 
@@ -67,7 +67,10 @@ def game():
 # Gettin a scene
 @app.route('/scene/<path:scene>')
 def scene(scene):
-	return send_from_directory(app.config['SCENES'], scene + '.json')
+	if 'email' not in session:
+		return "SWAG"
+	else:
+		return send_from_directory(app.config['SCENES'], scene + '.json')
 
 #####################################################################
 
@@ -79,3 +82,9 @@ def testdb():
 	    return 'It works.'
 	else:
 		return 'Something is broken.'
+
+@app.route('/user')
+def getuser():
+	if 'email' in session:
+		user = User.query.filter_by(email = session['email'].lower()).first()
+		return user.username

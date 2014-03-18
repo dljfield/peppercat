@@ -43,7 +43,12 @@ var Scene = Class.extend({
             httpRequest.onreadystatechange = function() {
                 if (httpRequest.readyState === 4) {
                     if (httpRequest.status === 200) {
-                        this.loadScene(JSON.parse(httpRequest.response), user);
+                        if (httpRequest.response != "SWAG") {
+                            this.loadScene(JSON.parse(httpRequest.response), user);
+                        } else {
+                            alert(httpRequest.response);
+                        }
+
                     } else {
                         alert("There was an error getting the scene.");
                     }
