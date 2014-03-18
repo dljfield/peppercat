@@ -1,34 +1,53 @@
 from peppercat import app
-from flask import request, render_template, send_from_directory, flash
+from flask import request, render_template, send_from_directory, flash, session, url_for, redirect
 from forms import LoginForm, RegisterForm
+from models import db, User
 
 #############
 ### LOGIN ###
 #############
 
 # Show login form
+
 @app.route('/')
 def index():
-	form = LoginForm()
-	return render_template('index.html', form = form)
+	return render_template('index.html')
 
 # Login logic
-@app.route('/login')
+@app.route('/login', methods=['GET', 'POST'])
 def login():
-	pass
+	form = LoginForm()
 
+	if request.method == 'GET':
+		return render_template('login.html', form=form)
+
+	elif request.method == 'POST':
+		if form.validate() == False:
+			return render_template('login.html', form=form)
+		else:
+			session['email'] = form.email.data
+			return redirect(url_for('game'))
+
+# Register
 @app.route('/register', methods=['GET', 'POST'])
 def register():
 	form = RegisterForm()
 
 	if request.method == 'GET':
-	    return render_template('register.html', form = form)
+		return render_template('register.html', form = form)
 
 	elif request.method == 'POST':
 		if form.validate() == False:
 			return render_template('register.html', form = form)
 		else:
-			return "[1] Create a new user [2] sign in the user [3] redirect to the user's profile"
+			newuser = User(form.email.data, form.password.data)
+			db.session.add(newuser)
+			db.session.commit()
+
+			session['email'] = newuser.email
+
+			return redirect(url_for('game'))
+
 
 ############
 ### GAME ###
