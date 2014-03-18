@@ -3,17 +3,15 @@ from flask import request, render_template, send_from_directory, flash, session,
 from forms import LoginForm, RegisterForm
 from models import db, User
 
-#############
-### LOGIN ###
-#############
-
-# Show login form
-
 @app.route('/')
 def index():
 	return render_template('index.html')
 
-# Login logic
+#############
+### LOGIN ###
+#############
+
+# Login
 @app.route('/login', methods=['GET', 'POST'])
 def login():
 	form = LoginForm()
@@ -27,6 +25,15 @@ def login():
 		else:
 			session['email'] = form.email.data
 			return redirect(url_for('game'))
+
+# Logout
+@app.route('/logout')
+def logout():
+	if 'email' not in session:
+		return redirect(url_for('index'))
+
+	session.pop('email', None)
+	return redirect(url_for('index'))
 
 # Register
 @app.route('/register', methods=['GET', 'POST'])
@@ -48,7 +55,6 @@ def register():
 
 			return redirect(url_for('game'))
 
-
 ############
 ### GAME ###
 ############
@@ -63,6 +69,7 @@ def game():
 def scene(scene):
 	return send_from_directory(app.config['SCENES'], scene + '.json')
 
+#####################################################################
 
 # TEST
 @app.route('/testdb')

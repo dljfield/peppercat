@@ -2,6 +2,7 @@
 {% block content %}
 
     <h2>TEST: {{ session['email'] }}</h2>
+    <a href="{{ url_for('logout') }}">log yoself out</a>
 
     <!-- CANVAS -->
     <div id='canvas_container'></div>
