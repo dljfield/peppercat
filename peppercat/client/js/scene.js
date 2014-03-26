@@ -9,7 +9,7 @@ var Scene = Class.extend({
         if (user && scene)
             this.getSceneJSON(scene, user);
         else
-            this.getSceneJSON('1', user);
+            this.getSceneJSON('', user);
     },
 
     getTerrain: function() {
@@ -50,11 +50,17 @@ var Scene = Class.extend({
                         }
 
                     } else {
+                        console.log("SCENE ERROR: ")
+                        console.log(httpRequest.response)
                         alert("There was an error getting the scene.");
                     }
                 }
             }.bind(this);
-            httpRequest.open('GET', 'http://' + document.domain + ':' + location.port + '/scene/' + scene, false);
+            if (scene)
+                httpRequest.open('GET', 'http://' + document.domain + ':' + location.port + '/scene/' + scene, false);
+            else
+                httpRequest.open('GET', 'http://' + document.domain + ':' + location.port + '/scene', false);
+
             httpRequest.send();
         } else {
             alert("You need to update your browser.");
@@ -62,10 +68,10 @@ var Scene = Class.extend({
     },
 
     loadScene: function(scene, user) {
-        this.size = scene.size;
-        this.loadTerrain(scene);
-        this.loadEntities(scene, user);
-        this.loadSprites(scene);
+        this.size = JSON.parse(scene.size).size;
+        this.loadTerrain(JSON.parse(scene.mapdata));
+        this.loadEntities(JSON.parse(scene.entities), user);
+        this.loadSprites(JSON.parse(scene.sprites));
     },
 
     loadTerrain: function(scene) {

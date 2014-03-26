@@ -1,7 +1,7 @@
 from peppercat import app
 from flask import request, render_template, send_from_directory, flash, session, url_for, redirect, jsonify
 from forms import LoginForm, RegisterForm
-from models import db, User, Game
+from models import db, User, Game, GameData
 
 @app.route('/')
 def index():
@@ -81,16 +81,39 @@ def game(game):
 		return redirect(url_for('login'))
 
 	game = Game.query.filter_by(id = game).first()
+	session['current_scene'] = game.current_scene
 
 	return render_template('game.html', game = game)
+
+
+@app.route('/scene/')
+def session_scene():
+	if 'email' not in session:
+		return "SWAG"
+
+	print "WHAT WHAT"
+	results = GameData.query.filter_by(id = session['current_scene']).all()
+
+	json_results = None
+	for result in results:
+		json_results = {"size": result.size, "mapdata": result.mapdata, "entities": result.entities, "sprites": result.sprites}
+
+	return jsonify(json_results)
 
 # Gettin a scene
 @app.route('/scene/<path:scene>')
 def scene(scene):
 	if 'email' not in session:
 		return "SWAG"
-	else:
-		return send_from_directory(app.config['SCENES'], scene + '.json')
+
+	print "BOO BOO"
+	results = GameData.query.filter_by(id = scene).first()
+
+	json_results = None
+	for result in results:
+		json_results = {"mapdata": result.mapdata, "entities": result.entities, "sprites": result.sprites}
+
+	return jsonify(json_results)
 
 #####################################################################
 

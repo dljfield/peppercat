@@ -79,10 +79,10 @@
 		}
 	},
 	"spriteList": {
-		"t_001": "../client/sprite/tile_floor.png",
-		"i_001": "../client/sprite/item_books.png",
-		"i_002": "../client/sprite/tile_wall.png",
-		"p_001": "../client/sprite/tile_ice.png",
-		"p_002": "../client/sprite/tile_ice_red.png"
+		"t_001": "tile_floor.png",
+		"i_001": "item_books.png",
+		"i_002": "tile_wall.png",
+		"p_001": "tile_ice.png",
+		"p_002": "tile_ice_red.png"
 	}
 }

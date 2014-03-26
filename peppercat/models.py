@@ -56,11 +56,13 @@ class GameData(db.Model):
 	__tablename__ = 'gamedata'
 
 	id       = db.Column(db.Integer, primary_key = True)
+	size     = db.Column(db.String())
 	mapdata  = db.Column(db.String())
 	entities = db.Column(db.String())
 	sprites  = db.Column(db.String())
 
-	def __init__(self, mapdata, entities, sprites):
+	def __init__(self, size, mapdata, entities, sprites):
+		self.size     = size
 		self.mapdata  = mapdata
 		self.entities = entities
 		self.sprites  = sprites
