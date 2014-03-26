@@ -1,5 +1,5 @@
 from peppercat import app
-from flask import request, render_template, send_from_directory, flash, session, url_for, redirect
+from flask import request, render_template, send_from_directory, flash, session, url_for, redirect, jsonify
 from forms import LoginForm, RegisterForm
 from models import db, User
 
@@ -67,7 +67,6 @@ def gamelist():
 		return redirect(url_for('login'))
 
 	gamelist = User.query.filter_by(email = session['email']).first().games
-
 	return render_template('gamelist.html', gamelist = gamelist)
 
 
@@ -76,8 +75,14 @@ def gamelist():
 ############
 
 # The actual game
-@app.route('/game')
-def game():
+@app.route('/game/<path:game>')
+def game(game):
+	if 'email' not in session:
+		return redirect(url_for('login'))
+
+	gamedata = Game.query.filter_by(id = game).first().gamedata
+	print(gamedata)
+
 	return render_template('game.html')
 
 # Gettin a scene
@@ -99,6 +104,8 @@ def testdb():
 	else:
 		return 'Something is broken.'
 
+
+## There is probably a cleaner way to grab the user's name than an ajax request for this
 @app.route('/user')
 def getuser():
 	if 'email' in session:

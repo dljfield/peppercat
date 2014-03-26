@@ -12,6 +12,7 @@ users_games = db.Table('users_games',
 ### USER ###
 class User(db.Model):
 	__tablename__ = 'users'
+
 	id       = db.Column(db.Integer, primary_key = True)
 	email    = db.Column(db.String(), unique = True)
 	username = db.Column(db.String(), unique = True)
@@ -33,13 +34,30 @@ class User(db.Model):
 ### GAME ###
 class Game(db.Model):
 	__tablename__ = 'games'
-	id      = db.Column(db.Integer, primary_key = True)
-	name    = db.Column(db.String())
-	date    = db.Column(db.DateTime())
-	private = db.Column(db.Boolean())
 
-	def __init__(self, name, date, private):
+	id            = db.Column(db.Integer, primary_key = True)
+	name          = db.Column(db.String())
+	date          = db.Column(db.DateTime())
+	private       = db.Column(db.Boolean())
+	current_scene = db.Column(db.Integer, db.ForeignKey('gamedata.id'))
+
+	def __init__(self, name, date, private, current_scene):
 		from datetime import datetime
-		self.name    = name
-		self.date    = datetime.utcnow()
-		self.private = private
+		self.name          = name
+		self.date          = datetime.utcnow()
+		self.private       = private
+		self.current_scene = current_scene
+
+### GAMEDATA ###
+class GameData(db.Model):
+	__tablename__ = 'gamedata'
+
+	id       = db.Column(db.Integer, primary_key = True)
+	mapdata  = db.Column(db.String())
+	entities = db.Column(db.String())
+	sprites  = db.Column(db.String())
+
+	def __init__(self, mapdata, entities, sprites):
+		self.mapdata  = mapdata
+		self.entities = entities
+		self.sprites  = sprites

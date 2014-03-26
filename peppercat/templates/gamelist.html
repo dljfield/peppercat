@@ -2,7 +2,7 @@
 {% block content %}
 
 	{% for game in gamelist %}
-		<p> {{ game.name }} </p>
+		<a href="{{ url_for('game', game = game.id) }}">{{ game.name }}</a>
 	{% endfor %}
 
 {% endblock %}
