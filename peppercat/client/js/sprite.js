@@ -5,7 +5,7 @@ var Sprite = Class.extend({
 
 	init: function(src) {
 		this.image = new Image();
-		this.image.src = document.domain + ':' + location.port + '/client/sprite/' + src;
+		this.image.src = '../client/sprite/' + src;
 		this.image.onload = function(){this.loaded = true};
 	},
 
