@@ -48,6 +48,9 @@ class Game(db.Model):
 		self.private       = private
 		self.current_scene = current_scene
 
+	def __str__(self):
+		return "<Game> " + self.name
+
 ### GAMEDATA ###
 class GameData(db.Model):
 	__tablename__ = 'gamedata'
@@ -61,3 +64,6 @@ class GameData(db.Model):
 		self.mapdata  = mapdata
 		self.entities = entities
 		self.sprites  = sprites
+
+	def __str__(self):
+		return "<GameData> " + self.id

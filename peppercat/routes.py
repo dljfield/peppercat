@@ -1,7 +1,7 @@
 from peppercat import app
 from flask import request, render_template, send_from_directory, flash, session, url_for, redirect, jsonify
 from forms import LoginForm, RegisterForm
-from models import db, User
+from models import db, User, Game
 
 @app.route('/')
 def index():
@@ -53,7 +53,7 @@ def register():
 
 			session['email'] = newuser.email
 
-			return redirect(url_for('gamelist'))
+			return redirect(url_for('game'))
 
 
 ############
@@ -61,7 +61,7 @@ def register():
 ############
 
 # list of games
-@app.route('/gamelist')
+@app.route('/game')
 def gamelist():
 	if 'email' not in session:
 		return redirect(url_for('login'))
@@ -80,10 +80,9 @@ def game(game):
 	if 'email' not in session:
 		return redirect(url_for('login'))
 
-	gamedata = Game.query.filter_by(id = game).first().gamedata
-	print(gamedata)
+	game = Game.query.filter_by(id = game).first()
 
-	return render_template('game.html')
+	return render_template('game.html', game = game)
 
 # Gettin a scene
 @app.route('/scene/<path:scene>')
@@ -109,5 +108,4 @@ def testdb():
 @app.route('/user')
 def getuser():
 	if 'email' in session:
-		user = User.query.filter_by(email = session['email'].lower()).first()
-		return user.username
+		return User.query.filter_by(email = session['email'].lower()).first().username
