@@ -5,10 +5,10 @@ var TILE_HEIGHT     = 64;
 var UPDATE_INTERVAL = 1000 / 30;
 
 window.onload = function() {
-	startEngine("player_1");
+	startEngine();
 };
 
-function startEngine(username) {
+function startEngine() {
 	if (window.XMLHttpRequest) {
         httpRequest = new XMLHttpRequest();
         httpRequest.onreadystatechange = function() {

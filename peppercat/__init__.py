@@ -13,7 +13,7 @@ app.config.update(
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data/development.sqlite3'
 
-from models import db
+from models import db, User, Game, users_games
 db.init_app(app)
 
 socketio = SocketIO(app)

@@ -24,7 +24,7 @@ def login():
 			return render_template('login.html', form=form)
 		else:
 			session['email'] = form.email.data
-			return redirect(url_for('game'))
+			return redirect(url_for('gamelist'))
 
 # Logout
 @app.route('/logout')
@@ -53,7 +53,23 @@ def register():
 
 			session['email'] = newuser.email
 
-			return redirect(url_for('game'))
+			return redirect(url_for('gamelist'))
+
+
+############
+# GAMELIST #
+############
+
+# list of games
+@app.route('/gamelist')
+def gamelist():
+	if 'email' not in session:
+		return redirect(url_for('login'))
+
+	gamelist = User.query.filter_by(email = session['email']).first().games
+
+	return render_template('gamelist.html', gamelist = gamelist)
+
 
 ############
 ### GAME ###
