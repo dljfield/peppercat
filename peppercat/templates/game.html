@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 {% block content %}
 
-    <h2>TEST: {{ session['email'] }}</h2>
+    <p><strong>User:</strong> {{ session['email'] }}</p>
     <a href="{{ url_for('logout') }}">log yoself out</a>
 
     <!-- CANVAS -->
