@@ -53,7 +53,7 @@ def register():
 
 			session['email'] = newuser.email
 
-			return redirect(url_for('game'))
+			return redirect(url_for('gamelist'))
 
 
 ############
@@ -116,15 +116,6 @@ def scene(scene):
 	return jsonify(json_results)
 
 #####################################################################
-
-# TEST
-@app.route('/testdb')
-def testdb():
-	from models import db
-	if db.session.query("1").from_statement("SELECT 1").all():
-	    return 'It works.'
-	else:
-		return 'Something is broken.'
 
 
 ## There is probably a cleaner way to grab the user's name than an ajax request for this

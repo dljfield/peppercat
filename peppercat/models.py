@@ -18,7 +18,7 @@ class User(db.Model):
 	username = db.Column(db.String(), unique = True)
 	password = db.Column(db.String())
 
-	games = db.relationship('Game', secondary=users_games, backref=db.backref('users', lazy='dynamic'))
+	games = db.relationship('Game', secondary = users_games, backref = db.backref('users', lazy = 'dynamic'))
 
 	def __init__(self, email, username, password):
 		self.email    = email.lower()
@@ -39,33 +39,52 @@ class Game(db.Model):
 	name          = db.Column(db.String())
 	date          = db.Column(db.DateTime())
 	private       = db.Column(db.Boolean())
-	current_scene = db.Column(db.Integer, db.ForeignKey('gamedata.id'))
-
-	def __init__(self, name, date, private, current_scene):
-		from datetime import datetime
-		self.name          = name
-		self.date          = datetime.utcnow()
-		self.private       = private
-		self.current_scene = current_scene
+	current_scene = db.Column(db.Integer, db.ForeignKey('scenes.id'))
 
 	def __str__(self):
 		return "<Game> " + self.name
 
-### GAMEDATA ###
-class GameData(db.Model):
-	__tablename__ = 'gamedata'
+### SCENES ###
+class Scene(db.Model):
+	__tablename__ = 'scenes'
 
 	id       = db.Column(db.Integer, primary_key = True)
-	size     = db.Column(db.String())
-	mapdata  = db.Column(db.String())
-	entities = db.Column(db.String())
+	size_x   = db.Column(db.Integer)
+	size_y   = db.Column(db.Integer)
+	terrain  = db.relationship('Terrain', backref = 'scenes', lazy = 'dynamic')
+	entities = db.relationship('Entity', backref = 'scenes', lazy = 'dynamic')
 	sprites  = db.Column(db.String())
-
-	def __init__(self, size, mapdata, entities, sprites):
-		self.size     = size
-		self.mapdata  = mapdata
-		self.entities = entities
-		self.sprites  = sprites
 
 	def __str__(self):
 		return "<GameData> " + self.id
+
+### ENTITIES ###
+class Entity(db.Model):
+	__tablename__ = 'entities'
+
+	id         = db.Column(db.Integer, primary_key = True)
+	type       = db.Column(db.String())
+	name       = db.Column(db.String())
+	user       = db.Column(db.Integer, db.ForeignKey('users.id'))
+	x          = db.Column(db.Integer)
+	y          = db.Column(db.Integer)
+	z          = db.Column(db.Integer)
+	height     = db.Column(db.Integer)
+	collidable = db.Column(db.Boolean())
+	sprite     = db.Column(db.Integer, db.ForeignKey('sprites.id'))
+	game_id    = db.Column(db.Integer, db.ForeignKey('games.id'))
+
+### TERRAIN ###
+class Terrain(db.Model):
+	__tablename__ = 'terrrain'
+
+	id      = db.Column(db.Integer, primary_key = True)
+	mapdata = db.Column(db.String())
+	game_id = db.Column(db.Integer, db.ForeignKey('games.id'))
+
+### SPRITES ###
+class Sprite(db.Model):
+	__tablename__ = 'sprites'
+
+	id     = db.Column(db.Integer, primary_key = True)
+	sprite = db.Column(db.String())
