@@ -38,6 +38,12 @@ class Game(db.Model):
 	private       = db.Column(db.Boolean())
 	current_scene = db.Column(db.Integer, db.ForeignKey('scenes.id'))
 
+	def __init__(self, name, date, private, current_scene):
+		self.name          = name
+		self.date          = date
+		self.private       = private
+		self.current_scene = current_scene
+
 	def __str__(self):
 		return "<Game> " + self.name
 
@@ -45,8 +51,6 @@ class Scene(db.Model):
 	__tablename__ = 'scenes'
 
 	id       = db.Column(db.Integer, primary_key = True)
-	size_x   = db.Column(db.Integer)
-	size_y   = db.Column(db.Integer)
 	terrain  = db.relationship('Terrain', backref = 'scenes', lazy = 'dynamic')
 	entities = db.relationship('Entity', backref = 'scenes', lazy = 'dynamic')
 
@@ -68,6 +72,18 @@ class Entity(db.Model):
 	sprite     = db.Column(db.Integer, db.ForeignKey('sprites.id'))
 	scene      = db.Column(db.Integer, db.ForeignKey('scenes.id'))
 
+	def __init__(self, type, name, user, x, y, z, height, collidable, sprite, scene):
+		self.type       = type
+		self.name       = name
+		self.user       = user
+		self.x          = x
+		self.y          = y
+		self.z          = z
+		self.height     = height
+		self.collidable = collidable
+		self.sprite     = sprite
+		self.scene      = scene
+
 class Terrain(db.Model):
 	__tablename__ = 'terrrain'
 
@@ -76,8 +92,16 @@ class Terrain(db.Model):
 	sprite_list = db.Column(db.String())
 	scene       = db.Column(db.Integer, db.ForeignKey('scenes.id'))
 
+	def __init__(self, mapdata, sprite_list, scene):
+		self.mapdata     = mapdata
+		self.sprite_list = sprite_list
+		self.scene       = scene
+
 class Sprite(db.Model):
 	__tablename__ = 'sprites'
 
 	id     = db.Column(db.Integer, primary_key = True)
 	sprite = db.Column(db.String())
+
+	def __init__(self, sprite):
+		self.sprite = sprite

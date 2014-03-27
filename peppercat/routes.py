@@ -1,6 +1,6 @@
 from peppercat import app
 from flask import request, render_template, send_from_directory, flash, session, url_for, redirect, jsonify
-from models import db, User, Game, Scene
+from models import db, User, Game, Scene, Entity, Terrain, Sprite
 
 @app.route('/')
 def index():
@@ -86,7 +86,42 @@ def create_game():
 		return render_template('create_game.html', form = form)
 
 	elif request.method == 'POST':
-		return "We are going to make: " + form.name.data
+
+		# Create a new scene
+		newscene = Scene()
+		db.session.add(newscene)
+		db.session.commit() # we need the ID
+
+		# # Add sprites
+		# newsprite = Sprite("tile_ice.png")
+		# db.session.add(newsprite)
+		# db.session.commit() # need the id
+
+		# Create the terrain
+		terrain = '{"terrain":[["1","1","1","1","1","1","1","1","1","1"],["1","1","1","1","1","1","1","1","1","1"],["1","1","1","1","1","1","1","1","1","1"],["1","1","1","1","1","1","1","1","1","1"],["1","1","1","1","1","1","1","1","1","1"],["1","1","1","1","1","1","1","1","1","1"],["1","1","1","1","1","1","1","1","1","1"],["1","1","1","1","1","1","1","1","1","1"],["1","1","1","1","1","1","1","1","1","1"],["1","1","1","1","1","1","1","1","1","1"],["1","1","1","1","1","1","1","1","1","1"],["1","1","1","1","1","1","1","1","1","1"],["1","1","1","1","1","1","1","1","1","1"],["1","1","1","1","1","1","1","1","1","1"]]}'
+		spritelist = '{"spriteList":{"1":"tile_floor.png"}}'
+
+		db.session.add(Terrain(terrain, spritelist, newscene.id))
+
+		# Create the entities
+		newentity = Entity("character", "Test Character", session['username'], 5, 5, 0, 64, True, 2, newscene.id)
+		db.session.add(newentity)
+
+		# Create a new game
+		from datetime import datetime
+		newgame = Game(form.name.data, datetime.utcnow(), False, newscene.id)
+		user = User.query.filter_by(email = session['email']).first()
+		db.session.add(newgame)
+
+		# Commit the stuff
+		db.session.commit()
+
+		# associate the game with the user
+		user = User.query.filter_by(email = session['email']).first()
+		user.games.append(newgame)
+		db.session.commit()
+
+		return redirect(url_for('game', game = newgame.id))
 
 ############
 ### GAME ###

@@ -24,16 +24,13 @@ var Scene = Class.extend({
         return this.sprites[id].getImage();
     },
 
-    getSize: function() {
-        return this.size;
-    },
-
     setEntities: function(entities) {
         this.entities = entities;
     },
 
-    setSize: function(size) {
-        this.size = size;
+    setSize: function() {
+        this.size.y = this.terrain.length
+        this.size.x = this.terrain[0].length
     },
 
     // THIS NETWORK STUFF SHOULD BE MOVED TO NETWORK.JS
@@ -68,10 +65,10 @@ var Scene = Class.extend({
     },
 
     loadScene: function(scene, user) {
-        this.size = JSON.parse(scene.size).size;
         this.loadTerrain(JSON.parse(scene.mapdata));
         this.loadEntities(JSON.parse(scene.entities), user);
         this.loadSprites(JSON.parse(scene.sprites));
+        this.setSize();
     },
 
     loadTerrain: function(scene) {

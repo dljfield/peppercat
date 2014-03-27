@@ -23,7 +23,6 @@ var Renderer = Class.extend({
         var terrain = scene.getTerrain();
         for (var y = 0; y < terrain.length; y++) {
             for (var x = 0; x < terrain[y].length; x++) {
-
                 var isoCoords = this.toIsometric(x, y),
                     tile      = (terrain[y] && terrain[y][x]) ? scene.getSprite(terrain[y][x]) : undefined;
 
