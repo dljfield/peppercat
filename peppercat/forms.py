@@ -40,3 +40,14 @@ class RegisterForm(Form):
 			return False
 		else:
 			return True
+
+class CreateGameForm(Form):
+	name = TextField('Game Name', validators=[Required("The game needs a name.")])
+	submit = SubmitField("Create Game")
+
+	def __init__(self, *args, **kwargs):
+		Form.__init__(self, *args, **kwargs)
+
+	def validate():
+		if not Form.validate(self):
+			return False

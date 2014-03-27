@@ -1,6 +1,5 @@
 from peppercat import app
 from flask import request, render_template, send_from_directory, flash, session, url_for, redirect, jsonify
-from forms import LoginForm, RegisterForm
 from models import db, User, Game, Scene
 
 @app.route('/')
@@ -14,6 +13,7 @@ def index():
 # Login
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+	from forms import LoginForm
 	form = LoginForm()
 
 	if request.method == 'GET':
@@ -23,7 +23,8 @@ def login():
 		if form.validate() == False:
 			return render_template('login.html', form=form)
 		else:
-			session['email'] = form.email.data
+			session['email']    = form.email.data
+			session['username'] = User.query.filter_by(email = session['email']).first().username
 			return redirect(url_for('gamelist'))
 
 # Logout
@@ -33,11 +34,13 @@ def logout():
 		return redirect(url_for('index'))
 
 	session.pop('email', None)
+	session.pop('username', None)
 	return redirect(url_for('index'))
 
 # Register
 @app.route('/register', methods=['GET', 'POST'])
 def register():
+	from forms import RegisterForm
 	form = RegisterForm()
 
 	if request.method == 'GET':
@@ -51,7 +54,8 @@ def register():
 			db.session.add(newuser)
 			db.session.commit()
 
-			session['email'] = newuser.email
+			session['email']    = newuser.email
+			session['username'] = newuser.username
 
 			return redirect(url_for('gamelist'))
 
@@ -67,15 +71,22 @@ def gamelist():
 		return redirect(url_for('login'))
 
 	gamelist = User.query.filter_by(email = session['email']).first().games
-	return render_template('gamelist.html', gamelist = gamelist)
+	return render_template('gamelist.html', gamelist = gamelist, user = session['username'])
 
 @app.route('/game/join')
 def join_game():
 	pass
 
-@app.route('/game/create')
+@app.route('/game/create', methods=['GET', 'POST'])
 def create_game():
-	pass
+	from forms import CreateGameForm
+	form = CreateGameForm()
+
+	if request.method == 'GET':
+		return render_template('create_game.html', form = form)
+
+	elif request.method == 'POST':
+		return "We are going to make: " + form.name.data
 
 ############
 ### GAME ###
@@ -126,5 +137,5 @@ def scene(scene):
 ## There is probably a cleaner way to grab the user's name than an ajax request for this
 @app.route('/user')
 def getuser():
-	if 'email' in session:
-		return User.query.filter_by(email = session['email'].lower()).first().username
+	if 'username' in session:
+		return session['username']

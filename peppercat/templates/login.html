@@ -7,7 +7,7 @@
 		<div class="flash">{{ message }}</div>
 	{% endfor %}
 
-    <form action="{{ url_for("login") }}" method=post id="username_form">
+    <form action="{{ url_for('login') }}" method=post id="username_form">
 		{{ form.hidden_tag() }}
 
         {{ form.email.label }}

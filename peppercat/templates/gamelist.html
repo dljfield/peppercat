@@ -1,6 +1,8 @@
 {% extends "layout.html" %}
 {% block content %}
 
+	<p>Hi there <em>{{ user }}</em> &mdash; <a href="{{ url_for('logout') }}">Logout</a></p>
+
 	<h1>Game List</h1>
 
 	<h2>New Game</h2>
