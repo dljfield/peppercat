@@ -11,7 +11,7 @@ app.config.update(
 	SCENES = os.path.dirname(__file__) + '/client/data'
 )
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data/development.sqlite3'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data/peppercat-dev.db'
 
 from models import db, User, Game, users_games
 db.init_app(app)

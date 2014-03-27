@@ -1,8 +1,22 @@
 {% extends "layout.html" %}
 {% block content %}
 
-	{% for game in gamelist %}
-		<a href="{{ url_for('game', game = game.id) }}">{{ game.name }}</a>
-	{% endfor %}
+	<h1>Game List</h1>
+
+	<h2>New Game</h2>
+	<a href="{{ url_for('join_game') }}">Join Game</a>
+	<a href="{{ url_for('create_game') }}">Create New Game</a>
+
+	<h2>Current Games</h2>
+
+	{% if gamelist %}
+		{% for game in gamelist %}
+			<a href="{{ url_for('game', game = game.id) }}">{{ game.name }}</a>
+		{% endfor %}
+	{% endif %}
+
+	{% if not gamelist %}
+		<p>You don't have any games! Why not <a href="{{ url_for('join_game') }}">join a game</a>, or even <a href="{{ url_for('create_game') }}">make a new one</a>?</p>
+	{% endif %}
 
 {% endblock %}

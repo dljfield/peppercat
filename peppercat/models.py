@@ -3,13 +3,11 @@ from werkzeug import generate_password_hash, check_password_hash
 
 db = SQLAlchemy()
 
-### USERS/GAMES ###
 users_games = db.Table('users_games',
     db.Column('user_id', db.Integer, db.ForeignKey('users.id')),
     db.Column('game_id', db.Integer, db.ForeignKey('games.id'))
 )
 
-### USER ###
 class User(db.Model):
 	__tablename__ = 'users'
 
@@ -31,7 +29,6 @@ class User(db.Model):
 	def check_password(self, password):
 		return check_password_hash(self.password, password)
 
-### GAME ###
 class Game(db.Model):
 	__tablename__ = 'games'
 
@@ -44,7 +41,6 @@ class Game(db.Model):
 	def __str__(self):
 		return "<Game> " + self.name
 
-### SCENES ###
 class Scene(db.Model):
 	__tablename__ = 'scenes'
 
@@ -53,12 +49,10 @@ class Scene(db.Model):
 	size_y   = db.Column(db.Integer)
 	terrain  = db.relationship('Terrain', backref = 'scenes', lazy = 'dynamic')
 	entities = db.relationship('Entity', backref = 'scenes', lazy = 'dynamic')
-	sprites  = db.Column(db.String())
 
 	def __str__(self):
 		return "<GameData> " + self.id
 
-### ENTITIES ###
 class Entity(db.Model):
 	__tablename__ = 'entities'
 
@@ -72,17 +66,16 @@ class Entity(db.Model):
 	height     = db.Column(db.Integer)
 	collidable = db.Column(db.Boolean())
 	sprite     = db.Column(db.Integer, db.ForeignKey('sprites.id'))
-	game_id    = db.Column(db.Integer, db.ForeignKey('games.id'))
+	scene      = db.Column(db.Integer, db.ForeignKey('scenes.id'))
 
-### TERRAIN ###
 class Terrain(db.Model):
 	__tablename__ = 'terrrain'
 
-	id      = db.Column(db.Integer, primary_key = True)
-	mapdata = db.Column(db.String())
-	game_id = db.Column(db.Integer, db.ForeignKey('games.id'))
+	id          = db.Column(db.Integer, primary_key = True)
+	mapdata     = db.Column(db.String())
+	sprite_list = db.Column(db.String())
+	scene       = db.Column(db.Integer, db.ForeignKey('scenes.id'))
 
-### SPRITES ###
 class Sprite(db.Model):
 	__tablename__ = 'sprites'
 
