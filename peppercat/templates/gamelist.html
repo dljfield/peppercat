@@ -12,9 +12,11 @@
 	<h2>Current Games</h2>
 
 	{% if gamelist %}
+		<ul>
 		{% for game in gamelist %}
-			<a href="{{ url_for('game', game = game.id) }}">{{ game.name }}</a>
+			<li><a href="{{ url_for('game', game = game.id) }}">{{ game.name }}</a></li>
 		{% endfor %}
+		</ul>
 	{% endif %}
 
 	{% if not gamelist %}

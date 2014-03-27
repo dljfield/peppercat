@@ -1,6 +1,6 @@
 var Scene = Class.extend({
 
-    size: null,
+    size: {},
     sprites: null,
     terrain: null,
     entities: null,
@@ -65,35 +65,33 @@ var Scene = Class.extend({
     },
 
     loadScene: function(scene, user) {
-        this.loadTerrain(JSON.parse(scene.mapdata));
-        this.loadEntities(JSON.parse(scene.entities), user);
-        this.loadSprites(JSON.parse(scene.sprites));
+        this.loadTerrain(JSON.parse(scene.terrain));
+        this.loadEntities(scene.entities, user);
+        this.loadSprites(scene.sprites);
         this.setSize();
     },
 
-    loadTerrain: function(scene) {
-        this.terrain = scene.terrain;
+    loadTerrain: function(terrain) {
+        this.terrain = terrain;
     },
 
-    loadEntities: function(scene, user) {
+    loadEntities: function(scene_entities, user) {
         var entities = [];
-        for (entity in scene.entities) {
-            if (scene.entities[entity].type === "character" && scene.entities[entity].id === user.id) {
-                entities[entity] = new Player(scene.entities[entity].id, scene.entities[entity].x, scene.entities[entity].y, scene.entities[entity].z, scene.entities[entity].height, scene.entities[entity].collidable, scene.entities[entity].sprite);
-            } else if (scene.entities[entity].type === "character") {
-                entities[entity] = new Character(scene.entities[entity].id, scene.entities[entity].x, scene.entities[entity].y, scene.entities[entity].z, scene.entities[entity].height, scene.entities[entity].collidable, scene.entities[entity].sprite);
+        for (entity in scene_entities) {
+            if (scene_entities[entity].type === "character" && scene_entities[entity].user === user.id) {
+                entities[entity] = new Player(scene_entities[entity].id, scene_entities[entity].user, scene_entities[entity].x, scene_entities[entity].y, scene_entities[entity].z, scene_entities[entity].height, scene_entities[entity].collidable, scene_entities[entity].sprite);
+            } else if (scene_entities[entity].type === "character") {
+                entities[entity] = new Character(scene_entities[entity].id, scene_entities[entity].user, scene_entities[entity].x, scene_entities[entity].y, scene_entities[entity].z, scene_entities[entity].height, scene_entities[entity].collidable, scene_entities[entity].sprite);
             } else {
-                entities[entity] = new Entity(null, scene.entities[entity].x, scene.entities[entity].y, scene.entities[entity].z, scene.entities[entity].height, scene.entities[entity].collidable, scene.entities[entity].sprite);
+                entities[entity] = new Entity(scene_entities[entity].id, scene_entities[entity].user, scene_entities[entity].x, scene_entities[entity].y, scene_entities[entity].z, scene_entities[entity].height, scene_entities[entity].collidable, scene_entities[entity].sprite);
             }
         }
 
         this.entities = entities;
     },
 
-    loadSprites: function(scene) {
-        var spriteList = scene.spriteList;
-        var sprites = [];
-
+    loadSprites: function(spriteList) {
+        var sprites = {};
         for (id in spriteList) {
             sprites[id] = new Sprite(spriteList[id]);
         }

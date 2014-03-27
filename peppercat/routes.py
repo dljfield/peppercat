@@ -92,20 +92,15 @@ def create_game():
 		db.session.add(newscene)
 		db.session.commit() # we need the ID
 
-		# # Add sprites
-		# newsprite = Sprite("tile_ice.png")
-		# db.session.add(newsprite)
-		# db.session.commit() # need the id
-
 		# Create the terrain
-		terrain = '{"terrain":[["1","1","1","1","1","1","1","1","1","1"],["1","1","1","1","1","1","1","1","1","1"],["1","1","1","1","1","1","1","1","1","1"],["1","1","1","1","1","1","1","1","1","1"],["1","1","1","1","1","1","1","1","1","1"],["1","1","1","1","1","1","1","1","1","1"],["1","1","1","1","1","1","1","1","1","1"],["1","1","1","1","1","1","1","1","1","1"],["1","1","1","1","1","1","1","1","1","1"],["1","1","1","1","1","1","1","1","1","1"],["1","1","1","1","1","1","1","1","1","1"],["1","1","1","1","1","1","1","1","1","1"],["1","1","1","1","1","1","1","1","1","1"],["1","1","1","1","1","1","1","1","1","1"]]}'
-		spritelist = '{"spriteList":{"1":"tile_floor.png"}}'
+		terrain = '[["1","1","1","1","1","1","1","1","1","1"],["1","1","1","1","1","1","1","1","1","1"],["1","1","1","1","1","1","1","1","1","1"],["1","1","1","1","1","1","1","1","1","1"],["1","1","1","1","1","1","1","1","1","1"],["1","1","1","1","1","1","1","1","1","1"],["1","1","1","1","1","1","1","1","1","1"],["1","1","1","1","1","1","1","1","1","1"],["1","1","1","1","1","1","1","1","1","1"],["1","1","1","1","1","1","1","1","1","1"],["1","1","1","1","1","1","1","1","1","1"],["1","1","1","1","1","1","1","1","1","1"],["1","1","1","1","1","1","1","1","1","1"],["1","1","1","1","1","1","1","1","1","1"]]'
+		spritelist = '[1]'
 
 		db.session.add(Terrain(terrain, spritelist, newscene.id))
 
 		# Create the entities
-		newentity = Entity("character", "Test Character", session['username'], 5, 5, 0, 64, True, 2, newscene.id)
-		db.session.add(newentity)
+		db.session.add(Entity("character", "Test Character", session['username'], 5, 5, 0, 64, True, 2, newscene.id))
+		db.session.add(Entity("object", "wall_01", session['username'], 5, 7, 0, 158, True, 3, newscene.id))
 
 		# Create a new game
 		from datetime import datetime
@@ -144,11 +139,28 @@ def session_scene():
 	if 'email' not in session:
 		return "SWAG"
 
-	results = GameData.query.filter_by(id = session['current_scene']).all()
+	results = Scene.query.filter_by(id = session['current_scene']).all()
 
 	json_results = None
 	for result in results:
-		json_results = {"size": result.size, "mapdata": result.mapdata, "entities": result.entities, "sprites": result.sprites}
+		sprite_list = {}
+		entities = []
+		for entity in result.entities:
+			db_sprite = Sprite.query.filter_by(id = entity.sprite).first()
+			sprite_list[db_sprite.id] = db_sprite.sprite
+			entities.append({"id": entity.id, "type": entity.type, "user": entity.user, "x": entity.x, "y": entity.y, "z": entity.z, "height": entity.height, "collidable": entity.collidable, "sprite": entity.sprite})
+
+		terrain = None
+		for terrain_obj in result.terrain:
+			terrain = terrain_obj.mapdata
+			import json
+			decoded = json.loads(terrain_obj.sprite_list)
+
+			for sprite in decoded:
+				db_sprite = Sprite.query.filter_by(id = sprite).first()
+				sprite_list[db_sprite.id] = db_sprite.sprite
+
+		json_results = {"terrain": terrain, "entities": entities, "sprites": sprite_list}
 
 	return jsonify(json_results)
 
@@ -163,6 +175,8 @@ def scene(scene):
 	json_results = None
 	for result in results:
 		json_results = {"mapdata": result.mapdata, "entities": result.entities, "sprites": result.sprites}
+
+	session['current_scene'] = results.scene.id
 
 	return jsonify(json_results)
 

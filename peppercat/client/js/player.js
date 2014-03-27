@@ -4,6 +4,7 @@ var Player = Character.extend({
 	y: null,
 	z: null,
 	id: null,
+	user: null,
 	height: null,
 	collidable: false,
 	sprite: null,
@@ -11,8 +12,8 @@ var Player = Character.extend({
 	destination: null,
 	speed: 0.125,
 
-	init: function(id, x, y, z, height, collidable, sprite) {
-		this._super(id, x, y, z, height, collidable, sprite);
+	init: function(id, user, x, y, z, height, collidable, sprite) {
+		this._super(id, user, x, y, z, height, collidable, sprite);
 	},
 
 	update: function(input, scene, network) {
