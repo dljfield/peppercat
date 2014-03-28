@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+{% block content %}
+
+	<h1>Join Game</h1>
+	<h2>Public Games</h2>
+
+	{% if gamelist %}
+		<ul>
+		{% for game in gamelist %}
+			<li><a href="{{ url_for('game', game = game.id) }}">{{ game.name }}</a></li>
+		{% endfor %}
+		</ul>
+	{% endif %}
+
+{% endblock %}

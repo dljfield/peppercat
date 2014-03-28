@@ -73,9 +73,19 @@ def gamelist():
 	gamelist = User.query.filter_by(email = session['email']).first().games
 	return render_template('gamelist.html', gamelist = gamelist, user = session['username'])
 
-@app.route('/game/join')
+@app.route('/game/join', methods=['GET', 'POST'])
 def join_game():
-	pass
+	if request.method == 'GET':
+		# show public game selection screen
+		public_games = Game.query.filter_by(private = False).all()
+		return render_template('join_game.html', gamelist = public_games)
+
+	elif request.method == 'POST':
+		pass
+		# load game data
+		# check for a spot that is available
+		# place new player entity in that spot
+		# redirect the new player to the game client
 
 @app.route('/game/create', methods=['GET', 'POST'])
 def create_game():
