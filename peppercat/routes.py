@@ -73,19 +73,33 @@ def gamelist():
 	gamelist = User.query.filter_by(email = session['email']).first().games
 	return render_template('gamelist.html', gamelist = gamelist, user = session['username'])
 
-@app.route('/game/join', methods=['GET', 'POST'])
-def join_game():
-	if request.method == 'GET':
-		# show public game selection screen
-		public_games = Game.query.filter_by(private = False).all()
-		return render_template('join_game.html', gamelist = public_games)
+@app.route('/game/join/<path:id>')
+def join_game(id):
+	# load game data
+	scene = Game.query.filter_by(id = id).first().current_scene
 
-	elif request.method == 'POST':
-		pass
-		# load game data
-		# check for a spot that is available
-		# place new player entity in that spot
-		# redirect the new player to the game client
+	# check for a spot that is available
+	location = {"x": 5, "y": 5}
+	entities = Entity.query.filter_by(scene = scene).all()
+	for entity in entities:
+		while entity.x == location['x'] and entity.y == location['y']:
+			if entity.x == location['x']:
+				location['x'] = location['x'] + 1
+			elif entity.y == location['y']:
+				location['y'] = location['y'] + 1
+
+	# place new player entity in that spot
+	db.session.add(Entity("character", "Test Character", session['username'], location['x'], location['y'], 0, 64, True, 4, scene))
+	db.session.commit()
+
+	# redirect the new player to the game client
+	return redirect(url_for('game', game = id))
+
+@app.route('/game/public')
+def public_games():
+	# show public game selection screen
+	public_games = Game.query.filter_by(private = False).all()
+	return render_template('public_games.html', gamelist = public_games)
 
 @app.route('/game/create', methods=['GET', 'POST'])
 def create_game():
@@ -110,7 +124,7 @@ def create_game():
 
 		# Create the entities
 		db.session.add(Entity("character", "Test Character", session['username'], 5, 5, 0, 64, True, 2, newscene.id))
-		db.session.add(Entity("object", "wall_01", session['username'], 5, 7, 0, 158, True, 3, newscene.id))
+		db.session.add(Entity("object", "wall_01", None, 5, 7, 0, 158, True, 3, newscene.id))
 
 		# Create a new game
 		from datetime import datetime
