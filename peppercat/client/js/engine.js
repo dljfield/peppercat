@@ -21,7 +21,7 @@ var Engine = Class.extend({
         this.renderer = new Renderer();
         this.network  = new Network(this);
 
-        this.camera.setPos(435, 100)
+        this.camera.setPos(432, 100)
     },
 
     tick: function() {
@@ -46,7 +46,7 @@ var Engine = Class.extend({
         canvasPosition.x = ((event.clientX - this.camera.x) - this.canvas.offsetLeft) - (TILE_WIDTH / 2);
         canvasPosition.y = ((event.clientY - this.camera.y) - this.canvas.offsetTop);
 
-        if (USER.type === "gamemaster" && event.altKey) {
+        if (USER.type === "game_master" && event.altKey) {
             this.addInput(canvasPosition, "change_entity");
         } else {
             this.addInput(canvasPosition, "move");

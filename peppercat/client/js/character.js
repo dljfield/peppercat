@@ -31,6 +31,8 @@ var Character = Entity.extend({
 		for (var i = 0, length = input.length; i < length; i++) {
 			if (input[i].type === "server" && input[i].id === this.id) {
 				return input[i].path;
+			} else if (input[i].type === "change_entity" && input[i].x === this.x && input[i].y === this.y) {
+				this.user = USER;
 			}
 		}
 		return false;
