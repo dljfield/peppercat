@@ -37,7 +37,7 @@ var Player = Character.extend({
 
 	processInput: function(input, scene) {
 		for (var i = 0, length = input.length; i < length; i++) {
-			if (input[i].type === 'click') {
+			if (input[i].type === 'move') {
 				var cartCoords = (function(x, y){
 					var coords = {};
 					coords.x = (2 * y + x) / 2;

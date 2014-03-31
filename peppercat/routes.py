@@ -56,6 +56,7 @@ def register():
 
 			session['email']    = newuser.email
 			session['username'] = newuser.username
+			session['user_id']  = newuser.id
 
 			return redirect(url_for('gamelist'))
 
@@ -89,7 +90,7 @@ def join_game(id):
 				location['y'] = location['y'] + 1
 
 	# place new player entity in that spot
-	db.session.add(Entity("character", "Test Character", session['username'], location['x'], location['y'], 0, 64, True, 4, scene))
+	db.session.add(Entity("character", "Test Character", session['username'], location['x'], location['y'], 0, 64, True, 3, scene))
 	db.session.commit()
 
 	# redirect the new player to the game client
@@ -117,26 +118,25 @@ def create_game():
 		db.session.commit() # we need the ID
 
 		# Create the terrain
-		terrain = '[["1","1","1","1","1","1","1","1","1","1"],["1","1","1","1","1","1","1","1","1","1"],["1","1","1","1","1","1","1","1","1","1"],["1","1","1","1","1","1","1","1","1","1"],["1","1","1","1","1","1","1","1","1","1"],["1","1","1","1","1","1","1","1","1","1"],["1","1","1","1","1","1","1","1","1","1"],["1","1","1","1","1","1","1","1","1","1"],["1","1","1","1","1","1","1","1","1","1"],["1","1","1","1","1","1","1","1","1","1"],["1","1","1","1","1","1","1","1","1","1"],["1","1","1","1","1","1","1","1","1","1"],["1","1","1","1","1","1","1","1","1","1"],["1","1","1","1","1","1","1","1","1","1"]]'
+		terrain = '[["1","1","1","1","1","1","1","1","1","1","1"],["1","1","1","1","1","1","1","1","1","1","1"],["1","1","1","1","1","1","1","1","1","1","1"],["1","1","1","1","1","1","1","1","1","1","1"],["1","1","1","1","1","1","1","1","1","1","1"],["1","1","1","1","1","1","1","1","1","1","1"],["1","1","1","1","1","1","1","1","1","1","1"],["1","1","1","1","1","1","1","1","1","1","1"],["1","1","1","1","1","1","1","1","1","1","1"],["1","1","1","1","1","1","1","1","1","1","1"],["1","1","1","1","1","1","1","1","1","1","1"],["1","1","1","1","1","1","1","1","1","1","1"],["1","1","1","1","1","1","1","1","1","1","1"],["1","1","1","1","1","1","1","1","1","1","1"],["1","1","1","1","1","1","1","1","1","1","1"]]'
 		spritelist = '[1]'
 
 		db.session.add(Terrain(terrain, spritelist, newscene.id))
 
 		# Create the entities
-		db.session.add(Entity("character", "Test Character", session['username'], 5, 5, 0, 64, True, 2, newscene.id))
-		db.session.add(Entity("object", "wall_01", None, 5, 7, 0, 158, True, 3, newscene.id))
+		db.session.add(Entity("object", "wall_01", None, 5, 10, 0, 158, True, 2, newscene.id))
+		db.session.add(Entity("object", "wall_02", None, 5, 4, 0, 158, True, 2, newscene.id))
 
 		# Create a new game
 		from datetime import datetime
-		newgame = Game(form.name.data, datetime.utcnow(), False, newscene.id)
 		user = User.query.filter_by(email = session['email']).first()
+		newgame = Game(form.name.data, datetime.utcnow(), False, newscene.id, user.id)
 		db.session.add(newgame)
 
 		# Commit the stuff
 		db.session.commit()
 
 		# associate the game with the user
-		user = User.query.filter_by(email = session['email']).first()
 		user.games.append(newgame)
 		db.session.commit()
 
@@ -211,4 +211,7 @@ def scene(scene):
 @app.route('/user')
 def getuser():
 	if 'username' in session:
-		return session['username']
+		if Game.query.filter_by(game_master = session['user_id']).first():
+			return jsonify({"user": session['username'], "type": "game_master"})
+		else:
+			return jsonify({"user": session['username'], "type": "player"})

@@ -10,21 +10,13 @@ var Engine = Class.extend({
 
     input: [],
 
-    init: function(id) {
+    init: function() {
         this.canvas   = this.createCanvas();
         this.context  = (this.canvas && this.canvas.getContext) ? this.canvas.getContext("2d") : null;
 
         this.canvas.addEventListener('click', this.handleInput.bind(this), false);
 
-        var user    = {};
-        if (id) {
-            user.id = id;
-        } else {
-            console.log("FAILURE");
-            return -1
-        }
-
-        this.scene    = new Scene(user);
+        this.scene    = new Scene();
         this.camera   = new Camera();
         this.renderer = new Renderer();
         this.network  = new Network(this);
@@ -54,7 +46,13 @@ var Engine = Class.extend({
         canvasPosition.x = ((event.clientX - this.camera.x) - this.canvas.offsetLeft) - (TILE_WIDTH / 2);
         canvasPosition.y = ((event.clientY - this.camera.y) - this.canvas.offsetTop);
 
-        this.addInput(canvasPosition, "click");
+        if (USER.type === "gamemaster" && event.altKey) {
+            this.addInput(canvasPosition, "change_entity");
+        } else {
+            this.addInput(canvasPosition, "move");
+        }
+
+
     },
 
     addInput: function(input, type) {

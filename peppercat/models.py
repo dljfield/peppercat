@@ -37,12 +37,14 @@ class Game(db.Model):
 	date          = db.Column(db.DateTime())
 	private       = db.Column(db.Boolean())
 	current_scene = db.Column(db.Integer, db.ForeignKey('scenes.id'))
+	game_master   = db.Column(db.Integer, db.ForeignKey('users.id'))
 
-	def __init__(self, name, date, private, current_scene):
+	def __init__(self, name, date, private, current_scene, game_master):
 		self.name          = name
 		self.date          = date
 		self.private       = private
 		self.current_scene = current_scene
+		self.game_master   = game_master
 
 	def __str__(self):
 		return "<Game> " + self.name
