@@ -21,6 +21,6 @@ var Entity = Class.extend({
 		this.sprite = sprite;
 	},
 
-	update: function() {};
+	update: function() {}
 
 });

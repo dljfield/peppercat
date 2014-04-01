@@ -46,12 +46,32 @@ var Engine = Class.extend({
         canvasPosition.x = ((event.clientX - this.camera.x) - this.canvas.offsetLeft) - (TILE_WIDTH / 2);
         canvasPosition.y = ((event.clientY - this.camera.y) - this.canvas.offsetTop);
 
-        if (USER.type === "game_master" && event.altKey) {
-            this.addInput(canvasPosition, "change_entity");
-        } else {
-            this.addInput(canvasPosition, "move");
+        var cartCoords = (function(x, y){
+            var coords = {};
+            coords.x = (2 * y + x) / 2;
+            coords.y = (2 * y - x) / 2;
+            return coords;
+        })(canvasPosition.x, canvasPosition.y);
+
+        var tileCoords = (function(x, y){
+            var coords = {};
+            coords.x = Math.floor(x / (TILE_WIDTH / 2));
+            coords.y = Math.floor(y / (TILE_WIDTH  / 2));
+            return coords;
+        })(cartCoords.x, cartCoords.y);
+
+        var tileType = this.scene.tileType(tileCoords);
+
+        var debug_output_type = "Ignored";
+        if (tileType === "entity" && USER.type === "game_master" && event.shiftKey) {
+            this.addInput(tileCoords, "change_entity");
+            debug_output_type = "Change Entity";
+        } else if (tileType === "terrain" && !event.shiftKey) {
+            this.addInput(tileCoords, "move");
+            debug_output_type = "Move"
         }
 
+        document.getElementById('output').innerHTML = "<p> Event type: " + debug_output_type + " | x: " + tileCoords.x + ", y: " + tileCoords.y;
 
     },
 

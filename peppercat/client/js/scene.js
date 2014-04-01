@@ -81,7 +81,7 @@ var Scene = Class.extend({
             if (scene_entities[entity].type === "character" && scene_entities[entity].user === USER.id) {
                 entities[entity] = new Player(scene_entities[entity].id, scene_entities[entity].user, scene_entities[entity].x, scene_entities[entity].y, scene_entities[entity].z, scene_entities[entity].height, scene_entities[entity].collidable, scene_entities[entity].sprite);
             } else if (scene_entities[entity].type === "character") {
-                entities[entity] = new Character(scene_entities[entity].id, scene_entities[entity].user, scene_entities[entity].x, scene_entities[entity].y, scene_entities[entity].z, scene_entities[entity].height, scene_entities[entity].collidable, scene_entities[entity].sprite);
+                entities[entity] = new Character(scene_entities[entity].id, scene_entities[entity].user, scene_entities[entity].name, scene_entities[entity].x, scene_entities[entity].y, scene_entities[entity].z, scene_entities[entity].height, scene_entities[entity].collidable, scene_entities[entity].sprite, CharacterInputComponent, CharacterPathingComponent);
             } else {
                 entities[entity] = new Entity(scene_entities[entity].id, scene_entities[entity].user, scene_entities[entity].x, scene_entities[entity].y, scene_entities[entity].z, scene_entities[entity].height, scene_entities[entity].collidable, scene_entities[entity].sprite);
             }
@@ -99,18 +99,18 @@ var Scene = Class.extend({
         this.sprites = sprites;
     },
 
-    validCoordinates: function(coords) {
+    tileType: function(coords) {
 
         if ((coords.x >= this.size.x || coords.y >= this.size.y) || (coords.x < 0 || coords.y < 0))
-            return false;
+            return "oob";
 
         for (var i = 0, len = this.entities.length; i < len; i++) {
             if (this.entities[i].x === coords.x && this.entities[i].y === coords.y && this.entities[i].collidable === true) {
-                return false;
+                return "entity";
             }
         }
 
-        return true;
+        return "terrain";
     },
 
     sceneGraph: function() {

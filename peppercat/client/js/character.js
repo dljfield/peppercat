@@ -4,6 +4,7 @@ var Character = Entity.extend({
 	y: null,
 	z: null,
 	id: null,
+	name: null,
 	user: null,
 	height: null,
 	collidable: false,
@@ -12,37 +13,28 @@ var Character = Entity.extend({
 	destination: null,
 	speed: 0.125,
 
-	init: function(id, user, x, y, z, height, collidable, sprite) {
+	init: function(id, user, name, x, y, z, height, collidable, sprite, input_component, pathing_component) {
 		this._super(id, user, x, y, z, height, collidable, sprite);
+
+		this.name          = name;
+		this.processInput  = input_component;
+		this.updatePathing = pathing_component;
 	},
 
 	update: function(input, scene, network) {
 		var processedInput = null;
 		if (input.length !== 0) {
-			processedInput = this.processInput(input, scene);
+			processedInput = this.processInput(input, scene, this);
 		}
 
-		this.updatePathing(processedInput);
+		this.updatePathing(scene, processedInput, this);
 		this.updateDestination();
 		this.updatePosition();
 	},
 
-	processInput: function(input) {
-		for (var i = 0, length = input.length; i < length; i++) {
-			if (input[i].type === "server" && input[i].id === this.id) {
-				return input[i].path;
-			} else if (input[i].type === "change_entity" && input[i].x === this.x && input[i].y === this.y) {
-				this.user = USER;
-			}
-		}
-		return false;
-	},
+	processInput: null,
 
-	updatePathing: function(input) {
-		if (input) {
-			this.path = input;
-		}
-	},
+	updatePathing: null,
 
 	updateDestination: function() {
 		if (!this.destination && this.path) {
@@ -87,5 +79,30 @@ var Character = Entity.extend({
 			}
 		}
 	},
+
+	updateServer: function(network, informServer) {
+		if (informServer) {
+			network.playerMove(this.path, this.id);
+		}
+	},
+
+	findPath: function(scene, position) {
+		var graph = scene.sceneGraph();
+
+		var x, y;
+
+		if (this.destination) {
+		    x = this.destination.x;
+		    y = this.destination.y;
+		} else {
+		    x = this.x;
+		    y = this.y;
+		}
+
+		var start = graph.nodes[y][x];
+		var end   = graph.nodes[position.y][position.x];
+
+		return astar.search(graph.nodes, start, end);
+	}
 
 });

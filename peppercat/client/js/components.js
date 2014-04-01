@@ -1,39 +1,36 @@
-var PlayerInputComponent = Class.extend({
-
-	init: function() {},
-
-	update: function(input, scene, entity) {
-		for (var i = 0, length = input.length; i < length; i++) {
-			if (input[i].type === 'move') {
-				var cartCoords = (function(x, y){
-					var coords = {};
-					coords.x = (2 * y + x) / 2;
-					coords.y = (2 * y - x) / 2;
-					return coords;
-				})(input[i].x, input[i].y);
-
-				var tileCoords = (function(x, y){
-					var coords = {};
-					coords.x = Math.floor(x / (TILE_WIDTH / 2));
-					coords.y = Math.floor(y / (TILE_WIDTH  / 2));
-					return coords;
-				})(cartCoords.x, cartCoords.y);
-
-				if (scene.validCoordinates(tileCoords)) {
-					document.getElementById('output').innerHTML = "<p> x: " + tileCoords.x + ", y: " + tileCoords.y;
-					return tileCoords;
-				}
-			}
+var PlayerInputComponent = function(input, scene, entity) {
+	for (var i = 0, length = input.length; i < length; i++) {
+		if (input[i].type === 'move') {
+			entity.updateServer();
+			return input[i];
 		}
+	}
 
-		return null;
-	},
+	return null;
+};
 
-});
+var PlayerPathingComponent = function(scene, input, entity) {
+	// if we've been given a new input, get a path for it and set the destination to the first node
+	if (scene && input) {
+		entity.path = entity.findPath(scene, {"x": input.x, "y": input.y});
+	}
+};
 
-var PlayerPathingComponent = function(scene, position, entity) {
-		// if we've been given a new position, get a path for it and set the destination to the first node
-		if (scene && position) {
-			entity.path = entity.findPath(scene, position);
+var CharacterInputComponent = function(input, scene, entity) {
+	for (var i = 0, length = input.length; i < length; i++) {
+		if (input[i].type === "server" && input[i].id === entity.id) {
+			return input[i].path;
+		} else if (input[i].type === "change_entity" && input[i].x === entity.x && input[i].y === entity.y) {
+			entity.user = USER.id;
+			entity.updatePathing = PlayerPathingComponent;
+			entity.processInput = PlayerInputComponent;
 		}
-	};
+	}
+	return false;
+};
+
+var CharacterPathingComponent = function(scene, input, entity) {
+	if (input) {
+		entity.path = input;
+	}
+};

@@ -25,6 +25,7 @@ def login():
 		else:
 			session['email']    = form.email.data
 			session['username'] = User.query.filter_by(email = session['email']).first().username
+			session['user_id']  = User.query.filter_by(email = session['email']).first().id
 			return redirect(url_for('gamelist'))
 
 # Logout
@@ -90,17 +91,11 @@ def join_game(id):
 				location['y'] = location['y'] + 1
 
 	# place new player entity in that spot
-	db.session.add(Entity("character", "Test Character", session['username'], location['x'], location['y'], 0, 64, True, 3, scene))
+	db.session.add(Entity("character", "Test Character", "charles", location['x'], location['y'], 0, 64, True, 3, scene))
 	db.session.commit()
 
 	# redirect the new player to the game client
 	return redirect(url_for('game', game = id))
-
-@app.route('/game/public')
-def public_games():
-	# show public game selection screen
-	public_games = Game.query.filter_by(private = False).all()
-	return render_template('public_games.html', gamelist = public_games)
 
 @app.route('/game/create', methods=['GET', 'POST'])
 def create_game():
@@ -141,6 +136,12 @@ def create_game():
 		db.session.commit()
 
 		return redirect(url_for('game', game = newgame.id))
+
+@app.route('/game/public')
+def public_games():
+	# show public game selection screen
+	public_games = Game.query.filter_by(private = False).all()
+	return render_template('public_games.html', gamelist = public_games)
 
 ############
 ### GAME ###
