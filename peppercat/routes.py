@@ -91,7 +91,7 @@ def join_game(id):
 				location['y'] = location['y'] + 1
 
 	# place new player entity in that spot
-	db.session.add(Entity("character", "Test Character", "charles", location['x'], location['y'], 0, 64, True, 3, scene))
+	db.session.add(Entity("character", "Test Character", session['username'], location['x'], location['y'], 0, 64, True, 3, scene))
 	db.session.commit()
 
 	# redirect the new player to the game client

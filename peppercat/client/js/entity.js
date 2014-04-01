@@ -8,7 +8,6 @@ var Entity = Class.extend({
 	height: null,
 	collidable: false,
 	sprite: null,
-	components: [],
 
 	init: function(id, user, x, y, z, height, collidable, sprite) {
 		this.x = x;
