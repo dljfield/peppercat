@@ -22,12 +22,16 @@ var Character = Entity.extend({
 	},
 
 	update: function(input, scene, network) {
-		var processedInput = null;
+		var processedInput = {};
 		if (input.length !== 0) {
 			processedInput = this.processInput(input, scene, this);
 		}
 
-		this.updatePathing(scene, processedInput, this);
+		this.updatePathing(scene, processedInput.input, this);
+
+		if (processedInput.informServer)
+			this.updateServer(network);
+
 		this.updateDestination();
 		this.updatePosition();
 	},
@@ -81,9 +85,7 @@ var Character = Entity.extend({
 	},
 
 	updateServer: function(network, informServer) {
-		if (informServer) {
-			network.playerMove(this.path, this.id);
-		}
+		network.playerMove(this.path, this.id);
 	},
 
 	findPath: function(scene, position) {

@@ -78,7 +78,8 @@ def gamelist():
 @app.route('/game/join/<path:id>')
 def join_game(id):
 	# load game data
-	scene = Game.query.filter_by(id = id).first().current_scene
+	game = Game.query.filter_by(id = id).first()
+	scene = game.current_scene
 
 	# check for a spot that is available
 	location = {"x": 5, "y": 5}
@@ -91,7 +92,11 @@ def join_game(id):
 				location['y'] = location['y'] + 1
 
 	# place new player entity in that spot
-	db.session.add(Entity("character", "Test Character", session['username'], location['x'], location['y'], 0, 64, True, 3, scene))
+	db.session.add(Entity("character", "Test Player", session['username'], location['x'], location['y'], 0, 64, True, 4, scene))
+	db.session.commit()
+
+	user = User.query.filter_by(email = session['email']).first()
+	user.games.append(game)
 	db.session.commit()
 
 	# redirect the new player to the game client
