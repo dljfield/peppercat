@@ -40,8 +40,23 @@ var Renderer = Class.extend({
                 sprite    = scene.getSprite(sortedEntities[i].sprite);
 
             if (sprite != undefined)
+                if (sortedEntities[i].user) {
+                    this.drawNameplate(context, sortedEntities[i], isoCoords);
+                }
                 this.draw(context, sprite, isoCoords.x * (TILE_WIDTH / 2), isoCoords.y * (TILE_HEIGHT / 2) - (sortedEntities[i].height - (TILE_HEIGHT / 2)));
         }
+    },
+
+    drawNameplate: function(context, entity, coords) {
+        // nameplate
+        context.fillStyle = 'rgba(0,0,0,0.5)';
+        context.fillRect(coords.x * (TILE_WIDTH / 2) - ((TILE_WIDTH / 2) / 2), (coords.y * (TILE_HEIGHT / 2) - (entity.height - (TILE_HEIGHT / 2))) - (TILE_HEIGHT / 2), 100, 25);
+
+        // text in nameplate
+        context.fillStyle = 'rgba(255,255,255,1)';
+        context.font = "12px sans-serif";
+        // context.textBaseline = "bottom";
+        context.fillText(entity.user, coords.x * (TILE_WIDTH / 2), (coords.y * (TILE_HEIGHT / 2) - (entity.height - (TILE_HEIGHT / 2))) - ((TILE_HEIGHT / 2) / 2));
     },
 
     draw: function(context, sprite, x, y) {

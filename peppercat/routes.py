@@ -126,6 +126,7 @@ def create_game():
 		# Create the entities
 		db.session.add(Entity("object", "wall_01", None, 5, 10, 0, 158, True, 2, newscene.id))
 		db.session.add(Entity("object", "wall_02", None, 5, 4, 0, 158, True, 2, newscene.id))
+		db.session.add(Entity("character", "Test Character", null, 5, 5, 0, 64, True, 3, scene))
 
 		# Create a new game
 		from datetime import datetime
