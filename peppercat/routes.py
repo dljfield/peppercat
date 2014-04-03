@@ -2,6 +2,8 @@ from peppercat import app
 from flask import request, render_template, send_from_directory, flash, session, url_for, redirect, jsonify
 from models import db, User, Game, Scene, Entity, Terrain, Sprite
 
+running_games = {}
+
 @app.route('/')
 def index():
 	return render_template('index.html')
@@ -154,13 +156,20 @@ def public_games():
 ############
 
 # The actual game
-@app.route('/game/<path:game>')
-def game(game):
+@app.route('/game/<path:id>')
+def game(id):
 	if 'email' not in session:
 		return redirect(url_for('login'))
 
-	game = Game.query.filter_by(id = game).first()
+	game = Game.query.filter_by(id = id).first()
 	session['current_scene'] = game.current_scene
+
+	from game import GameLoop
+	if id not in running_games:
+		running_games[id] = GameLoop()
+		running_games[id].set_print_out(session['username'])
+	else:
+		running_games[id].stop()
 
 	return render_template('game.html', game = game)
 

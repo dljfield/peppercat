@@ -55,7 +55,6 @@ var Renderer = Class.extend({
         // text in nameplate
         context.fillStyle = 'rgba(255,255,255,1)';
         context.font = "12px sans-serif";
-        // context.textBaseline = "bottom";
         context.fillText(entity.user, coords.x * (TILE_WIDTH / 2), (coords.y * (TILE_HEIGHT / 2) - (entity.height - (TILE_HEIGHT / 2))) - ((TILE_HEIGHT / 2) / 2));
     },
 

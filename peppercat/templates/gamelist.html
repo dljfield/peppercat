@@ -14,7 +14,7 @@
 	{% if gamelist %}
 		<ul>
 		{% for game in gamelist %}
-			<li><a href="{{ url_for('game', game = game.id) }}">{{ game.name }}</a></li>
+			<li><a href="{{ url_for('game', id = game.id) }}">{{ game.name }}</a></li>
 		{% endfor %}
 		</ul>
 	{% endif %}
