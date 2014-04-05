@@ -179,7 +179,7 @@ def game(id):
 def stopGame(id):
 	if id in running_games:
 		running_games[id]['queue'].put({'type': "stop", 'input': True})
-		return "Stopped game: %i".format(id)
+		return "Game Stopped"
 
 @app.route('/scene/')
 def session_scene():

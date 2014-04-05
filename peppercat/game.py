@@ -1,35 +1,4 @@
-# http://sdiehl.github.io/gevent-tutorial/
-# http://stackoverflow.com/questions/5179467/equivalent-of-setinterval-in-python
-
-# JavaScript style setInterval
-# because I am a fool and didn't run the whole server in an event loop to start with
-
-# def setInterval(interval, times = -1):
-#     # This will be the actual decorator,
-#     # with fixed interval and times parameter
-#     def outer_wrap(function):
-#         # This will be the function to be
-#         # called
-#         def wrap(*args, **kwargs):
-#             stop = threading.Event()
-
-#             # This is another function to be executed
-#             # in a different thread to simulate setInterval
-#             def inner_wrap():
-#                 i = 0
-#                 while i != times and not stop.isSet():
-#                     stop.wait(interval)
-#                     function(*args, **kwargs)
-#                     i += 1
-
-#             t = threading.Timer(0, inner_wrap)
-#             t.daemon = True
-#             t.start()
-#             return stop
-#         return wrap
-#     return outer_wrap
-
-import threading, Queue
+import threading, Queue, time, datetime
 class GameLoop(threading.Thread):
 
 	def __init__(self, users = None, entities = None, queue = None):
@@ -42,18 +11,32 @@ class GameLoop(threading.Thread):
 		self.alive.set()
 
 	def run(self):
+		self.previous_time = time.time()
+		self.lag = 0
 		while self.alive.isSet():
+			current_time = time.time()
+			elapsed_time = current_time - self.previous_time
+			self.previous_time = current_time
+			self.lag += elapsed_time
+
 			try:
-				# Queue.get with timeout to allow checking self.alive
-				input = self.queue.get(True, 0.03)
-				if input['type'] == "stop" and input['input'] == True:
-					self.alive.clear()
-					print "stopping thread (hopefully)"
-					break
-				elif input['type'] == "print":
-					print input['input']
-				else:
-					self.updateEntities(input)
+				while self.lag >= (1.0 / 30):
+					print elapsed_time
+					print self.lag
+					print "Minusing lag"
+					self.lag -= (1.0 / 30)
+					print self.lag
+					print "\n"
+					input = self.queue.get(True, 0.01)
+					if input['type'] == "stop" and input['input'] == True:
+						self.alive.clear()
+						print "stopping thread (hopefully)"
+						break
+					elif input['type'] == "print":
+						print input['input']
+					else:
+						self.updateEntities(input)
+
 			except Queue.Empty as e:
 				continue
 
@@ -93,23 +76,23 @@ class Entity():
 	def updatePosition(self):
 		if self.destination:
 			if self.x < self.destination.x:
-				if self.destination.x - self.x <= self.speed * 8:
+				if self.destination.x - self.x <= self.speed:
 					self.x = self.destination.x
 				else:
-					self.x += self.speed * 8
+					self.x += self.speed
 			elif self.x > self.destination.x:
-				if self.x - self.destination.x <= self.speed * 8:
+				if self.x - self.destination.x <= self.speed:
 					self.x = self.destination.x;
 				else:
-					self.x -= self.speed * 8;
+					self.x -= self.speed;
 
 			if self.y < self.destination.y:
-				if self.destination.y - self.y <= self.speed * 8:
+				if self.destination.y - self.y <= self.speed:
 					self.y = self.destination.y
 				else:
-					self.y += self.speed * 8
+					self.y += self.speed
 			elif self.y > self.destination.y:
-				if self.y - self.destination.y <= self.speed * 8:
+				if self.y - self.destination.y <= self.speed:
 					self.y = self.destination.y
 				else:
-					self.y -= self.speed * 8
+					self.y -= self.speed
