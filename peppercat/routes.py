@@ -167,11 +167,10 @@ def game(id):
 	import game, Queue
 	if id not in running_games:
 		queue = Queue.Queue()
-		running_games[id] = {'game': game.GameLoop(None, None, queue), 'queue': queue}
-		running_games[id]['queue'].put({'type': "print", 'input': "death to america"})
+		running_games[id] = {'game': game.GameLoop(session['username'], None, queue), 'queue': queue}
 		running_games[id]['game'].start()
 	else:
-		running_games[id]['queue'].put({'type': "stop", 'input': True})
+		running_games[id]['queue'].put({'type': "add_user", 'input': session['username']})
 
 	return render_template('game.html', game = game)
 

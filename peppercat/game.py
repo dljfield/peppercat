@@ -1,11 +1,13 @@
 import threading, Queue, time, datetime
 class GameLoop(threading.Thread):
 
-	def __init__(self, users = None, entities = None, queue = None):
+	def __init__(self, initial_user = None, entities = None, queue = None):
 		super(GameLoop, self).__init__()
 		self.queue = queue
 		self.entities = entities
-		self.users = users
+
+		self.users = []
+		self.users.append(initial_user)
 
 		self.alive = threading.Event()
 		self.alive.set()
@@ -13,32 +15,28 @@ class GameLoop(threading.Thread):
 	def run(self):
 		self.previous_time = time.time()
 		self.lag = 0
+
 		while self.alive.isSet():
-			current_time = time.time()
-			elapsed_time = current_time - self.previous_time
-			self.previous_time = current_time
-			self.lag += elapsed_time
-
 			try:
-				while self.lag >= (1.0 / 30):
-					print elapsed_time
-					print self.lag
-					print "Minusing lag"
-					self.lag -= (1.0 / 30)
-					print self.lag
-					print "\n"
-					input = self.queue.get(True, 0.01)
-					if input['type'] == "stop" and input['input'] == True:
-						self.alive.clear()
-						print "stopping thread (hopefully)"
-						break
-					elif input['type'] == "print":
-						print input['input']
-					else:
-						self.updateEntities(input)
-
+				self.update()
 			except Queue.Empty as e:
 				continue
+
+	def update():
+		current_time = time.time()
+		elapsed_time = current_time - self.previous_time
+		self.previous_time = current_time
+		self.lag += elapsed_time
+
+		while self.lag >= (1.0 / 30):
+			self.lag -= (1.0 / 30)
+			input = self.queue.get(True, 0.01)
+			if input['type'] == "stop" and input['input'] == True:
+				self.alive.clear()
+				print "stopping thread (hopefully)"
+				break
+			else:
+				self.updateEntities(input)
 
 	def updateEntities(self, input):
 		for entity in self.entities:
