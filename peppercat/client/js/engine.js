@@ -10,6 +10,9 @@ var Engine = Class.extend({
 
     input: [],
 
+    previous_time: Date.now(),
+    lag: 0,
+
     init: function() {
         this.canvas   = this.createCanvas();
         this.context  = (this.canvas && this.canvas.getContext) ? this.canvas.getContext("2d") : null;
@@ -27,8 +30,16 @@ var Engine = Class.extend({
     tick: function() {
         var entities = this.scene.getEntities();
 
-        for (var i = 0, len = entities.length; i < len; i++) {
-            entities[i].update(this.input, this.scene, this.network);
+        var current_time = Date.now();
+        var elapsed_time = current_time - this.previous_time;
+        this.previous_time = current_time;
+        this.lag += elapsed_time;
+
+        while (this.lag >= UPDATE_INTERVAL) {
+            for (var i = 0, len = entities.length; i < len; i++) {
+                entities[i].update(this.input, this.scene, this.network);
+            }
+            this.lag -= UPDATE_INTERVAL;
         }
 
         this.scene.setEntities(entities);

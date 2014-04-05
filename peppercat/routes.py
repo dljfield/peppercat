@@ -164,15 +164,20 @@ def game(id):
 	game = Game.query.filter_by(id = id).first()
 	session['current_scene'] = game.current_scene
 
-	from game import GameLoop
-	if id not in running_games:
-		running_games[id] = GameLoop()
-		running_games[id].set_print_out(session['username'])
-	else:
-		running_games[id].stop()
+	# from game import GameLoop
+	# if id not in running_games:
+	# 	running_games[id] = GameLoop(None, None)
+	# 	running_games[id].set_print_out(session['username'])
+	# else:
+	# 	running_games[id].stop()
 
 	return render_template('game.html', game = game)
 
+@app.route('/stop/<path:id>')
+def stopGame(id):
+	if id in running_games:
+		running_games[id].stop()
+		return "Stopped game: %i".format(id)
 
 @app.route('/scene/')
 def session_scene():

@@ -29,7 +29,7 @@ def setInterval(interval, times = -1):
         return wrap
     return outer_wrap
 
-
+from datetime import datetime
 class GameLoop():
 
 	users = {}
@@ -37,13 +37,12 @@ class GameLoop():
 
 	print_out = []
 
-	def __init__(self):
+	def __init__(self, users, entities):
 		self.stopper = self.tick() # run the game loop
 
-	@setInterval((1000 / 30) / 8)
+	@setInterval(1)
 	def tick(self, *args):
 		self.updateEntities()
-	    print self.print_out
 
 	def updateEntities(self):
 		for entity in self.entities:
@@ -61,7 +60,7 @@ class Entity():
 	y = None
 	id = None
 	path = []
-	destination = {"x": None, "y": None}
+	destination = {'x': None, 'y': None}
 	speed = 0.125
 
 	def __init__(self, x, y, id):
@@ -79,7 +78,7 @@ class Entity():
 			self.path = path
 
 	def updateDestination(self):
-		if !self.destination and self.path:
+		if not self.destination and self.path:
 			self.destination = self.path.pop(0)
 
 		if self.destination and self.x == self.destination.x and self.y == self.destination.y:
@@ -87,24 +86,24 @@ class Entity():
 
 	def updatePosition(self):
 		if self.destination:
-			if self.x < self.destination.x
+			if self.x < self.destination.x:
 				if self.destination.x - self.x <= self.speed:
 					self.x = self.destination.x
 				else:
-					self.x += self.speed
-			else if self.x > self.destination.x:
+					self.x += self.speed * 8
+			elif self.x > self.destination.x:
 				if self.x - self.destination.x <= self.speed:
 					self.x = self.destination.x;
 				else:
-					self.x -= self.speed;
+					self.x -= self.speed * 8;
 
 			if self.y < self.destination.y:
 				if self.destination.y - self.y <= self.speed:
 					self.y = self.destination.y
 				else:
-					self.y += self.speed
-			else if self.y > self.destination.y:
+					self.y += self.speed * 8
+			elif self.y > self.destination.y:
 				if self.y - self.destination.y <= self.speed:
 					self.y = self.destination.y
 				else:
-					self.y -= self.speed
+					self.y -= self.speed * 8
