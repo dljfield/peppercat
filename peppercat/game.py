@@ -32,15 +32,22 @@ def setInterval(interval, times = -1):
 
 class GameLoop():
 
+	users = {}
+	entities = {}
+
 	print_out = []
 
 	def __init__(self):
-		# self.print_out = ""
-		self.stopper = self.tick('tick')
+		self.stopper = self.tick() # run the game loop
 
-	@setInterval(1)
-	def tick(self, *args, **kwargs): ## what even is.. I don't know, it just makes it work :x
+	@setInterval((1000 / 30) / 8)
+	def tick(self, *args):
+		self.updateEntities()
 	    print self.print_out
+
+	def updateEntities(self):
+		for entity in self.entities:
+			entity.update()
 
 	def set_print_out(self, message):
 		self.print_out.append(message)
@@ -49,3 +56,55 @@ class GameLoop():
 		print "stopping"
 		self.stopper.set()
 
+class Entity():
+	x = None
+	y = None
+	id = None
+	path = []
+	destination = {"x": None, "y": None}
+	speed = 0.125
+
+	def __init__(self, x, y, id):
+		self.x  = x
+		self.y  = y
+		self.id = id
+
+	def update(self):
+		self.updatePathing()
+		self.updateDestination()
+		self.updatePosition()
+
+	def updatePathing(self, path):
+		if path:
+			self.path = path
+
+	def updateDestination(self):
+		if !self.destination and self.path:
+			self.destination = self.path.pop(0)
+
+		if self.destination and self.x == self.destination.x and self.y == self.destination.y:
+			self.destination = self.path.pop(0)
+
+	def updatePosition(self):
+		if self.destination:
+			if self.x < self.destination.x
+				if self.destination.x - self.x <= self.speed:
+					self.x = self.destination.x
+				else:
+					self.x += self.speed
+			else if self.x > self.destination.x:
+				if self.x - self.destination.x <= self.speed:
+					self.x = self.destination.x;
+				else:
+					self.x -= self.speed;
+
+			if self.y < self.destination.y:
+				if self.destination.y - self.y <= self.speed:
+					self.y = self.destination.y
+				else:
+					self.y += self.speed
+			else if self.y > self.destination.y:
+				if self.y - self.destination.y <= self.speed:
+					self.y = self.destination.y
+				else:
+					self.y -= self.speed
