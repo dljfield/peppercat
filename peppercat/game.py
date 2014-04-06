@@ -1,13 +1,22 @@
 import threading, Queue, time, datetime
+
+UPDATE_INTERVAL = (1.0 / 30)
+
 class GameLoop(threading.Thread):
 
-	def __init__(self, initial_user = None, entities = None, queue = None):
+	def __init__(self, initial_user = None, entities = None, scene = None, queue = None):
 		super(GameLoop, self).__init__()
 		self.queue = queue
-		self.entities = entities
 
-		self.users = []
-		self.users.append(initial_user)
+		self.scene = scene
+		self.entities = {}
+
+		for entity in entities:
+			print "ADDING ENTITIES"
+			self.entities[entity.id] = Entity(entity.x, entity.y)
+
+		self.users = {}
+		self.users[initial_user['id']] = initial_user['username']
 
 		self.alive = threading.Event()
 		self.alive.set()
@@ -17,48 +26,58 @@ class GameLoop(threading.Thread):
 		self.lag = 0
 
 		while self.alive.isSet():
-			try:
-				self.update()
-			except Queue.Empty as e:
-				continue
+			self.update()
 
-	def update():
+	def update(self):
 		current_time = time.time()
 		elapsed_time = current_time - self.previous_time
 		self.previous_time = current_time
 		self.lag += elapsed_time
 
-		while self.lag >= (1.0 / 30):
-			self.lag -= (1.0 / 30)
-			input = self.queue.get(True, 0.01)
-			if input['type'] == "stop" and input['input'] == True:
-				self.alive.clear()
-				print "stopping thread (hopefully)"
-				break
-			else:
-				self.updateEntities(input)
+		while self.lag >= UPDATE_INTERVAL:
+			try:
+				input = self.queue.get(True, 0.01) # One input per frame. Same limit exists on the client-side really
+												   # but it shouldn't affect the responsiveness of things for now
+				self.lag -= UPDATE_INTERVAL 	   # given how few inputs there actually are
+
+				if input['type'] == 'add_user':
+					print "Adding user: " + input['username']
+					self.users[input['user_id']] = input['username']
+
+				if input['type'] == 'remove_user':
+					del self.users[input['user_id']]
+
+				if input['type'] == "stop" and input['input'] == True:
+					self.alive.clear()
+					print "stopping thread (hopefully)"
+					break
+				else:
+					print "Updating entities"
+					self.updateEntities(input)
+
+			except Queue.Empty as e:
+				continue
 
 	def updateEntities(self, input):
 		for entity in self.entities:
-			entity.update()
+			print "IN ENTITY LOOP"
+			entity.update(input)
 
 class Entity():
 	x = None
 	y = None
-	id = None
 	path = []
 	destination = {'x': None, 'y': None}
 	speed = 0.125
 
-	def __init__(self, x, y, id):
+	def __init__(self, x, y):
 		self.x  = x
 		self.y  = y
-		self.id = id
 
-	def update(self):
-		self.updatePathing()
-		self.updateDestination()
-		self.updatePosition()
+	def update(self, input):
+		self.updatePathing(input)
+		self.updateDestination(input)
+		self.updatePosition(input)
 
 	def updatePathing(self, path):
 		if path:

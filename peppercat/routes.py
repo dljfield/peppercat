@@ -166,11 +166,15 @@ def game(id):
 
 	import game, Queue
 	if id not in running_games:
+
+		scene = Game.query.filter_by(id = id).first().current_scene
+		entities = Scene.query.filter_by(id = scene).first().entities
+
 		queue = Queue.Queue()
-		running_games[id] = {'game': game.GameLoop(session['username'], None, queue), 'queue': queue}
+		running_games[id] = {'game': game.GameLoop({'id': session['user_id'], 'username': session['username']}, entities, scene, queue), 'queue': queue}
 		running_games[id]['game'].start()
 	else:
-		running_games[id]['queue'].put({'type': "add_user", 'input': session['username']})
+		running_games[id]['queue'].put({'type': "add_user", 'input': {'id': session['user_id'], 'username': session['username']}})
 
 	return render_template('game.html', game = game)
 
