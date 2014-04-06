@@ -168,7 +168,7 @@ def game(id):
 	if id not in running_games:
 
 		scene = Game.query.filter_by(id = id).first().current_scene
-		entities = Scene.query.filter_by(id = scene).first().entities
+		entities = Entity.query.filter_by(scene = scene).all()
 
 		queue = Queue.Queue()
 		running_games[id] = {'game': game.GameLoop({'id': session['user_id'], 'username': session['username']}, entities, scene, queue), 'queue': queue}

@@ -41,8 +41,8 @@ class GameLoop(threading.Thread):
 				self.lag -= UPDATE_INTERVAL 	   # given how few inputs there actually are
 
 				if input['type'] == 'add_user':
-					print "Adding user: " + input['username']
-					self.users[input['user_id']] = input['username']
+					print "Adding user: " + input['input']['username']
+					self.users[input['input']['id']] = input['input']['username']
 
 				if input['type'] == 'remove_user':
 					del self.users[input['user_id']]
