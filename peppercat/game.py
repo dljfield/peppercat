@@ -44,24 +44,23 @@ class GameLoop(threading.Thread):
 					print "Adding user: " + input['input']['username']
 					self.users[input['input']['id']] = input['input']['username']
 
-				if input['type'] == 'remove_user':
+				elif input['type'] == 'remove_user':
 					del self.users[input['user_id']]
 
-				if input['type'] == "stop" and input['input'] == True:
+				elif input['type'] == "stop" and input['input'] == True:
 					self.alive.clear()
 					print "stopping thread (hopefully)"
 					break
-				else:
-					print "Updating entities"
-					self.updateEntities(input)
+				# else:
+				print "Updating entities"
+				self.updateEntities(input)
 
 			except Queue.Empty as e:
 				continue
 
 	def updateEntities(self, input):
 		for entity in self.entities:
-			print "IN ENTITY LOOP"
-			entity.update(input)
+			self.entities[entity].update(input)
 
 class Entity():
 	x = None
@@ -79,18 +78,18 @@ class Entity():
 		self.updateDestination(input)
 		self.updatePosition(input)
 
-	def updatePathing(self, path):
-		if path:
-			self.path = path
+	def updatePathing(self, input):
+		if input:
+			self.path = input
 
-	def updateDestination(self):
+	def updateDestination(self, input):
 		if not self.destination and self.path:
 			self.destination = self.path.pop(0)
 
 		if self.destination and self.x == self.destination.x and self.y == self.destination.y:
 			self.destination = self.path.pop(0)
 
-	def updatePosition(self):
+	def updatePosition(self, input):
 		if self.destination:
 			if self.x < self.destination.x:
 				if self.destination.x - self.x <= self.speed:
