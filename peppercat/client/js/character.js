@@ -85,7 +85,7 @@ var Character = Entity.extend({
 	},
 
 	updateServer: function(network, informServer) {
-		network.playerMove(this.path, this.id);
+		network.playerMove(this.path, this.user);
 	},
 
 	findPath: function(scene, position) {

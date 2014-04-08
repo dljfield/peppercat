@@ -181,6 +181,7 @@ def game(id):
 def stopGame(id):
 	if id in running_games:
 		running_games[id]['queue'].put({'type': "stop", 'input': True})
+		del running_games[id]
 		return "Game Stopped"
 
 @app.route('/scene/')
@@ -249,7 +250,6 @@ from flask.ext.socketio import emit
 
 @socketio.on('player_move', namespace = '/game')
 def player_move(data):
-
 	if data['game_id']:
 		running_games[data['game_id']]['queue'].put({'type': 'player_move', 'input': data})
 
