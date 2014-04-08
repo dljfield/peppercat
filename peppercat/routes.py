@@ -169,18 +169,19 @@ def game(id):
 		scene = Game.query.filter_by(id = id).first().current_scene
 		entities = Entity.query.filter_by(scene = scene).all()
 
-		queue = Queue.Queue()
-		running_games[id] = {'game': game.GameLoop({'id': session['user_id'], 'username': session['username']}, entities, scene, queue), 'queue': queue}
+		input_queue = Queue.Queue()
+		reply_queue = Queue.Queue()
+		running_games[id] = {'game': game.GameLoop({'id': session['user_id'], 'username': session['username']}, entities, scene, input_queue, reply_queue), 'input_queue': input_queue, 'reply_queue': reply_queue}
 		running_games[id]['game'].start()
 	else:
-		running_games[id]['queue'].put({'type': "add_user", 'input': {'id': session['user_id'], 'username': session['username']}})
+		running_games[id]['input_queue'].put({'type': "add_user", 'input': {'id': session['user_id'], 'username': session['username']}})
 
 	return render_template('game.html', current_game = current_game)
 
 @app.route('/stop/<path:id>')
 def stopGame(id):
 	if id in running_games:
-		running_games[id]['queue'].put({'type': "stop", 'input': True})
+		running_games[id]['input_queue'].put({'type': "stop", 'input': True})
 		del running_games[id]
 		return "Game Stopped"
 

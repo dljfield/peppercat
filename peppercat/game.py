@@ -6,9 +6,10 @@ UPDATE_INTERVAL = (1.0 / 30)
 
 class GameLoop(threading.Thread):
 
-	def __init__(self, initial_user = None, entities = None, scene = None, queue = None):
+	def __init__(self, initial_user = None, entities = None, scene = None, input_queue = None, reply_queue = None):
 		super(GameLoop, self).__init__()
-		self.queue = queue
+		self.input_queue = input_queue
+		self.reply_queue = reply_queue
 
 		self.scene = scene
 		self.entities = {}
@@ -38,7 +39,7 @@ class GameLoop(threading.Thread):
 		while self.lag >= UPDATE_INTERVAL:
 			input = None
 			try:
-				input = self.queue.get(True, 0.01)
+				input = self.input_queue.get(True, 0.01)
 
 			except Queue.Empty as e:
 				pass
