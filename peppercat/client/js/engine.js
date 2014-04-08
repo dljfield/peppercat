@@ -1,5 +1,7 @@
 var Engine = Class.extend({
 
+    game_id: null,
+
     canvas: null,
     context: null,
 
@@ -14,6 +16,8 @@ var Engine = Class.extend({
     lag: 0,
 
     init: function() {
+        this.game_id = document.getElementsByTagName('meta')[1].getAttribute('content');
+
         this.canvas   = this.createCanvas();
         this.context  = (this.canvas && this.canvas.getContext) ? this.canvas.getContext("2d") : null;
 

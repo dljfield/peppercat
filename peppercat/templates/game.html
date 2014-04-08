@@ -1,10 +1,12 @@
 {% extends "layout.html" %}
 {% block content %}
 
+    <meta name="game_id" content="{{ current_game.id }}">
+
     <p><strong>User:</strong> {{ session['username'] }}</p>
     <a href="{{ url_for('logout') }}">log yoself out</a>
 
-    <p class="current_game"><strong>Current Game:</strong> {{ game.name }} </p>
+    <p class="current_game"><strong>Current Game:</strong> {{ current_game.name }} </p>
     <p><a href="{{ url_for('gamelist') }}">Game List</a></p>
 
     <!-- CANVAS -->

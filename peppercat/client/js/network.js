@@ -20,10 +20,11 @@ var Network = Class.extend({
 		}.bind(this));
 	},
 
-	playerMove: function(path, id) {
+	playerMove: function(path, user_id) {
 		if (path && id) {
 			this.gameSocket.emit('player_move', {
-				'id': id,
+				'game_id': this.engine.game_id,
+				'user_id': id,
 				'path': path
 			});
 		}

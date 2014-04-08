@@ -161,12 +161,11 @@ def game(id):
 	if 'email' not in session:
 		return redirect(url_for('login'))
 
-	game = Game.query.filter_by(id = id).first()
-	session['current_scene'] = game.current_scene
+	current_game = Game.query.filter_by(id = id).first()
+	session['current_scene'] = current_game.current_scene
 
 	import game, Queue
 	if id not in running_games:
-
 		scene = Game.query.filter_by(id = id).first().current_scene
 		entities = Entity.query.filter_by(scene = scene).all()
 
@@ -176,7 +175,7 @@ def game(id):
 	else:
 		running_games[id]['queue'].put({'type': "add_user", 'input': {'id': session['user_id'], 'username': session['username']}})
 
-	return render_template('game.html', game = game)
+	return render_template('game.html', current_game = current_game)
 
 @app.route('/stop/<path:id>')
 def stopGame(id):
@@ -241,3 +240,18 @@ def getuser():
 			return jsonify({"user": session['username'], "type": "game_master"})
 		else:
 			return jsonify({"user": session['username'], "type": "player"})
+
+
+########### SOCKETS ##############
+
+from peppercat import socketio
+from flask.ext.socketio import emit
+
+@socketio.on('player_move', namespace = '/game')
+def player_move(data):
+
+	if data['game_id']:
+		running_games[data['game_id']]['queue'].put({'type': 'player_move', 'input': data})
+
+	data['type'] = 'server'
+	emit('player_move', data, broadcast = True)

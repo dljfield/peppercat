@@ -13,7 +13,8 @@ class GameLoop(threading.Thread):
 
 		for entity in entities:
 			print "ADDING ENTITIES"
-			self.entities[entity.id] = Entity(entity.x, entity.y)
+			print entity.user
+			self.entities[entity.id] = Entity(entity.user, entity.x, entity.y)
 
 		self.users = {}
 		self.users[initial_user['id']] = initial_user['username']
@@ -36,9 +37,9 @@ class GameLoop(threading.Thread):
 
 		while self.lag >= UPDATE_INTERVAL:
 			try:
-				input = self.queue.get(True, 0.01) # One input per frame. Same limit exists on the client-side really
-												   # but it shouldn't affect the responsiveness of things for now
-				self.lag -= UPDATE_INTERVAL 	   # given how few inputs there actually are
+				input = self.queue.get(True, 0.01) # One input per frame. Similar limit exists on the client-side really
+												   # but it shouldn't affect the responsiveness of things for now,
+				self.lag -= UPDATE_INTERVAL 	   # given how few inputs there actually are.
 
 				if input['type'] == 'add_user':
 					print "Adding user: " + input['input']['username']
@@ -51,9 +52,9 @@ class GameLoop(threading.Thread):
 					self.alive.clear()
 					print "stopping thread (hopefully)"
 					break
-				# else:
-				print "Updating entities"
-				self.updateEntities(input)
+				else:
+					print "Updating entities"
+					self.updateEntities(input)
 
 			except Queue.Empty as e:
 				continue
@@ -63,34 +64,43 @@ class GameLoop(threading.Thread):
 			self.entities[entity].update(input)
 
 class Entity():
+	user_id = None
 	x = None
 	y = None
 	path = []
-	destination = {'x': None, 'y': None}
+	destination = {}
 	speed = 0.125
 
-	def __init__(self, x, y):
+	def __init__(self, user_id, x, y):
+		self.user_id = user_id
 		self.x  = x
 		self.y  = y
 
 	def update(self, input):
-		self.updatePathing(input)
-		self.updateDestination(input)
-		self.updatePosition(input)
+		print "we inside an entity"
+		if input['input']['user_id'] and input['input']['user_id'] == self.user_id:
+			print "entity likes it"
+			self.updatePathing(input)
+			self.updateDestination()
+			self.updatePosition()
 
 	def updatePathing(self, input):
-		if input:
-			self.path = input
+		if input['type'] == 'player_move':
+			print "updating pathing"
+			self.path = input['input']['path']
 
-	def updateDestination(self, input):
-		if not self.destination and self.path:
+	def updateDestination(self):
+		if (not self.destination.x or not self.destination.y) and self.path:
+			print "setting first destination"
 			self.destination = self.path.pop(0)
 
-		if self.destination and self.x == self.destination.x and self.y == self.destination.y:
+		if (self.destination.x and self.x == self.destination.x) and (self.destination.y and self.y == self.destination.y):
+			print "setting next destination"
 			self.destination = self.path.pop(0)
 
-	def updatePosition(self, input):
-		if self.destination:
+	def updatePosition(self):
+		if self.destination.x and self.destination.y:
+			print "updating position"
 			if self.x < self.destination.x:
 				if self.destination.x - self.x <= self.speed:
 					self.x = self.destination.x
