@@ -17,7 +17,7 @@ class GameLoop(threading.Thread):
 		self.entities = {}
 
 		for entity in entities:
-			self.entities[entity.id] = Entity(entity.user, entity.x, entity.y)
+			self.entities[entity.id] = Entity(entity.id, entity.user, entity.x, entity.y)
 
 		self.users = {}
 		self.users[initial_user['id']] = initial_user['username']
@@ -76,9 +76,11 @@ class GameLoop(threading.Thread):
 			entity_json = {"user_id": the_entity.user_id, "x": the_entity.x, "y": the_entity.y, "path": the_entity.path, "destination": the_entity.destination}
 			entity_list[entity] = entity_json
 
+		print "returning entities"
 		self.reply_queue.put(entity_list)
 
 class Entity():
+	id = None
 	user_id = None
 	x = None
 	y = None
@@ -86,7 +88,8 @@ class Entity():
 	destination = None
 	speed = 0.125
 
-	def __init__(self,user_id, x, y):
+	def __init__(self, entity_id, user_id, x, y):
+		self.id = entity_id
 		self.user_id = user_id
 		self.x  = x
 		self.y  = y
@@ -98,7 +101,7 @@ class Entity():
 		self.updatePosition()
 
 	def processInput(self, input):
-		if input and input['input']['user'] and input['input']['user'] == self.user_id:
+		if input and input['input']['entity_id'] and input['input']['entity_id'] == self.id:
 			return input
 		else:
 			return None

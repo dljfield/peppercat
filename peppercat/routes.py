@@ -273,11 +273,3 @@ def player_move(data):
 
 	data['type'] = 'server'
 	emit('player_move', data, broadcast = True)
-
-@socketio.on('change_entity', namespace = '/game')
-def change_entity(data):
-	if data['game_id']:
-		running_games[data['game_id']]['input_queue'].put({'type': 'change_entity', 'input': data})
-
-	data['type'] = 'server_change_entity'
-	emit('change_entity', data, broadcast = True)

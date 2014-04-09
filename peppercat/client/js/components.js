@@ -7,8 +7,6 @@ var PlayerInputComponent = function(input, scene, entity, network) {
 			entity.user          = null;
 			entity.updatePathing = CharacterPathingComponent;
 			entity.processInput  = CharacterInputComponent;
-
-			network.changeEntity(entity.user, entity.x, entity.y);
 		}
 	}
 	return false;
@@ -23,19 +21,13 @@ var PlayerPathingComponent = function(scene, input, entity) {
 
 var CharacterInputComponent = function(input, scene, entity, network) {
 	for (var i = 0, length = input.length; i < length; i++) {
-		if (input[i].type === "server" && input[i].user === entity.user) {
+		if (input[i].type === "server" && input[i].entity_id === entity.id) {
 			return {"input": input[i].path};
 		} else if ((input[i].type === "change_entity" || input[i].type === "server_change_entity") && input[i].x === entity.x && input[i].y === entity.y && !entity.user) {
 			// GM changing to this entity
-			if (input[i].user) {
-				entity.user = input[i].user
-			} else {
-				entity.user = USER.id;
-				entity.updatePathing = PlayerPathingComponent;
-				entity.processInput  = PlayerInputComponent;
-			}
-
-			network.changeEntity(entity.user, entity.x, entity.y);
+			entity.user = USER.id;
+			entity.updatePathing = PlayerPathingComponent;
+			entity.processInput  = PlayerInputComponent;
 		}
 	}
 	return false;

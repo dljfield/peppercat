@@ -26,25 +26,14 @@ var Network = Class.extend({
 		}.bind(this));
 	},
 
-	playerMove: function(path, user) {
-		if (path && id) {
+	playerMove: function(path, entity_id) {
+		if (path && entity_id) {
 			this.gameSocket.emit('player_move', {
 				'game_id': this.engine.game_id,
-				'user': user,
+				'entity_id': entity_id,
 				'path': path
 			});
 		}
 	},
-
-	changeEntity: function(user, x, y) {
-		if (user && x && y) {
-			this.gameSocket.emit('change_entity', {
-				'game_id': this.engine.game_id,
-				'user': user,
-				'x': x,
-				'y': y
-			});
-		}
-	}
 
 });
