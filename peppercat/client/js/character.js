@@ -30,7 +30,7 @@ var Character = Entity.extend({
 	update: function(input, scene, network) {
 		var processedInput = {};
 		if (input.length !== 0) {
-			processedInput = this.processInput(input, scene, this);
+			processedInput = this.processInput(input, scene, this, network);
 		}
 
 		this.updatePathing(scene, processedInput.input, this);

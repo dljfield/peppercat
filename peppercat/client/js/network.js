@@ -8,7 +8,6 @@ var Network = Class.extend({
 	init: function(engine) {
 		this.server     = 'http://' + document.domain + ':' + location.port;
 		this.gameSocket = io.connect(this.server + '/game');
-		this.fuckYouSocket = io.connect(this.server)
 
 		this.engine = engine;
 
@@ -21,9 +20,10 @@ var Network = Class.extend({
 			console.log(data);
 		}.bind(this));
 
-		this.fuckYouSocket.on('entity_update', function(data) {
+		this.gameSocket.on('change_entity', function(data) {
+			this.engine.addInput(data);
 			console.log(data);
-		});
+		}.bind(this));
 	},
 
 	playerMove: function(path, user) {
@@ -35,5 +35,16 @@ var Network = Class.extend({
 			});
 		}
 	},
+
+	changeEntity: function(user, x, y) {
+		if (user && x && y) {
+			this.gameSocket.emit('change_entity', {
+				'game_id': this.engine.game_id,
+				'user': user,
+				'x': x,
+				'y': y
+			});
+		}
+	}
 
 });
