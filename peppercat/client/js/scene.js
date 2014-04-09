@@ -34,7 +34,7 @@ var Scene = Class.extend({
     },
 
     // THIS NETWORK STUFF SHOULD BE MOVED TO NETWORK.JS
-    getSceneJSON: function(scene) {
+    getSceneJSON: function(game) {
         if (window.XMLHttpRequest) {
             httpRequest = new XMLHttpRequest();
             httpRequest.onreadystatechange = function() {
@@ -53,11 +53,8 @@ var Scene = Class.extend({
                     }
                 }
             }.bind(this);
-            if (scene)
-                httpRequest.open('GET', 'http://' + document.domain + ':' + location.port + '/scene/' + scene, false);
-            else
-                httpRequest.open('GET', 'http://' + document.domain + ':' + location.port + '/scene', false);
 
+            httpRequest.open('GET', 'http://' + document.domain + ':' + location.port + '/scene/' + game, false);
             httpRequest.send();
         } else {
             alert("You need to update your browser.");

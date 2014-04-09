@@ -53,6 +53,9 @@ class GameLoop(threading.Thread):
 			elif input and input['type'] == 'remove_user':
 				del self.users[input['user_id']]
 
+			elif input and input['type'] == 'get_entities':
+				self.returnEntities()
+
 			elif input and input['type'] == "stop" and input['input'] == True:
 				self.alive.clear()
 				print "stopping thread (hopefully)"
@@ -64,6 +67,15 @@ class GameLoop(threading.Thread):
 		for entity in self.entities:
 			self.entities[entity].update(input)
 
+	def returnEntities(self):
+		entity_list = {}
+		for entity in self.entities:
+			the_entity = self.entities[entity]
+			entity_json = {"user_id": the_entity.user_id, "x": the_entity.x, "y": the_entity.y, "path": the_entity.path, "destination": the_entity.destination}
+			entity_list[entity] = entity_json
+
+		self.reply_queue.put(entity_list)
+
 class Entity():
 	user_id = None
 	x = None
@@ -72,7 +84,7 @@ class Entity():
 	destination = None
 	speed = 0.125
 
-	def __init__(self, user_id, x, y):
+	def __init__(self,user_id, x, y):
 		self.user_id = user_id
 		self.x  = x
 		self.y  = y

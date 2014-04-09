@@ -23,7 +23,7 @@ var Engine = Class.extend({
 
         this.canvas.addEventListener('click', this.handleInput.bind(this), false);
 
-        this.scene    = new Scene();
+        this.scene    = new Scene(this.game_id);
         this.camera   = new Camera();
         this.renderer = new Renderer();
         this.network  = new Network(this);

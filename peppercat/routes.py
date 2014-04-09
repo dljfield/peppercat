@@ -128,7 +128,7 @@ def create_game():
 		# Create the entities
 		db.session.add(Entity("object", "wall_01", None, 5, 10, 0, 158, True, 2, newscene.id))
 		db.session.add(Entity("object", "wall_02", None, 5, 4, 0, 158, True, 2, newscene.id))
-		db.session.add(Entity("character", "Test Character", null, 5, 5, 0, 64, True, 3, scene))
+		db.session.add(Entity("character", "Test Character", None, 5, 5, 0, 64, True, 3, scene))
 
 		# Create a new game
 		from datetime import datetime
@@ -162,7 +162,7 @@ def game(id):
 		return redirect(url_for('login'))
 
 	current_game = Game.query.filter_by(id = id).first()
-	session['current_scene'] = current_game.current_scene
+	# session['current_scene'] = current_game.current_scene
 
 	import game, Queue
 	if id not in running_games:
@@ -185,21 +185,38 @@ def stopGame(id):
 		del running_games[id]
 		return "Game Stopped"
 
-@app.route('/scene/')
-def session_scene():
+@app.route('/scene/<path:game>')
+def session_scene(game):
 	if 'email' not in session:
 		return "SWAG"
 
-	results = Scene.query.filter_by(id = session['current_scene']).all()
+	if running_games[game]:
+		running_games[game]['input_queue'].put({'type': 'get_entities'})
+
+	current_scene = Game.query.filter_by(id = game).first().current_scene
+	results = Scene.query.filter_by(id = current_scene).all()
 
 	json_results = None
 	for result in results:
 		sprite_list = {}
 		entities = []
+
+		running_entities = None
+		if running_games[game]:
+			running_entities = running_games[game]['reply_queue'].get()
+
 		for entity in result.entities:
 			db_sprite = Sprite.query.filter_by(id = entity.sprite).first()
 			sprite_list[db_sprite.id] = db_sprite.sprite
-			entities.append({"id": entity.id, "type": entity.type, "user": entity.user, "x": entity.x, "y": entity.y, "z": entity.z, "height": entity.height, "collidable": entity.collidable, "sprite": entity.sprite})
+			current_entity = {"id": entity.id, "type": entity.type, "user": entity.user, "x": entity.x, "y": entity.y, "z": entity.z, "height": entity.height, "collidable": entity.collidable, "sprite": entity.sprite}
+
+			if running_entities:
+				current_entity['x']           = running_entities[entity.id]['x']
+				current_entity['y']           = running_entities[entity.id]['y']
+				current_entity['path']        = running_entities[entity.id]['path']
+				current_entity['destination'] = running_entities[entity.id]['destination']
+
+			entities.append(current_entity)
 
 		terrain = None
 		for terrain_obj in result.terrain:
@@ -252,7 +269,7 @@ from flask.ext.socketio import emit
 @socketio.on('player_move', namespace = '/game')
 def player_move(data):
 	if data['game_id']:
-		running_games[data['game_id']]['queue'].put({'type': 'player_move', 'input': data})
+		running_games[data['game_id']]['input_queue'].put({'type': 'player_move', 'input': data})
 
 	data['type'] = 'server'
 	emit('player_move', data, broadcast = True)
