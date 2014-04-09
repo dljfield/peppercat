@@ -13,12 +13,18 @@ var Character = Entity.extend({
 	destination: null,
 	speed: 0.125,
 
-	init: function(id, user, name, x, y, z, height, collidable, sprite, input_component, pathing_component) {
+	init: function(id, user, name, x, y, z, height, collidable, sprite, input_component, pathing_component, path, destination) {
 		this._super(id, user, x, y, z, height, collidable, sprite);
 
 		this.name          = name;
 		this.processInput  = input_component;
 		this.updatePathing = pathing_component;
+
+		if (path && destination) {
+			this.path        = path;
+			this.destination = destination;
+		}
+
 	},
 
 	update: function(input, scene, network) {

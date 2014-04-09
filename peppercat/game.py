@@ -7,6 +7,8 @@ UPDATE_INTERVAL = (1.0 / 30)
 class GameLoop(threading.Thread):
 
 	def __init__(self, initial_user = None, entities = None, scene = None, input_queue = None, reply_queue = None):
+		print "makin a game loop mon"
+
 		super(GameLoop, self).__init__()
 		self.input_queue = input_queue
 		self.reply_queue = reply_queue

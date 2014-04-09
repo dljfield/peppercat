@@ -76,9 +76,9 @@ var Scene = Class.extend({
         var entities = [];
         for (entity in scene_entities) {
             if (scene_entities[entity].type === "character" && scene_entities[entity].user === USER.id) {
-                entities[entity] = new Character(scene_entities[entity].id, scene_entities[entity].user, scene_entities[entity].name, scene_entities[entity].x, scene_entities[entity].y, scene_entities[entity].z, scene_entities[entity].height, scene_entities[entity].collidable, scene_entities[entity].sprite, PlayerInputComponent, PlayerPathingComponent);
+                entities[entity] = new Character(scene_entities[entity].id, scene_entities[entity].user, scene_entities[entity].name, scene_entities[entity].x, scene_entities[entity].y, scene_entities[entity].z, scene_entities[entity].height, scene_entities[entity].collidable, scene_entities[entity].sprite, PlayerInputComponent, PlayerPathingComponent, scene_entities[entity].path, scene_entities[entity].destination);
             } else if (scene_entities[entity].type === "character") {
-                entities[entity] = new Character(scene_entities[entity].id, scene_entities[entity].user, scene_entities[entity].name, scene_entities[entity].x, scene_entities[entity].y, scene_entities[entity].z, scene_entities[entity].height, scene_entities[entity].collidable, scene_entities[entity].sprite, CharacterInputComponent, CharacterPathingComponent);
+                entities[entity] = new Character(scene_entities[entity].id, scene_entities[entity].user, scene_entities[entity].name, scene_entities[entity].x, scene_entities[entity].y, scene_entities[entity].z, scene_entities[entity].height, scene_entities[entity].collidable, scene_entities[entity].sprite, CharacterInputComponent, CharacterPathingComponent, scene_entities[entity].path, scene_entities[entity].destination);
             } else {
                 entities[entity] = new Entity(scene_entities[entity].id, scene_entities[entity].user, scene_entities[entity].x, scene_entities[entity].y, scene_entities[entity].z, scene_entities[entity].height, scene_entities[entity].collidable, scene_entities[entity].sprite);
             }

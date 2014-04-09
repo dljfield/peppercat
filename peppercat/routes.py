@@ -203,7 +203,7 @@ def session_scene(game):
 
 		running_entities = None
 		if running_games[game]:
-			running_entities = running_games[game]['reply_queue'].get()
+			running_entities = running_games[game]['reply_queue'].get(True, 0.1)
 
 		for entity in result.entities:
 			db_sprite = Sprite.query.filter_by(id = entity.sprite).first()
