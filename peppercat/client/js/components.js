@@ -21,7 +21,7 @@ var PlayerPathingComponent = function(scene, input, entity) {
 
 var CharacterInputComponent = function(input, scene, entity) {
 	for (var i = 0, length = input.length; i < length; i++) {
-		if (input[i].type === "server" && input[i].id === entity.id) {
+		if (input[i].type === "server" && input[i].user === entity.user) {
 			return {"input": input[i].path};
 		} else if (input[i].type === "change_entity" && input[i].x === entity.x && input[i].y === entity.y && !entity.user) {
 			// GM changing to this entity
