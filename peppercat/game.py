@@ -1,4 +1,4 @@
-import threading, Queue, time, datetime
+import threading, Queue, time
 
 from peppercat import routes
 
@@ -60,6 +60,8 @@ class GameLoop(threading.Thread):
 
 			elif input and input['type'] == "stop" and input['input'] == True:
 				self.alive.clear()
+				print "persisting game"
+				self.persist()
 				print "stopping thread (hopefully)"
 				break
 			else:
@@ -68,6 +70,19 @@ class GameLoop(threading.Thread):
 	def updateEntities(self, input):
 		for entity in self.entities:
 			self.entities[entity].update(input)
+
+	def persist(self):
+		from models import db, Entity
+		from peppercat import app
+
+		with app.app_context():
+			for entity in self.entities:
+				current_entity = Entity.query.filter_by(id = self.entities[entity].id).first()
+
+				current_entity.x = self.entities[entity].x
+				current_entity.y = self.entities[entity].y
+
+				db.session.commit()
 
 	def returnEntities(self):
 		entity_list = {}

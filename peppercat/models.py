@@ -3,6 +3,10 @@ from werkzeug import generate_password_hash, check_password_hash
 
 db = SQLAlchemy()
 
+def get_db_session():
+    return db.session
+
+
 users_games = db.Table('users_games',
     db.Column('user_id', db.Integer, db.ForeignKey('users.id')),
     db.Column('game_id', db.Integer, db.ForeignKey('games.id'))
