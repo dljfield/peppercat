@@ -31,6 +31,8 @@ var Network = Class.extend({
 		}
 	},
 
+	// this notifies the server that we're starting the game and it adds us to
+	// a socket room so that we get the game's network activity
 	gameLoaded: function() {
 		this.gameSocket.emit('game_loaded', {'game_id': this.engine.game_id});
 	}

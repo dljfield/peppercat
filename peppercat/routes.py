@@ -28,6 +28,8 @@ def login():
 			session['email']    = form.email.data
 			session['username'] = User.query.filter_by(email = session['email']).first().username
 			session['user_id']  = User.query.filter_by(email = session['email']).first().id
+			session['active_games'] = []
+
 			return redirect(url_for('gamelist'))
 
 # Logout
@@ -60,6 +62,7 @@ def register():
 			session['email']    = newuser.email
 			session['username'] = newuser.username
 			session['user_id']  = newuser.id
+			session['active_games'] = []
 
 			return redirect(url_for('gamelist'))
 
@@ -186,7 +189,7 @@ def stopGame(id):
 		return "Game Stopped"
 
 @app.route('/scene/<path:game>')
-def session_scene(game):
+def scene(game):
 	if 'email' not in session:
 		return "SWAG"
 
@@ -232,25 +235,6 @@ def session_scene(game):
 
 	return jsonify(json_results)
 
-# Gettin a scene
-@app.route('/scene/<path:scene>')
-def scene(scene):
-	if 'email' not in session:
-		return "SWAG"
-
-	results = GameData.query.filter_by(id = scene).first()
-
-	json_results = None
-	for result in results:
-		json_results = {"mapdata": result.mapdata, "entities": result.entities, "sprites": result.sprites}
-
-	session['current_scene'] = results.scene.id
-
-	return jsonify(json_results)
-
-#####################################################################
-
-
 ## There is probably a cleaner way to grab the user's name than an ajax request for this
 @app.route('/user')
 def getuser():
@@ -276,8 +260,7 @@ def player_move(data):
 
 @socketio.on('disconnect', namespace = '/game')
 def player_disconnect():
-	print session['username']
-	print "disconnected"
+	print session['username'] + " disconnected"
 
 @socketio.on('game_loaded', namespace = '/game')
 def on_join(data):
