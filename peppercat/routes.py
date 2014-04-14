@@ -1,6 +1,7 @@
 from peppercat import app
 from flask import request, render_template, send_from_directory, flash, session, url_for, redirect, jsonify
 from models import db, User, Game, Scene, Entity, Terrain, Sprite
+import Queue
 
 running_games = {}
 
@@ -167,6 +168,13 @@ def game(id):
 	current_game = Game.query.filter_by(id = id).first()
 	# session['current_scene'] = current_game.current_scene
 
+	if Game.query.filter_by(game_master = session['user_id']).first():
+		gamemaster = True
+	else:
+		gamemaster = False
+
+	user = {'id': session['user_id'], 'username': session['username'], 'game_master': gamemaster}
+
 	import game, Queue
 	if id not in running_games:
 		scene = Game.query.filter_by(id = id).first().current_scene
@@ -174,15 +182,17 @@ def game(id):
 		input_queue = Queue.Queue()
 		reply_queue = Queue.Queue()
 
-		running_games[id] = {'game': game.GameLoop({'id': session['user_id'], 'username': session['username']}, entities, scene, input_queue, reply_queue), 'input_queue': input_queue, 'reply_queue': reply_queue}
+		running_games[id] = {'game': game.GameLoop(user, entities, scene, input_queue, reply_queue), 'input_queue': input_queue, 'reply_queue': reply_queue}
 		running_games[id]['game'].start()
 	else:
-		running_games[id]['input_queue'].put({'type': "add_user", 'input': {'id': session['user_id'], 'username': session['username']}})
+		running_games[id]['input_queue'].put({'type': "add_user", 'input': user})
 
-	return render_template('game.html', current_game = current_game)
+	session['active_games'].append(id)
+
+	return render_template('game.html', current_game = current_game, user = user)
 
 @app.route('/stop/<path:id>')
-def stopGame(id):
+def stop_game(id):
 	if id in running_games:
 		running_games[id]['input_queue'].put({'type': "stop", 'input': True})
 		del running_games[id]
@@ -193,7 +203,7 @@ def scene(game):
 	if 'email' not in session:
 		return "SWAG"
 
-	if running_games[game]:
+	if game in running_games:
 		running_games[game]['input_queue'].put({'type': 'get_entities'})
 
 	current_scene = Game.query.filter_by(id = game).first().current_scene
@@ -261,6 +271,11 @@ def player_move(data):
 @socketio.on('disconnect', namespace = '/game')
 def player_disconnect():
 	print session['username'] + " disconnected"
+
+	for game in session['active_games']:
+		if game in running_games:
+			running_games[game]['input_queue'].put({'type': 'player_disconnect', 'input': session['user_id']})
+		session['active_games'].remove(game)
 
 @socketio.on('game_loaded', namespace = '/game')
 def on_join(data):

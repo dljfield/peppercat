@@ -20,7 +20,7 @@ class GameLoop(threading.Thread):
 			self.entities[entity.id] = Entity(entity.id, entity.user, entity.x, entity.y)
 
 		self.users = {}
-		self.users[initial_user['id']] = initial_user['username']
+		self.users[initial_user['id']] = {'username': initial_user['username'], 'game_master': initial_user['game_master']}
 
 		self.alive = threading.Event()
 		self.alive.set()
@@ -50,19 +50,20 @@ class GameLoop(threading.Thread):
 
 			if input and input['type'] == 'add_user':
 				print "Adding user: " + input['input']['username']
-				self.users[input['input']['id']] = input['input']['username']
+				self.users[input['input']['id']] = {'username': input['input']['username'], 'game_master': False}
 
-			elif input and input['type'] == 'remove_user':
-				del self.users[input['user_id']]
+			elif input and input['type'] == 'player_disconnect':
+				del self.users[input['input']]
+
+				if not self.users:
+					self.shutDown()
+					break
 
 			elif input and input['type'] == 'get_entities':
 				self.returnEntities()
 
 			elif input and input['type'] == "stop" and input['input'] == True:
-				self.alive.clear()
-				print "persisting game"
-				self.persist()
-				print "stopping thread (hopefully)"
+				self.shutDown()
 				break
 			else:
 				self.updateEntities(input)
@@ -70,6 +71,15 @@ class GameLoop(threading.Thread):
 	def updateEntities(self, input):
 		for entity in self.entities:
 			self.entities[entity].update(input)
+
+	def shutDown(self):
+		for entity in self.entities:
+			self.entities[entity].shutDown()
+
+		self.alive.clear()
+		print "persisting game"
+		self.persist()
+		print "stopping thread (hopefully)"
 
 	def persist(self):
 		from models import db, Entity
@@ -114,6 +124,12 @@ class Entity():
 		self.updatePathing(processed_input)
 		self.updateDestination()
 		self.updatePosition()
+
+	def shutDown(self):
+		if self.destination:
+			self.x = self.destination['x']
+			self.y = self.destination['y']
+			self.destination = None
 
 	def processInput(self, input):
 		if input and input['input']['entity_id'] and input['input']['entity_id'] == self.id:
