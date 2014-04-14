@@ -117,6 +117,7 @@ var Engine = Class.extend({
     start: function() {
         this.render();
         setInterval(this.tick.bind(this), UPDATE_INTERVAL);
+        this.network.gameLoaded();
     }
 
 });

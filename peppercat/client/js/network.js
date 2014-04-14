@@ -19,11 +19,6 @@ var Network = Class.extend({
 			this.engine.addInput(data);
 			console.log(data);
 		}.bind(this));
-
-		this.gameSocket.on('change_entity', function(data) {
-			this.engine.addInput(data);
-			console.log(data);
-		}.bind(this));
 	},
 
 	playerMove: function(path, entity_id) {
@@ -35,5 +30,9 @@ var Network = Class.extend({
 			});
 		}
 	},
+
+	gameLoaded: function() {
+		this.gameSocket.emit('game_loaded', {'game_id': this.engine.game_id});
+	}
 
 });

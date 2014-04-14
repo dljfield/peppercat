@@ -102,7 +102,7 @@ def join_game(id):
 	db.session.commit()
 
 	# redirect the new player to the game client
-	return redirect(url_for('game', game = id))
+	return redirect(url_for('game', id = id))
 
 @app.route('/game/create', methods=['GET', 'POST'])
 def create_game():
@@ -128,7 +128,7 @@ def create_game():
 		# Create the entities
 		db.session.add(Entity("object", "wall_01", None, 5, 10, 0, 158, True, 2, newscene.id))
 		db.session.add(Entity("object", "wall_02", None, 5, 4, 0, 158, True, 2, newscene.id))
-		db.session.add(Entity("character", "Test Character", None, 5, 5, 0, 64, True, 3, scene))
+		db.session.add(Entity("character", "Test Character", None, 5, 5, 0, 64, True, 3, newscene.id))
 
 		# Create a new game
 		from datetime import datetime
@@ -143,7 +143,7 @@ def create_game():
 		user.games.append(newgame)
 		db.session.commit()
 
-		return redirect(url_for('game', game = newgame.id))
+		return redirect(url_for('game', id = newgame.id))
 
 @app.route('/game/public')
 def public_games():
@@ -168,9 +168,9 @@ def game(id):
 	if id not in running_games:
 		scene = Game.query.filter_by(id = id).first().current_scene
 		entities = Entity.query.filter_by(scene = scene).all()
-
 		input_queue = Queue.Queue()
 		reply_queue = Queue.Queue()
+
 		running_games[id] = {'game': game.GameLoop({'id': session['user_id'], 'username': session['username']}, entities, scene, input_queue, reply_queue), 'input_queue': input_queue, 'reply_queue': reply_queue}
 		running_games[id]['game'].start()
 	else:
@@ -264,7 +264,7 @@ def getuser():
 ########### SOCKETS ##############
 
 from peppercat import socketio
-from flask.ext.socketio import emit
+from flask.ext.socketio import emit, join_room, leave_room
 
 @socketio.on('player_move', namespace = '/game')
 def player_move(data):
@@ -272,4 +272,13 @@ def player_move(data):
 		running_games[data['game_id']]['input_queue'].put({'type': 'player_move', 'input': data})
 
 	data['type'] = 'server'
-	emit('player_move', data, broadcast = True)
+	emit('player_move', data, room = data['game_id'])
+
+@socketio.on('disconnect', namespace = '/game')
+def player_disconnect():
+	print session['username']
+	print "disconnected"
+
+@socketio.on('game_loaded', namespace = '/game')
+def on_join(data):
+	join_room(data['game_id'])
