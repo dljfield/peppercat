@@ -1,0 +1,47 @@
+\chapter{Background \& Objectives}
+
+Games are interesting projects to take on; they have a history of being difficult to make and pushing technology to its limits. There are a great many systems and features that can be included in them---AI, physics, graphics, audio, UI, multiplayer and more---and a great many ways to implement each, from simple to very complicated depending on the needs of the project.
+
+Games also have a history of aiming for too many of these features in too little time. In most cases, every one of the features thought up would enhance the final product in some way, from a significant improvement that changes the way the game is played to a minor enhancement that just makes things a little more pleasant for the user. Many of these features may be considered mandatory for the game to be worth making at all. For example, a single player chess game would probably not be very good if there were no AI to play against.
+
+It is not just end users who require features, however; developers of games need tools to implement the game design and a good engine to hang the design off of. A lot of game projects build custom tools that let developers and designers implement things quickly. Many game engines even provide methods for scripting and modding them after their release to players.
+
+It is clear that, given the sheer enormity of the possible things that can be put into any one game, there is not enough time in this project to implement even half of them without a great deal of previous experience and skill. Every one of the major systems mentioned can be extremely complicated, requiring a lot of research, time and effort to make them work.
+
+This chapter will discuss how that knowledge was acquired and used, going over the proposal for the game, the background reading done and the analysis of the problem to come up with a minimal system implementable in the time allowed.
+
+\section{Background}
+
+\subsection{The Proposal}
+The task was to produce a game in the style of table-top roleplaying classic \textit{Dungeons \& Dragons.} Both the original proposal (Appendix \ref{appendix:originalproposal}) and the initial project outline (Appendix \ref{appendix:projectoutline}) contain a lot of information about the required design. However, there were a few technical requirements that directed the research that was done.
+
+The first is that the game was required to be run in a browser. This immediately limited the choice of technologies available to essentially be JavaScript and \textsc{html5}. The second is that the game needed graphics and that those graphics should be rendered as \textsc{2d} isometric tiles. Finally, the game needed to be multiplayer, with a secondary goal being to gain experience in the Python language while writing the server-side.
+
+Less technically, the design called for there to be two player types, Game Master and regular player; a combat system to create some adversity and actual gameplay; a chat system to allow the Game Master and players to communicate; and the ability to add extra features if time allowed. Many of these extra features had no chance of being implemented in time---such as voice chat or user uploaded graphics---but having a system that allowed them to be added was still important.
+
+\subsection{Research}
+Initial research efforts went towards games made specifically with \textsc{html5} and JavaScript. The easiest to find research material in this regard is Mozilla's BrowserQuest game\cite{citeulike:13139186, citeulike:13139189}. Although source code is made available\cite{citeulike:13139194} it proved too complex to be of any real use in understanding how to actually create a game without an overview of how the project was structured, or previous knowledge of common game design architecture---though it did ultimately give direction on useful JavaScript libraries.
+
+The most useful resource during this phase of research was a website offering tutorials on creating a simple role-playing game using JavaScript in the browser\cite{citeulike:13139212}. At this point, simple research stopped and devlopment began, using the tutorials to get started and create an initial structure for the game code.
+
+After that, research was focused on the topic at hand as development got to it, with isometric rendering being a particular early focus\cite{citeulike:13139216}.
+
+More usefully, however, a site detailing common game design patterns was found\cite{citeulike:13049596} and used to refactor much of the game code to be easier to work with and extend. Full discussion of these patterns and the decisions made around the implementation is in Chapter \ref{chap:design}.
+
+
+
+
+
+\section{Analysis}
+With the knowledge that the scope of games can expand to encompass a ridiculous area, and that everything within that scope is likely to be time consuming to implement, it is important to do some research into each feature that one would like to include.
+
+Taking into account the problem and what you learned from the background work, what was your analysis of the problem? How did your analysis help to decompose the problem into the main tasks that you would undertake? Were there alternative approaches? Why did you choose one approach compared to the alternatives?
+
+There should be a clear statement of the objectives of the work, which you will evaluate at the end of the work.
+
+In most cases, the agreed objectives or requirements will be the result of a compromise between what would ideally have been produced and what was felt to be possible in the time available. A discussion of the process of arriving at the final list is usually appropriate.
+
+
+\section{Process}
+You need to describe briefly the life cycle model or research method that you used. You do not need to write about all of the different process models that you are aware of. Focus on the process model that you have used. It is possible that you needed to adapt an existing process model to suit your project; clearly identify what you used and how you adapted it for your needs.
+

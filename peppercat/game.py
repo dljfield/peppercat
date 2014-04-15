@@ -140,13 +140,13 @@ class Entity():
 			self.destination = None
 
 	def processInput(self, input):
-		if input and input['input']['entity_id'] and input['input']['entity_id'] == self.id:
+		if input is not None and input['input']['entity_id'] and input['input']['entity_id'] == self.id:
 			return input
 		else:
 			return None
 
 	def updatePathing(self, input):
-		if input and input['type'] == 'player_move':
+		if input is not None and input['type'] == 'player_move':
 			self.path = input['input']['path']
 
 	def updateDestination(self):
