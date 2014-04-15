@@ -39,38 +39,46 @@ class GameLoop(threading.Thread):
 		self.lag += elapsed_time
 
 		while self.lag >= UPDATE_INTERVAL:
-			input = None
-			try:
-				input = self.input_queue.get(True, 0.01)
-
-			except Queue.Empty as e:
-				pass
+			input = self.getInput()
 
 			self.lag -= UPDATE_INTERVAL
 
-			if input and input['type'] == 'add_user':
-				print "Adding user: " + input['input']['username']
-				self.users[input['input']['id']] = {'username': input['input']['username'], 'game_master': False}
+			if input and input['type'] == 'get_entities':
+				self.returnEntities()
+
+			elif input and input['type'] == 'add_user':
+				self.playerAdd(input)
 
 			elif input and input['type'] == 'player_disconnect':
-				del self.users[input['input']]
-
-				if not self.users:
-					self.shutDown()
-					break
-
-			elif input and input['type'] == 'get_entities':
-				self.returnEntities()
+				self.playerDisconnect(input)
+				break
 
 			elif input and input['type'] == "stop" and input['input'] == True:
 				self.shutDown()
 				break
+
 			else:
 				self.updateEntities(input)
+
+	def getInput(self):
+		try:
+			input = self.input_queue.get(True, 0.01)
+			return input
+		except Queue.Empty as e:
+			return None
 
 	def updateEntities(self, input):
 		for entity in self.entities:
 			self.entities[entity].update(input)
+
+	def playerAdd(self, input):
+		print "Adding user: " + input['input']['username']
+		self.users[input['input']['id']] = {'username': input['input']['username'], 'game_master': False}
+
+	def playerDisconnect(self, input):
+		del self.users[input['input']]
+		if not self.users:
+			self.shutDown()
 
 	def shutDown(self):
 		for entity in self.entities:
