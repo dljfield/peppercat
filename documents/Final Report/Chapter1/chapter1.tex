@@ -2,32 +2,46 @@
 
 Games are interesting projects to take on; they have a history of being difficult to make and pushing technology to its limits. There are a great many systems and features that can be included in them---AI, physics, graphics, audio, UI, multiplayer and more---and a great many ways to implement each, from simple to very complicated depending on the needs of the project.
 
-Games also have a history of aiming for too many of these features in too little time. In most cases, every one of the features thought up would enhance the final product in some way, from a significant improvement that changes the way the game is played to a minor enhancement that just makes things a little more pleasant for the user. Many of these features may be considered mandatory for the game to be worth making at all. For example, a single player chess game would probably not be very good if there were no AI to play against.
+Games also have a history of aiming for too many of these features in too little time. In most cases, every one of the features thought up would enhance the final product in some way, from a significant improvement that changes the way the game is played to a minor enhancement that makes things just a little more pleasant for the user. Many of these features may be considered mandatory for the game to be worth making at all. For example, a single-player chess game would probably not be very good if there were no AI to play against.
 
-It is not just end users who require features, however; developers of games need tools to implement the game design and a good engine to hang the design off of. A lot of game projects build custom tools that let developers and designers implement things quickly. Many game engines even provide methods for scripting and modding them after their release to players.
+It is not just players who require features, however; developers of games need tools to implement the game design and a good engine to hang the design off of. A lot of game projects build custom tools that let developers and designers implement things quickly. Many game engines even provide methods for scripting and modding them after their release to players.
 
 It is clear that, given the sheer enormity of the possible things that can be put into any one game, there is not enough time in this project to implement even half of them without a great deal of previous experience and skill. Every one of the major systems mentioned can be extremely complicated, requiring a lot of research, time and effort to make them work.
 
-This chapter will discuss how that knowledge was acquired and used, going over the proposal for the game, the background reading done and the analysis of the problem to come up with a minimal system implementable in the time allowed.
+This chapter will discuss what the project is, why it was worth taking on and how a minimal system was devised that would satisfy enough of the game design requirements to be playable but also be implementable in the time given.
 
 \section{Background}
 
-\subsection{The Proposal}
-The task was to produce a game in the style of table-top roleplaying classic \textit{Dungeons \& Dragons.} Both the original proposal (Appendix \ref{appendix:originalproposal}) and the initial project outline (Appendix \ref{appendix:projectoutline}) contain a lot of information about the required design. However, there were a few technical requirements that directed the research that was done.
+\subsection{The Project}
+Before discussing the decisions made about what was doable and why it was interesting, it's useful to know what the project actually is. A full account of the original, idealised, game design can be found in Appendix \ref{appendix:designspec}.
 
-The first is that the game was required to be run in a browser. This immediately limited the choice of technologies available to essentially be JavaScript and \textsc{html5}. The second is that the game needed graphics and that those graphics should be rendered as \textsc{2d} isometric tiles. Finally, the game needed to be multiplayer, with a secondary goal being to gain experience in the Python language while writing the server-side.
+The name of the project---\textit{Browser-based Online Multiplayer Roleplaying Game}---gives a relatively good hint as to what the game is. ``Browser-based'' and ``multiplayer'' are fairly self-evident in meaning: multiple people play together in a game hosted in the browser. ``Roleplaying game'' is more ambiguous. In this case, it refers to a game in the style of the classic tabletop roleplaying game \textit{Dungeons \& Dragons.}
 
-Less technically, the design called for there to be two player types, Game Master and regular player; a combat system to create some adversity and actual gameplay; a chat system to allow the Game Master and players to communicate; and the ability to add extra features if time allowed. Many of these extra features had no chance of being implemented in time---such as voice chat or user uploaded graphics---but having a system that allowed them to be added was still important.
+In the context of the project that meant the following things: Firstly, there needed to be two types of players---regular player and Game Master. A regular player plays the game as a character inhabiting the world they happen to be in. For example, they may be a dwarf in a fantasy kingdom, or a space marine on a futuristic space station.
 
-\subsection{Research}
-Initial research efforts went towards games made specifically with \textsc{html5} and JavaScript. The easiest to find research material in this regard is Mozilla's BrowserQuest game\cite{citeulike:13139186, citeulike:13139189}. Although source code is made available\cite{citeulike:13139194} it proved too complex to be of any real use in understanding how to actually create a game without an overview of how the project was structured, or previous knowledge of common game design architecture---though it did ultimately give direction on useful JavaScript libraries.
+The Game Master is a player responsible for building the world, telling the story and controlling characters that aren't controlled by the players (known as Non-Player Characters or NPCs). Traditionally, the Game Master would also be responsible for enforcing the rules of the world. However, in this project the game was to be responsible for that instead. The Game Master could, however, override or change the rules if he or she wished to do so.
 
-The most useful resource during this phase of research was a website offering tutorials on creating a simple role-playing game using JavaScript in the browser\cite{citeulike:13139212}. At this point, simple research stopped and devlopment began, using the tutorials to get started and create an initial structure for the game code.
+Combat is the most obvious area where the game enforcing the rules comes into effect, as tradtionally combat is the strictest area of tabletop gameplay. Combat is turn-based, with players put onto a grid and given limits on the distance they can move and number of actions they can perform in each turn. When they attempt to do something---such as attack another character or creature or escape from a trap---they have to roll dice, the result of which decides whether they were successful or not, and often how well they succeeded or failed. As an example of the last part, a player failing to attack a creature with their sword could simply miss, or they could throw the sword away accidentally, depending on how badly they failed.
 
-After that, research was focused on the topic at hand as development got to it, with isometric rendering being a particular early focus\cite{citeulike:13139216}.
+The project design specification called for interactions outside of combat too. For example, a player might be faced with a locked door. To get through a player could attempt to use a key they found. Alternatively, they could attempt to bash the door open with an item, such as an axe, or even their bare hands.
 
-More usefully, however, a site detailing common game design patterns was found\cite{citeulike:13049596} and used to refactor much of the game code to be easier to work with and extend. Full discussion of these patterns and the decisions made around the implementation is in Chapter \ref{chap:design}.
+Given that the majority of the game is players---be they regular or Game Master---interacting with each other it was important to allow players to communciate effectively. To this end, a chat system was specified.
 
+How the world is presented to players is important too. Given the style of game a simple textual system may well work. However, in this case graphics were asked for. More specifically, the graphics needed to be 2D isometric tiles.
+
+Finally, there were some technical specifications as well. Firstly, the game was to be run in a browser. Secondly, the game is multiplayer and needed a server, for which Python was chosen as the language with the goal of gaining experience in it.
+
+\subsection{Why make the game?}
+It is important to answer why the project was worth doing, particularly as it was a student-suggested one.
+
+The first answer to this is that games are interesting in general. Most obviously, the final product of a game is (hopefully) something fun to play with appeal to a wide range of people. More relevant to the context of a project, however, is that games are interesting from a software perspective.
+
+Games are made up of a lot of different parts, each one potentially being difficult to implement by itself. In this game, the most challenging individual parts are graphics and multiplayer. More important than just the individual parts, however, is making sure they fit together and work properly. In most cases the game needs to share data between these different places---game logic needs to know what an object is doing so it can perform game functions on it; the renderer needs to know what the object is doing so that it can be drawn to the screen correctly; the networking part needs to know what the object is doing so that it can forward on any relevant information to the server.
+
+The game offers a lot of extendability. Given more time, more features can be added. Each feature, and fitting it together, offers a lot of potential for learning as well. For example, an extra feature could be AI, which is an interesting area in itself that offers a lot of opportunity to learn something new.
+
+\subsection{Other Games}
+It is useful to take note of other games in the space that this project inhabits, both to see whether the project is worth doing and whether there is anything to be learned from the work of others.
 
 
 
