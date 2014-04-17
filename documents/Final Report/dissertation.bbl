@@ -18,6 +18,21 @@
 \fi
 #2}}
 
+\bibitem{citeulike:13141206}
+
+ \begin{quotation}\noindent Roll20, an online game engine for playing tabletop
+  games on your computer. \end{quotation}
+
+\bibitem{citeulike:13000145}
+
+ \begin{quotation}\noindent Book on creating browser games using \textsc{html5}
+  and JavaScript \end{quotation}
+
+\bibitem{citeulike:13000170}
+
+ \begin{quotation}\noindent A book about creating isometric games in the
+  browser using textsc{html5} and JavaScript \end{quotation}
+
 \bibitem{apache_license}
 {Apache Software Foundation}, ``{Apache License, Version 2.0},''
   \url{http://www.apache.org/licenses/LICENSE-2.0}, 2004.
@@ -81,9 +96,9 @@ M.~Neal, J.~Feyereisl, R.~Rascun\`{a}, and X.~Wang, ``{Don't touch me, I'm
 B.~Nystrom. {Game Programming Patterns}. Online. [Online]. Available:
   \url{http://gameprogrammingpatterns.com/index.html}
 \BIBentrySTDinterwordspacing
- \begin{quotation}\noindent Online book detailing common game programming
-  patterns, as well as examples on how to use more general design patterns in
-  the context of games. \end{quotation}
+ \begin{quotation}\noindent Online book detailing common game design patterns,
+  as well as examples on how to use more general design patterns in the context
+  of games. \end{quotation}
 
 \bibitem{citeulike:13139212}
 \BIBentryALTinterwordspacing
