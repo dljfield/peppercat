@@ -1,6 +1,6 @@
 var PlayerInputComponent = function(entity, engine) {
 
-	input = entity.eventQueue;
+	var input = entity.eventQueue; // don't do this, we need to be poppin'
 
 	for (var i = 0, length = input.length; i < length; i++) {
 		if (input[i].type === 'player_move') {
@@ -22,7 +22,10 @@ var PlayerPathingComponent = function(scene, input, entity) {
 	}
 };
 
-var CharacterInputComponent = function(input, scene, entity, network) {
+var CharacterInputComponent = function(entity, engine) {
+
+	var input = entity.eventQueue; // don't do this, we need to be poppin'
+
 	for (var i = 0, length = input.length; i < length; i++) {
 		if (input[i].type === "server" && input[i].entity_id === entity.id) {
 			return {"input": input[i].path};
