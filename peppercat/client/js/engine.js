@@ -1,3 +1,13 @@
+var TILE_WIDTH      = 64;
+var TILE_HEIGHT     = 64;
+var UPDATE_INTERVAL = 1000 / 30;
+
+var EVENT_MANAGER = undefined;
+
+var DEBUG = false;
+
+// ########################
+
 var Engine = Class.extend({
 
     game_id: null,
