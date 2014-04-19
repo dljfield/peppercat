@@ -10,7 +10,7 @@ var Engine = Class.extend({
     renderer: null,
     network: null,
 
-    input: [],
+    // input: [],
 
     previous_time: Date.now(),
     lag: 0,
@@ -21,12 +21,19 @@ var Engine = Class.extend({
         this.canvas   = this.createCanvas();
         this.context  = (this.canvas && this.canvas.getContext) ? this.canvas.getContext("2d") : null;
 
-        this.canvas.addEventListener('click', this.handleInput.bind(this), false);
+        // this.canvas.addEventListener('click', this.handleInput.bind(this), false);
 
+        // event manager
+        this.eventManager = new EventManager();
+
+        // game logic stuff
         this.scene    = new Scene(this.game_id);
+        this.network  = new Network(this);
+
+        // view classes for the user
+        this.ui       = new UserInterface(this);
         this.camera   = new Camera();
         this.renderer = new Renderer();
-        this.network  = new Network(this);
 
         this.camera.setPos(432, 100)
     },
@@ -40,6 +47,9 @@ var Engine = Class.extend({
         this.lag += elapsed_time;
 
         while (this.lag >= UPDATE_INTERVAL) {
+            // get the EM to inform of events it's collected
+            this.eventManager.update();
+
             for (var i = 0, len = entities.length; i < len; i++) {
                 entities[i].update(this.input, this.scene, this.network);
             }
@@ -47,7 +57,8 @@ var Engine = Class.extend({
         }
 
         this.scene.setEntities(entities);
-        this.resetInput();
+
+        // this.resetInput();
     },
 
     render: function() {
@@ -55,52 +66,52 @@ var Engine = Class.extend({
         this.renderer.drawFrame(this.canvas, this.context, this.camera, this.scene);
     },
 
-    handleInput: function(event) {
-        var canvasPosition = {};
+    // handleInput: function(event) {
+    //     var canvasPosition = {};
 
-        canvasPosition.x = ((event.clientX - this.camera.x) - this.canvas.offsetLeft) - (TILE_WIDTH / 2);
-        canvasPosition.y = ((event.clientY - this.camera.y) - this.canvas.offsetTop);
+    //     canvasPosition.x = ((event.clientX - this.camera.x) - this.canvas.offsetLeft) - (TILE_WIDTH / 2);
+    //     canvasPosition.y = ((event.clientY - this.camera.y) - this.canvas.offsetTop);
 
-        var cartCoords = (function(x, y){
-            var coords = {};
-            coords.x = (2 * y + x) / 2;
-            coords.y = (2 * y - x) / 2;
-            return coords;
-        })(canvasPosition.x, canvasPosition.y);
+    //     var cartCoords = (function(x, y){
+    //         var coords = {};
+    //         coords.x = (2 * y + x) / 2;
+    //         coords.y = (2 * y - x) / 2;
+    //         return coords;
+    //     })(canvasPosition.x, canvasPosition.y);
 
-        var tileCoords = (function(x, y){
-            var coords = {};
-            coords.x = Math.floor(x / (TILE_WIDTH / 2));
-            coords.y = Math.floor(y / (TILE_WIDTH  / 2));
-            return coords;
-        })(cartCoords.x, cartCoords.y);
+    //     var tileCoords = (function(x, y){
+    //         var coords = {};
+    //         coords.x = Math.floor(x / (TILE_WIDTH / 2));
+    //         coords.y = Math.floor(y / (TILE_WIDTH  / 2));
+    //         return coords;
+    //     })(cartCoords.x, cartCoords.y);
 
-        var tileType = this.scene.tileType(tileCoords);
+    //     var tileType = this.scene.tileType(tileCoords);
 
-        var debug_output_type = "Ignored";
-        if (tileType === "entity" && USER.type === "game_master" && event.shiftKey) {
-            this.addInput(tileCoords, "change_entity");
-            debug_output_type = "Change Entity";
-        } else if (tileType === "terrain" && !event.shiftKey) {
-            this.addInput(tileCoords, "move");
-            debug_output_type = "Move"
-        }
+    //     var debug_output_type = "Ignored";
+    //     if (tileType === "entity" && USER.type === "game_master" && event.shiftKey) {
+    //         this.addInput(tileCoords, "change_entity");
+    //         debug_output_type = "Change Entity";
+    //     } else if (tileType === "terrain" && !event.shiftKey) {
+    //         this.addInput(tileCoords, "move");
+    //         debug_output_type = "Move"
+    //     }
 
-        document.getElementById('output').innerHTML = "<p> Event type: " + debug_output_type + " | x: " + tileCoords.x + ", y: " + tileCoords.y;
+    //     document.getElementById('output').innerHTML = "<p> Event type: " + debug_output_type + " | x: " + tileCoords.x + ", y: " + tileCoords.y;
 
-    },
+    // },
 
-    addInput: function(input, type) {
-        if (type) {
-            input.type = type;
-        }
+    // addInput: function(input, type) {
+    //     if (type) {
+    //         input.type = type;
+    //     }
 
-        this.input.push(input);
-    },
+    //     this.input.push(input);
+    // },
 
-    resetInput: function() {
-        this.input = [];
-    },
+    // resetInput: function() {
+    //     this.input = [];
+    // },
 
     createCanvas: function() {
         var canvas = document.createElement("canvas");

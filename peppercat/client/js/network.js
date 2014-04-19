@@ -2,7 +2,6 @@ var Network = Class.extend({
 
 	server: null,
 	gameSocket: null,
-	fuckYouSocket: null,
 	engine: null,
 
 	init: function(engine) {

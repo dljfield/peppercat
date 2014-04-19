@@ -97,17 +97,26 @@ var Scene = Class.extend({
     },
 
     tileType: function(coords) {
+        var tile = {valid: false, type: undefined};
 
-        if ((coords.x >= this.size.x || coords.y >= this.size.y) || (coords.x < 0 || coords.y < 0))
-            return "oob";
-
-        for (var i = 0, len = this.entities.length; i < len; i++) {
-            if (this.entities[i].x === coords.x && this.entities[i].y === coords.y && this.entities[i].collidable === true) {
-                return "entity";
+        // check the bounds
+        if (!(coords.x >= this.size.x || coords.y >= this.size.y) && !(coords.x < 0 || coords.y < 0)) {
+            // we're in bounds, so check if it's an entity
+            for (var i = 0, len = this.entities.length; i < len; i++) {
+                if (this.entities[i].x === coords.x && this.entities[i].y === coords.y && this.entities[i].collidable === true) {
+                    tile.valid = true;
+                    tile.type  = "entity";
+                    break;
+                }
+            }
+            // if it isn't an entity, it's terrain
+            if (tile.valid === false) {
+                tile.valid = true;
+                tile.type  = "terrain";
             }
         }
 
-        return "terrain";
+        return tile;
     },
 
     sceneGraph: function() {

@@ -6,7 +6,10 @@ var UPDATE_INTERVAL = 1000 / 30;
 
 var USER = {"id": null, "type": null};
 
+var DEBUG = false;
+
 window.onload = function() {
+    setDebug();
 	startEngine();
 };
 
@@ -32,4 +35,8 @@ function startEngine() {
     } else {
         alert("You need to update your browser.");
     }
+}
+
+function setDebug() {
+    DEBUG = true;
 }
