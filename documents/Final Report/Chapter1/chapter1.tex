@@ -55,24 +55,51 @@ Finally, an online book detailing common game design patterns\cite{citeulike:130
 
 
 \section{Analysis}
-With the knowledge that the scope of games can expand to encompass a ridiculous area, and that everything within that scope is likely to be time consuming to implement, it is important to define what features are absolutely mandatory for the game to be worth making, and figure out how long it might take to implement them.
+With the knowledge that the scope of games can expand to encompass a ridiculous area, and that everything within that scope is likely to be time consuming to implement, it is important to define what features are absolutely mandatory for the game to be worth making, and figure out how long it might take to implement them. This section provides a discussion of how the minimal system was decided upon, with the list of features in the minimal system being available in Appendix D.
 
 \subsection{Necessary Features}
 The first of the necessary features is graphics. Graphics are the player's view into the world, letting them see the state of the game and figure out what their input needs to be. Without this view the only way to see into the world would be to debug the code as it was playing, which is not a very efficient way to play a game and the constant pausing would also break the game's timing, which is vital for games to operate correctly, particularly in a multiplayer setting. Of course, it is reasonable to operate a game with a textual interface. However, the game design specified that graphics be implemented and that those graphics be isometric tiles.
 
-The second of the necessary features was multiplayer. All interactions in the game happen between players, be they regular players or the Game Master. Without any way for them to interact the game is relatively pointless to play---all you'd get as a player is being able to walk around a map with your character.
+Players will need a way to interact with the game. There are two things that affect how this works: the Game Master and the isometric graphics. The Game Master needs to be able to select different characters to control and, in theory, create maps for the other players to play the game in. Using simple keyboard controls probably wouldn't work very well in this case. Isometric graphics also cause issues with keyboard controls. Players attempting to move their character using, for example, the arrow keys on the keyboard might find themselves confused as to which direction their character will move.
+
+The solution to both of these is mouse-based interaction. The Game Master will be able to click to select characters he wants to control and place tiles and items into the world, and movement will be a case of clicking on the desired location and letting the character move there by itself, so that there is no confusion about direction.
+
+The disadvantage to this is that mouse interaction is more complicated to handle than keyboard interaction. With a keyboard you check whether a key is pressed and perform an action based on that. With a mouse you have to work out the location of the cursor and what else is in that location. Further, mouse-based movement requires pathfinding, which ultimately adds another required feature.
+
+The game also requires multiplayer. All interactions in the game happen between players, be they regular players or the Game Master. Without any way for them to interact the game is relatively pointless to play---all you'd get as a player is being able to walk around a map with your character.
 
 Multiplayer implies a few things. The first is that there needs to be a way of clients communicating with some remote version of the game. This could, in theory, be a peer to peer connection. However, there are problems with this. The first is that peer to peer is not such an easy thing to support technologically with a browser, as the web operates on a client-server model.
 
 The second problem with peer to peer is that there is no trustworthy version of the game. All the players need to have a view into the same world and the underlying data needs to be consistent between them or problems would occur. There is nothing to stop any one of the players from modifying their client to perform actions they shouldn't be able to do, and it being run in a browser using JavaScript makes this even more of an issue as all browsers come with easy access to JavaScript debuggers. A single client could be made the authoritative version (with the Game Master being the most logical choice here). However, if that client is tampered with it would affect the game for everyone.
 
-A server solves both of the issues that peer to peer represents. It is, of course, more natural for a browser to operated in a client-server manner. A server is also far more trustworthy than any individual client, and can be used as an authoritative base for the game so that, even if a player tampers with their client, the other players won't be affected.
+A server solves both of the issues that peer to peer represents. It is, of course, more natural for a browser to operate in a client-server manner. A server is also far more trustworthy than any individual client, and can be used as an authoritative base for the game so that, even if a player tampers with their client, the other players won't be affected.
 
 The disadvantage to a server is that it requires resources and time to host and keep running. The more people who decide to play the game, the more server power is required. If the servers went down, no one would be able to play at all.
 
-These two things represent technical requirements as much as game design requirements. The existence of both requires consideration in designing the structure of the game code. However, there are some other features required which could be considered purely game design issues.
+These things represent technical requirements as much as game design requirements. Their existence requires consideration in designing the structure of the game code. However, there are some other features required which could be considered purely game design issues.
 
 The first of these is combat. In this case, combat is what makes the game a game. Without it players really only get to walk around a world together and look at how pretty it may or may not be, depending on the quality of the graphics used.
+
+The full design of combat is fairly comprehensive and involves a lot of possible things. In the game design overview the idea of levels of success or failure was introduced, with things like throwing away a weapon if a character fails really badly on a dice roll. The game checking for valid options was also required, with the example given being whether a player was close enough to hit another character with a weapon. However, in the full game design there is also the option for ranged attacks using projectiles.
+
+These options all make the game a lot more interesting. However, things like being able to throw away a weapon, or even just having levels of failure, require extra implementation time. It was decided that the project only needed to implement a very basic version of combat with other things considered extras to be done given more time. This basic version of combat was binary success or failure based on dice rolls; only `mêlée' combat, requiring characters to be next to each other; and no items would be implemented in the base game, so no weapons and all combat would essentially be unarmed.
+
+This would allow players to fight in the game, which is an important aspect of the game design, without creating too much work adding extra features that need a lot of development time and testing, such as projectiles or the use of items.
+
+The existence of combat also implies the existence of attributes in characters and possibly other entities that allow them to interact in some way. In this case, the design specification calls explicitly for attributes called Hit Points (HP) and Mana, which represent the number of points of damage an entity can take before it is destroyed and the number of points it has to spend on magical spells respectively. Because magic would not be implemented in the minimal system, only HP and a way to affect it need to be created.
+
+There should also be some way of interacting with the world outside of combat. Ideally these interactions would be almost limitless and allow the Game Master to specify even more based on items they add to the game. However, this is also a huge task. Because of the time consuming nature of adding interactions to the game only a few very basic ones should be included into the minimal system.
+
+Finally, the last feature that is considered to be required in a minimal version of the game is a chat system. This is important because the game is multiplayer and operates through players interacting with each other. It is unreasonable to rely on players to have a third party tool available for communication, so some way for them to communicate must be provided by the game. In this case, a simple chat system is the most logical choice as it is not too difficult to implement. The basic version of the chat will be global for the game but an enhanced version could allow local chatting between players who are in a specific area or private messaging between the Game Master and a player if the GM wants to do something special.
+
+\subsection{Unnecessary Extra Features}
+Given either extra time in the project or unexpected time available at the end of the project it is useful to have a list of features that could be added. Of course, ultimately it would be nice to include everything that the original design specification calls for, but it is also unreasonable to expect that enough time would ever be found to implement all of them. Therefore, the extra features should be given priority based on how worthwhile they are to implement on top of the minimal system.
+
+Improving combat gains the highest priority because it is the most important part of the game outside of letting the players communicate with each other. The addition of items would come first, as players generally expect to be able to equip weaponry and defences like armour. After that, ranged attacks, such as using a bow. Magic would be the final part added to the game because it requires extra attributes to operate correctly and could have a wide range of effects, such as teleporting a user or causing a fire.
+
+The next most important thing is to have a much wider range of interactions outside of combat. Supporting the ability for players to knock down doors or use a key on them, as was given as an example in the game design overview, enhances the game considerably from a player's point of view, opening up a lot of gameplay options. It may also be reasonable to include the use of weapons and magic outside of a combat context to interact with things, such as perhaps using magic to set a door on fire.
+
+There are plenty of other features in the full design that could be implemented, such as voice chat or the ability for players to upload custom graphics. However, the extra features listed here represent a large enough amount of work that it isn't necessary to prioritise everything else.
 
 % Taking into account the problem and what you learned from the background work, what was your analysis of the problem? How did your analysis help to decompose the problem into the main tasks that you would undertake? Were there alternative approaches? Why did you choose one approach compared to the alternatives?
 
@@ -82,5 +109,19 @@ The first of these is combat. In this case, combat is what makes the game a game
 
 
 \section{Process}
+With a minimal system decided on the task becomes to decide how the time available is to be divided up between each feature and the systems necessary to support them.
+
+The original process chosen was a custom variation of SCRUM, with many of the roles and tools taken out due to the project having just a one-person team. The primary reason for this was familiarity with the process but it also potentially had advantages beyond this.
+
+The project was started with a clear idea of what was necessary to complete it. More importantly, there was a belief that a clear idea was had of the complexity of each feature and how difficult it would be to implement.
+
+The time was divided up into week-long ``sprints''. Each sprint would be assigned a certain number of stories, such as the implementation of graphics stating something along the lines of ``As a user I want to be able to see the state of the game from an isometric \textsc{2d} viewpoint.'' These stories would be broken up into the tasks necessary to complete the story.
+
+For discrete features like this, SCRUM proved to be a decent choice. However, problems became apparent after the first few sprints were completed. The most obvious problem was that implementation time was often longer than expected. This is not entirely uncommon when using an agile methodology like SCRUM---further experience in the task usually brings the estimations closer into line with reality---so the problem was ignored at first. The second problem was that no real consideration had been given to how the various features fit together. Previous research had given some insight into how features like isometric rendering worked but no clear picture of how to link the rendering with the other parts of the game.
+
+Further, as implementation proceeded, new and better ways of doing certain things emerged to solve problems that had not been foreseen. For example, rendering was originally very simple and was implemented almost entirely as the sprint had laid it out. However, it actually proved to be too simple and so modifications had to be made. This issue continued and eventually too much time was spent changing the tasks in the sprint to match up with what reality demanded than being able to follow them as they were planned.
+
+I JUST SAID FUCK IT, GOT A LIST OF FEATURES AND IMPLEMENTED THEM. OKAY? FUCK.
+
 % You need to describe briefly the life cycle model or research method that you used. You do not need to write about all of the different process models that you are aware of. Focus on the process model that you have used. It is possible that you needed to adapt an existing process model to suit your project; clearly identify what you used and how you adapted it for your needs.
 

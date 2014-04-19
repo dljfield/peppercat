@@ -19,19 +19,12 @@
 #2}}
 
 \bibitem{citeulike:13141206}
-
+\BIBentryALTinterwordspacing
+``{Roll20, online tabletop game engine.}'' [Online]. Available:
+  \url{http://roll20.net/}
+\BIBentrySTDinterwordspacing
  \begin{quotation}\noindent Roll20, an online game engine for playing tabletop
   games on your computer. \end{quotation}
-
-\bibitem{citeulike:13000145}
-
- \begin{quotation}\noindent Book on creating browser games using \textsc{html5}
-  and JavaScript \end{quotation}
-
-\bibitem{citeulike:13000170}
-
- \begin{quotation}\noindent A book about creating isometric games in the
-  browser using textsc{html5} and JavaScript \end{quotation}
 
 \bibitem{apache_license}
 {Apache Software Foundation}, ``{Apache License, Version 2.0},''
@@ -108,11 +101,32 @@ N.~G. Obbink, \emph{{Javascript tile engine tutorials}}, 2012. [Online].
  \begin{quotation}\noindent Series of tutorials going through the creation of a
   simple RPG in JavaScript. \end{quotation}
 
+\bibitem{citeulike:13000170}
+\BIBentryALTinterwordspacing
+M.~A. Pagella, \emph{{Making Isometric Social Real-Time Games with
+  \textsc{html5}, textsc{css3}, and Javascript}}.\hskip 1em plus 0.5em minus
+  0.4em\relax O'Reilly Media, Sept. 2011. [Online]. Available:
+  \url{http://www.amazon.com/exec/obidos/redirect?tag=citeulike07-20\&path=ASIN/1449304753}
+  1449304753.
+\BIBentrySTDinterwordspacing
+ \begin{quotation}\noindent A book about creating isometric games in the
+  browser using textsc{html5} and JavaScript \end{quotation}
+
 \bibitem{NumericalRecipes}
 W.~Press \emph{et~al.}, \emph{{Numerical recipes in C}}.\hskip 1em plus 0.5em
   minus 0.4em\relax Cambridge University Press Cambridge, 1992, pp. 349--361.
  \begin{quotation}\noindent This is my annotation. I can add in comments that
   are in \textbf{bold} and \em{italics} and then other content. \end{quotation}
+
+\bibitem{citeulike:13000145}
+\BIBentryALTinterwordspacing
+P.~Rettig, \emph{{Professional \textsc{html5} Mobile Game Development}},
+  1st~ed.\hskip 1em plus 0.5em minus 0.4em\relax Wrox, Aug. 2012. [Online].
+  Available:
+  \url{http://www.amazon.com/exec/obidos/redirect?tag=citeulike07-20\&path=ASIN/B0094P2TU6}
+\BIBentrySTDinterwordspacing
+ \begin{quotation}\noindent Book on creating browser games using \textsc{html5}
+  and JavaScript \end{quotation}
 
 \bibitem{FailBlog}
 Various, ``Fail blog,'' \url{http://www.failblog.org/}, Aug. 2011, accessed
