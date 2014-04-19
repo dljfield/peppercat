@@ -1,11 +1,9 @@
 var PlayerInputComponent = function(entity, engine) {
-
-	var input = entity.eventQueue; // don't do this, we need to be poppin'
-
-	for (var i = 0, length = input.length; i < length; i++) {
+	while (entity.eventQueue.length != 0) {
+		var input = entity.eventQueue.pop();
 		if (input[i].type === 'player_move') {
 			return {"input": input[i], "informServer": true};
-		} else if ((input[i].type === "change_entity" || input[i].type === "server_change_entity") && (input[i].x !== entity.x && input[i].y !== entity.y) && entity.user === USER.id) {
+		} else if ((input[i].type === 'change_entity' || input[i].type === 'server_change_entity') && (input[i].x !== entity.x && input[i].y !== entity.y) && entity.user === USER.id) {
 			// GM changing to another entity
 			entity.user          = null;
 			entity.updatePathing = CharacterPathingComponent;
@@ -24,19 +22,21 @@ var PlayerPathingComponent = function(scene, input, entity) {
 
 var CharacterInputComponent = function(entity, engine) {
 
-	var input = entity.eventQueue; // don't do this, we need to be poppin'
+	while (entity.eventQueue.length != 0) {
+		var input = entity.eventQueue.pop();
 
-	for (var i = 0, length = input.length; i < length; i++) {
-		if (input[i].type === "server" && input[i].entity_id === entity.id) {
-			return {"input": input[i].path};
-		} else if ((input[i].type === "change_entity" || input[i].type === "server_change_entity") && input[i].x === entity.x && input[i].y === entity.y && !entity.user) {
-			// GM changing to this entity
-			entity.user = USER.id;
-			entity.updatePathing = PlayerPathingComponent;
-			entity.processInput  = PlayerInputComponent;
+		for (var i = 0, length = input.length; i < length; i++) {
+			if (input[i].type === "server" && input[i].entity_id === entity.id) {
+				return {"input": input[i].path};
+			} else if ((input[i].type === 'change_entity' || input[i].type === 'server_change_entity') && input[i].x === entity.x && input[i].y === entity.y && !entity.user) {
+				// GM changing to this entity
+				entity.user = USER.id;
+				entity.updatePathing = PlayerPathingComponent;
+				entity.processInput  = PlayerInputComponent;
+			}
 		}
+		return false;
 	}
-	return false;
 };
 
 var CharacterPathingComponent = function(scene, input, entity) {

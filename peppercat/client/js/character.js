@@ -38,7 +38,7 @@ var Character = Entity.extend({
 			processedInput = this.processInput(this, engine);
 		}
 
-		this.updatePathing(scene, processedInput.input, this);
+		this.updatePathing(engine.scene, processedInput.input, this);
 
 		if (processedInput.informServer)
 			this.updateServer(engine);
