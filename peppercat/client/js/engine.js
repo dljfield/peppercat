@@ -20,7 +20,7 @@ var Engine = Class.extend({
         this.context  = (this.canvas && this.canvas.getContext) ? this.canvas.getContext("2d") : null;
 
         // event manager
-        this.eventManager = new EventManager();
+        EVENT_MANAGER = new EventManager();
 
         //input manager
         this.inputManager = new InputManager(this);
@@ -80,7 +80,7 @@ var Engine = Class.extend({
         this.previous_time = Date.now();
         setInterval(this.tick.bind(this), UPDATE_INTERVAL);
 
-        this.eventManager.addEvent("game_loaded", true);
+        EVENT_MANAGER.addEvent("game_loaded", true);
     }
 
 });

@@ -14,8 +14,8 @@ var Network = Class.extend({
 
 		this.registerEvents();
 
-		engine.eventManager.registerListen("game_loaded", this);
-		engine.eventManager.registerListen("player_move", this);
+		EVENT_MANAGER.registerListen("game_loaded", this);
+		EVENT_MANAGER.registerListen("player_move", this);
 	},
 
 	update: function() {
@@ -27,6 +27,10 @@ var Network = Class.extend({
 				this.playerMove(eventQueue[i].data);
 			}
 		}
+	},
+
+	eventNotification: function(event) {
+		this.inputQueue.push(event);
 	},
 
 	registerEvents: function() {

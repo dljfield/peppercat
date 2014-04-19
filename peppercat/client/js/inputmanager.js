@@ -43,10 +43,10 @@ var InputManager = Class.extend({
 		if (tile.valid === true) {
 			if (tile.type === "entity" && USER.type === "game_master" && event.shiftKey) {
 				// game master changing active character
-			    this.engine.eventManager.addEvent("change_entity", coords);
+			    EVENT_MANAGER.addEvent("change_entity", coords);
 			} else if (tileType === "terrain" && !event.shiftKey) {
 				// user is moving their character
-			    this.engine.eventManager.addEvent("move", tileCoords);
+			    EVENT_MANAGER.addEvent("move", tileCoords);
 			}
 		}
 	},

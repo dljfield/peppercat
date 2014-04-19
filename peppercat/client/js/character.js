@@ -28,8 +28,8 @@ var Character = Entity.extend({
 		}
 
 		// register the events we want to listen for
-		engine.eventManager.registerListen("move", this);
-		engine.eventManager.registerListen("change_entity", this);
+		EVENT_MANAGER.registerListen("move", this);
+		EVENT_MANAGER.registerListen("change_entity", this);
 	},
 
 	update: function(engine) {
@@ -48,7 +48,7 @@ var Character = Entity.extend({
 	},
 
 	eventNotification: function(event) {
-		this.inputQueue.push(event);
+		this.eventQueue.push(event);
 	},
 
 	processInput: null,
@@ -119,7 +119,7 @@ var Character = Entity.extend({
 	},
 
 	updateServer: function(engine) {
-		engine.eventManager.addEvent("player_move", {"id": this.id, "path": this.path});
+		EVENT_MANAGER.addEvent("player_move", {"id": this.id, "path": this.path});
 	},
 
 });

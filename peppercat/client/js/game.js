@@ -6,6 +6,8 @@ var UPDATE_INTERVAL = 1000 / 30;
 
 var USER = {"id": null, "type": null};
 
+var EVENT_MANAGER = undefined;
+
 var DEBUG = false;
 
 window.onload = function() {
