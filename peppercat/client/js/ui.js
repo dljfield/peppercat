@@ -25,7 +25,7 @@ var UserInterface = Class.extend({
 	},
 
 	debugOutput: function() {
-
+		document.getElementById('output').innerHTML = "<p> Event type: " + debug_output_type + " | x: " + tileCoords.x + ", y: " + tileCoords.y;
 	}
 */
-})
+});

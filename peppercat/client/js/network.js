@@ -4,6 +4,8 @@ var Network = Class.extend({
 	gameSocket: null,
 	engine: null,
 
+	eventQueue: null,
+
 	init: function(engine) {
 		this.server     = 'http://' + document.domain + ':' + location.port;
 		this.gameSocket = io.connect(this.server + '/game');
@@ -11,6 +13,20 @@ var Network = Class.extend({
 		this.engine = engine;
 
 		this.registerEvents();
+
+		engine.eventManager.registerListen("game_loaded", this);
+		engine.eventManager.registerListen("player_move", this);
+	},
+
+	update: function() {
+		// check event queue and tell the server about stuff
+		for (i = 0, len = eventQueue.length; i < len; i++) {
+			if (eventQueue[i].type === "game_loaded" && eventQueue[i].data === true) {
+				this.gameLoaded();
+			} else if (eventQueue[i].type === "player_move") {
+				this.playerMove(eventQueue[i].data);
+			}
+		}
 	},
 
 	registerEvents: function() {
@@ -20,12 +36,12 @@ var Network = Class.extend({
 		}.bind(this));
 	},
 
-	playerMove: function(path, entity_id) {
-		if (path && entity_id) {
+	playerMove: function(data) {
+		if (data.id && data.path) {
 			this.gameSocket.emit('player_move', {
 				'game_id': this.engine.game_id,
-				'entity_id': entity_id,
-				'path': path
+				'entity_id': data.id,
+				'path': data.path
 			});
 		}
 	},

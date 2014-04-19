@@ -4,14 +4,14 @@ var InputManager = Class.extend({
 
 	init: function(engine) {
 		this.engine = engine;
+		this.addClickHandle();
 	},
 
-	registerEvents: function() {
+	addClickHandle: function() {
 		this.engine.canvas.addEventListener('click', this.processInput.bind(this), false);
 	},
 
-	// Work out where was clicked and if it is a valid input location.
-	// If it is valid, pass it off to handleInput to decide what to do with it.
+	// work out where was clicked
 	processInput: function(event) {
 		var canvasPosition = {};
 
@@ -32,24 +32,23 @@ var InputManager = Class.extend({
 		    return coords;
 		})(cartCoords.x, cartCoords.y);
 
+		this.handleInput(tileCoords);
+	},
+
+	// check the validity of the click location
+	// and figure out what to do if it is valid
+	handleInput: function(coords) {
 		var tile = this.engine.scene.tileType(tileCoords);
 
-		this.handleInput(tile, tileCoords);
-	},
-
-	handleInput: function(tile, coords) {
-		// var debug_output_type = "Ignored";
 		if (tile.valid === true) {
 			if (tile.type === "entity" && USER.type === "game_master" && event.shiftKey) {
+				// game master changing active character
 			    this.engine.eventManager.addEvent("change_entity", coords);
-			    // debug_output_type = "Change Entity";
 			} else if (tileType === "terrain" && !event.shiftKey) {
+				// user is moving their character
 			    this.engine.eventManager.addEvent("move", tileCoords);
-			    // debug_output_type = "Move"
 			}
 		}
-
-		// document.getElementById('output').innerHTML = "<p> Event type: " + debug_output_type + " | x: " + tileCoords.x + ", y: " + tileCoords.y;
 	},
 
-})
+});

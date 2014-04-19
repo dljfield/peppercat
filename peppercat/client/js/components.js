@@ -1,6 +1,9 @@
-var PlayerInputComponent = function(input, scene, entity, network) {
+var PlayerInputComponent = function(entity, engine) {
+
+	input = entity.eventQueue;
+
 	for (var i = 0, length = input.length; i < length; i++) {
-		if (input[i].type === 'move') {
+		if (input[i].type === 'player_move') {
 			return {"input": input[i], "informServer": true};
 		} else if ((input[i].type === "change_entity" || input[i].type === "server_change_entity") && (input[i].x !== entity.x && input[i].y !== entity.y) && entity.user === USER.id) {
 			// GM changing to another entity

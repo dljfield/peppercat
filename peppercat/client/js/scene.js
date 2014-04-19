@@ -109,6 +109,7 @@ var Scene = Class.extend({
                     break;
                 }
             }
+
             // if it isn't an entity, it's terrain
             if (tile.valid === false) {
                 tile.valid = true;

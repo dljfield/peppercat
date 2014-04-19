@@ -13,7 +13,9 @@ var Character = Entity.extend({
 	destination: null,
 	speed: 0.125,
 
-	init: function(id, user, name, x, y, z, height, collidable, sprite, input_component, pathing_component, path, destination) {
+	eventQueue: [],
+
+	init: function(id, user, name, x, y, z, height, collidable, sprite, input_component, pathing_component, path, destination, engine) {
 		this._super(id, user, x, y, z, height, collidable, sprite);
 
 		this.name          = name;
@@ -25,21 +27,28 @@ var Character = Entity.extend({
 			this.destination = destination;
 		}
 
+		// register the events we want to listen for
+		engine.eventManager.registerListen("move", this);
+		engine.eventManager.registerListen("change_entity", this);
 	},
 
-	update: function(input, scene, network) {
+	update: function(engine) {
 		var processedInput = {};
-		if (input.length !== 0) {
-			processedInput = this.processInput(input, scene, this, network);
+		if (this.eventQueue.length !== 0) {
+			processedInput = this.processInput(this, engine);
 		}
 
 		this.updatePathing(scene, processedInput.input, this);
 
 		if (processedInput.informServer)
-			this.updateServer(network);
+			this.updateServer(engine);
 
 		this.updateDestination();
 		this.updatePosition();
+	},
+
+	eventNotification: function(event) {
+		this.inputQueue.push(event);
 	},
 
 	processInput: null,
@@ -90,10 +99,6 @@ var Character = Entity.extend({
 		}
 	},
 
-	updateServer: function(network, informServer) {
-		network.playerMove(this.path, this.id);
-	},
-
 	findPath: function(scene, position) {
 		var graph = scene.sceneGraph();
 
@@ -111,6 +116,10 @@ var Character = Entity.extend({
 		var end   = graph.nodes[position.y][position.x];
 
 		return astar.search(graph.nodes, start, end);
-	}
+	},
+
+	updateServer: function(engine) {
+		engine.eventManager.addEvent("player_move", {"id": this.id, "path": this.path});
+	},
 
 });
