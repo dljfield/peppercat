@@ -32,12 +32,12 @@ var InputManager = Class.extend({
 		    return coords;
 		})(cartCoords.x, cartCoords.y);
 
-		this.handleInput(tileCoords);
+		this.handleInput(tileCoords, event);
 	},
 
 	// check the validity of the click location
 	// and figure out what to do if it is valid
-	handleInput: function(coords) {
+	handleInput: function(coords, event) {
 		var tile = this.engine.scene.tileType(coords);
 
 		if (tile.valid === true) {

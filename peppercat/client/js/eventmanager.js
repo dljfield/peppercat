@@ -9,6 +9,10 @@ var EventManager = Class.extend({
 		this.listeners.push({"eventType": eventType, "listener": listener});
 	},
 
+	removeListener: function(eventType, listener) {
+
+	},
+
 	addEvent: function(type, data) {
 		this.eventQueue.push({"type": type, "data": data});
 		this.notifyListeners();

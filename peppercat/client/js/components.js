@@ -24,15 +24,13 @@ var CharacterInputComponent = function(entity, engine) {
 	while (entity.eventQueue.length != 0) {
 		var input = entity.eventQueue.pop();
 
-		for (var i = 0, length = input.length; i < length; i++) {
-			if (input.type === "server_move" && input.entity_id === entity.id) {
-				return {"input": input.path};
-			} else if ((input.type === 'change_entity' || input.type === 'server_change_entity') && input.x === entity.x && input.y === entity.y && !entity.user) {
-				// GM changing to this entity
-				entity.user = USER.id;
-				entity.updatePathing = PlayerPathingComponent;
-				entity.processInput  = PlayerInputComponent;
-			}
+		if (input.type === "server_move" && input.data.entity_id === entity.id) {
+			return {"input": input.data.path};
+		} else if ((input.type === 'change_entity' || input.type === 'server_change_entity') && input.data.x === entity.x && input.data.y === entity.y && !entity.user) {
+			// GM changing to this entity
+			entity.user = USER.id;
+			entity.updatePathing = PlayerPathingComponent;
+			entity.processInput  = PlayerInputComponent;
 		}
 		return false;
 	}

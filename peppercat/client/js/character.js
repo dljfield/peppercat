@@ -9,11 +9,7 @@ var Character = Entity.extend({
 	height: null,
 	collidable: false,
 	sprite: null,
-	path: null,
-	destination: null,
 	speed: 0.125,
-
-	eventQueue: [],
 
 	init: function(id, user, name, x, y, z, height, collidable, sprite, input_component, pathing_component, path, destination, engine) {
 		this._super(id, user, x, y, z, height, collidable, sprite);
@@ -22,6 +18,10 @@ var Character = Entity.extend({
 		this.processInput  = input_component;
 		this.updatePathing = pathing_component;
 
+		this.eventQueue = [];
+		this.path = undefined;
+		this.destination = undefined;
+
 		if (path && destination) {
 			this.path        = path;
 			this.destination = destination;
@@ -29,6 +29,7 @@ var Character = Entity.extend({
 
 		// register the events we want to listen for
 		EVENT_MANAGER.registerListen("player_move", this);
+		EVENT_MANAGER.registerListen("server_move", this);
 		EVENT_MANAGER.registerListen("change_entity", this);
 	},
 
@@ -119,7 +120,8 @@ var Character = Entity.extend({
 	},
 
 	updateServer: function(engine) {
-		EVENT_MANAGER.addEvent("inform_server_player_move", {"id": this.id, "path": this.path});
+		var path = this.path.slice(0);
+		EVENT_MANAGER.addEvent("inform_server_player_move", {"id": this.id, "path": path});
 	},
 
 });
