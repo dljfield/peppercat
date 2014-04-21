@@ -28,7 +28,7 @@ var Character = Entity.extend({
 		}
 
 		// register the events we want to listen for
-		EVENT_MANAGER.registerListen("move", this);
+		EVENT_MANAGER.registerListen("player_move", this);
 		EVENT_MANAGER.registerListen("change_entity", this);
 	},
 
@@ -119,7 +119,7 @@ var Character = Entity.extend({
 	},
 
 	updateServer: function(engine) {
-		EVENT_MANAGER.addEvent("player_move", {"id": this.id, "path": this.path});
+		EVENT_MANAGER.addEvent("inform_server_player_move", {"id": this.id, "path": this.path});
 	},
 
 });

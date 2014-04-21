@@ -15,12 +15,12 @@ var EventManager = Class.extend({
 	},
 
 	notifyListeners: function() {
-		for (i = 0, len = this.eventQueue.length; i < len; i++) {
+		while (this.eventQueue.length != 0) {
 			var currentEvent = this.eventQueue.pop();
 
 			for (j = 0, len = this.listeners.length; j < len; j++) {
-				if (this.listeners[j].type = currentEvent.type) {
-					this.listeners[j].eventNotification(currentEvent);
+				if (this.listeners[j].eventType == currentEvent.type) {
+					this.listeners[j].listener.eventNotification(currentEvent);
 				}
 			}
 		}

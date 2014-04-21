@@ -196,7 +196,7 @@ def stop_game(id):
 	if id in running_games:
 		running_games[id]['input_queue'].put({'type': "stop", 'input': True})
 		del running_games[id]
-		return "Game Stopped"
+		return redirect(url_for('gamelist'))
 
 @app.route('/scene/<path:game>')
 def scene(game):
@@ -266,7 +266,7 @@ def player_move(data):
 		running_games[data['game_id']]['input_queue'].put({'type': 'player_move', 'input': data})
 
 	data['type'] = 'server'
-	emit('player_move', data, room = data['game_id'])
+	emit('server_move', data, room = data['game_id'])
 
 @socketio.on('disconnect', namespace = '/game')
 def player_disconnect():

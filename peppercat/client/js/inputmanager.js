@@ -38,15 +38,15 @@ var InputManager = Class.extend({
 	// check the validity of the click location
 	// and figure out what to do if it is valid
 	handleInput: function(coords) {
-		var tile = this.engine.scene.tileType(tileCoords);
+		var tile = this.engine.scene.tileType(coords);
 
 		if (tile.valid === true) {
 			if (tile.type === "entity" && USER.type === "game_master" && event.shiftKey) {
 				// game master changing active character
 			    EVENT_MANAGER.addEvent("change_entity", coords);
-			} else if (tileType === "terrain" && !event.shiftKey) {
+			} else if (tile.type === "terrain" && !event.shiftKey) {
 				// user is moving their character
-			    EVENT_MANAGER.addEvent("move", tileCoords);
+			    EVENT_MANAGER.addEvent("player_move", coords);
 			}
 		}
 	},

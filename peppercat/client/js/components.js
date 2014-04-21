@@ -1,9 +1,9 @@
 var PlayerInputComponent = function(entity, engine) {
 	while (entity.eventQueue.length != 0) {
 		var input = entity.eventQueue.pop();
-		if (input[i].type === 'player_move') {
-			return {"input": input[i], "informServer": true};
-		} else if ((input[i].type === 'change_entity' || input[i].type === 'server_change_entity') && (input[i].x !== entity.x && input[i].y !== entity.y) && entity.user === USER.id) {
+		if (input.type === 'player_move') {
+			return {"input": input.data, "informServer": true};
+		} else if ((input.type === 'change_entity' || input.type === 'server_change_entity') && (input.x !== entity.x && input.y !== entity.y) && entity.user === USER.id) {
 			// GM changing to another entity
 			entity.user          = null;
 			entity.updatePathing = CharacterPathingComponent;
@@ -21,14 +21,13 @@ var PlayerPathingComponent = function(scene, input, entity) {
 };
 
 var CharacterInputComponent = function(entity, engine) {
-
 	while (entity.eventQueue.length != 0) {
 		var input = entity.eventQueue.pop();
 
 		for (var i = 0, length = input.length; i < length; i++) {
-			if (input[i].type === "server" && input[i].entity_id === entity.id) {
-				return {"input": input[i].path};
-			} else if ((input[i].type === 'change_entity' || input[i].type === 'server_change_entity') && input[i].x === entity.x && input[i].y === entity.y && !entity.user) {
+			if (input.type === "server_move" && input.entity_id === entity.id) {
+				return {"input": input.path};
+			} else if ((input.type === 'change_entity' || input.type === 'server_change_entity') && input.x === entity.x && input.y === entity.y && !entity.user) {
 				// GM changing to this entity
 				entity.user = USER.id;
 				entity.updatePathing = PlayerPathingComponent;
