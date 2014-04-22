@@ -166,14 +166,9 @@ def game(id):
 		return redirect(url_for('login'))
 
 	current_game = Game.query.filter_by(id = id).first()
-	# session['current_scene'] = current_game.current_scene
 
-	if Game.query.filter_by(game_master = session['user_id']).first():
-		gamemaster = True
-	else:
-		gamemaster = False
-
-	user = {'id': session['user_id'], 'username': session['username'], 'game_master': gamemaster}
+	# if id not in session['active_games']:
+	session['active_games'][id] = 0
 
 	import game, Queue
 	if id not in running_games:
@@ -182,14 +177,14 @@ def game(id):
 		input_queue = Queue.Queue()
 		reply_queue = Queue.Queue()
 
-		running_games[id] = {'game': game.GameLoop(user, entities, scene, input_queue, reply_queue), 'input_queue': input_queue, 'reply_queue': reply_queue}
+		running_games[id] = {'game': game.GameLoop(entities, scene, input_queue, reply_queue), 'input_queue': input_queue, 'reply_queue': reply_queue}
 		running_games[id]['game'].start()
-	else:
-		running_games[id]['input_queue'].put({'type': "add_user", 'input': user})
 
-	session['active_games'][id] = 1
+	# print "New connection."
+	session['active_games'][id] += 1
+	# print session[active_games][id]
 
-	return render_template('game.html', current_game = current_game, user = user)
+	return render_template('game.html', current_game = current_game)
 
 @app.route('/stop/<path:id>')
 def stop_game(id):
@@ -275,8 +270,26 @@ def player_disconnect():
 		if game in running_games:
 			print "sending disconnect event to game loop for " + session['username']
 			running_games[game]['input_queue'].put({'type': 'player_disconnect', 'input': session['user_id']})
-		# del session['active_games'][game]
+
+			# session['active_games'][game] -= 1
+			# print "counted down session"
+			# print session['active_games'][game]
+			# if session['active_games'][game] <= 0:
+			# 	print "it's dead, cap'n"
+			# 	del session['active_games'][game]
 
 @socketio.on('game_loaded', namespace = '/game')
 def on_join(data):
 	join_room(data['game_id'])
+
+	for game in session['active_games']:
+		if game in running_games:
+
+			if Game.query.filter_by(game_master = session['user_id']).first():
+				gamemaster = True
+			else:
+				gamemaster = False
+
+			user = {'id': session['user_id'], 'username': session['username'], 'game_master': gamemaster}
+
+			running_games[game]['input_queue'].put({'type': "add_user", 'input': user})

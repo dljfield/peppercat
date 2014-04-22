@@ -6,7 +6,7 @@ UPDATE_INTERVAL = (1.0 / 30)
 
 class GameLoop(threading.Thread):
 
-	def __init__(self, initial_user = None, entities = None, scene = None, input_queue = None, reply_queue = None):
+	def __init__(self, entities = None, scene = None, input_queue = None, reply_queue = None):
 		print "makin a game loop mon"
 
 		super(GameLoop, self).__init__()
@@ -20,7 +20,6 @@ class GameLoop(threading.Thread):
 			self.entities[entity.id] = Entity(entity.id, entity.user, entity.x, entity.y)
 
 		self.users = {}
-		self.users[initial_user['id']] = {'username': initial_user['username'], 'game_master': initial_user['game_master']}
 
 		self.refreshed_users = {}
 
@@ -95,14 +94,11 @@ class GameLoop(threading.Thread):
 		if input['input'] in self.refreshed_users:
 			# the user refreshed the page so they haven't really disconnected
 			print "The user has refreshed, not a real disconnect."
-			print self.refreshed_users[input['input']]
 			self.refreshed_users[input['input']] -= 1
 			if self.refreshed_users[input['input']] <= 0:
 				print "Reached last refresh. S'all good now."
-				print self.refreshed_users[input['input']]
-				print "\n"
 				del self.refreshed_users[input['input']]
-		else:
+		elif input['input'] in self.users:
 			del self.users[input['input']]
 			if not self.users:
 				self.shutDown()
