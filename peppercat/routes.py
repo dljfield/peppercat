@@ -29,7 +29,7 @@ def login():
 			session['email']    = form.email.data
 			session['username'] = User.query.filter_by(email = session['email']).first().username
 			session['user_id']  = User.query.filter_by(email = session['email']).first().id
-			session['active_games'] = []
+			session['active_games'] = {}
 
 			return redirect(url_for('gamelist'))
 
@@ -63,7 +63,7 @@ def register():
 			session['email']    = newuser.email
 			session['username'] = newuser.username
 			session['user_id']  = newuser.id
-			session['active_games'] = []
+			session['active_games'] = {}
 
 			return redirect(url_for('gamelist'))
 
@@ -187,7 +187,7 @@ def game(id):
 	else:
 		running_games[id]['input_queue'].put({'type': "add_user", 'input': user})
 
-	session['active_games'].append(id)
+	session['active_games'][id] = 1
 
 	return render_template('game.html', current_game = current_game, user = user)
 
@@ -273,8 +273,9 @@ def player_disconnect():
 
 	for game in session['active_games']:
 		if game in running_games:
+			print "sending disconnect event to game loop for " + session['username']
 			running_games[game]['input_queue'].put({'type': 'player_disconnect', 'input': session['user_id']})
-		session['active_games'].remove(game)
+		# del session['active_games'][game]
 
 @socketio.on('game_loaded', namespace = '/game')
 def on_join(data):

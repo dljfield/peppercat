@@ -82,7 +82,12 @@ class GameLoop(threading.Thread):
 			# or else the game might wrongly end itself when the
 			# disconnect event comes through
 			print "The user already exists. Added to refreshed user list."
-			self.refreshed_users[input['input']['id']] = True
+			if input['input']['id'] in self.refreshed_users:
+				print "Multiple refreshes? My My."
+				self.refreshed_users[input['input']['id']] += 1
+			else:
+				print "First refresh."
+				self.refreshed_users[input['input']['id']] = 1
 		else:
 			self.users[input['input']['id']] = {'username': input['input']['username'], 'game_master': False}
 
@@ -90,7 +95,13 @@ class GameLoop(threading.Thread):
 		if input['input'] in self.refreshed_users:
 			# the user refreshed the page so they haven't really disconnected
 			print "The user has refreshed, not a real disconnect."
-			del self.refreshed_users[input['input']]
+			print self.refreshed_users[input['input']]
+			self.refreshed_users[input['input']] -= 1
+			if self.refreshed_users[input['input']] <= 0:
+				print "Reached last refresh. S'all good now."
+				print self.refreshed_users[input['input']]
+				print "\n"
+				del self.refreshed_users[input['input']]
 		else:
 			del self.users[input['input']]
 			if not self.users:
