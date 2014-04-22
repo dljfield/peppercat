@@ -22,6 +22,8 @@ class GameLoop(threading.Thread):
 		self.users = {}
 		self.users[initial_user['id']] = {'username': initial_user['username'], 'game_master': initial_user['game_master']}
 
+		self.refreshed_users = {}
+
 		self.alive = threading.Event()
 		self.alive.set()
 
@@ -73,12 +75,26 @@ class GameLoop(threading.Thread):
 
 	def playerAdd(self, input):
 		print "Adding user: " + input['input']['username']
-		self.users[input['input']['id']] = {'username': input['input']['username'], 'game_master': False}
+
+		if input['input']['id'] in self.users:
+			# The user refreshed the page or otherwise reconnected
+			# so we need to keep track of that fact
+			# or else the game might wrongly end itself when the
+			# disconnect event comes through
+			print "The user already exists. Added to refreshed user list."
+			self.refreshed_users[input['input']['id']] = True
+		else:
+			self.users[input['input']['id']] = {'username': input['input']['username'], 'game_master': False}
 
 	def playerDisconnect(self, input):
-		del self.users[input['input']]
-		if not self.users:
-			self.shutDown()
+		if input['input'] in self.refreshed_users:
+			# the user refreshed the page so they haven't really disconnected
+			print "The user has refreshed, not a real disconnect."
+			del self.refreshed_users[input['input']]
+		else:
+			del self.users[input['input']]
+			if not self.users:
+				self.shutDown()
 
 	def shutDown(self):
 		for entity in self.entities:

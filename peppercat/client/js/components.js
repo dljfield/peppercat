@@ -3,7 +3,7 @@ var PlayerInputComponent = function(entity, engine) {
 		var input = entity.eventQueue.pop();
 		if (input.type === 'player_move') {
 			return {"input": input.data, "informServer": true};
-		} else if ((input.type === 'change_entity' || input.type === 'server_change_entity') && (input.x !== entity.x && input.y !== entity.y) && entity.user === USER.id) {
+		} else if ((input.type === 'change_entity' || input.type === 'server_change_entity') && (input.data.x !== entity.x && input.data.y !== entity.y) && entity.user === USER.id) {
 			// GM changing to another entity
 			entity.user          = null;
 			entity.updatePathing = CharacterPathingComponent;

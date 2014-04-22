@@ -215,7 +215,7 @@ def scene(game):
 		entities = []
 
 		running_entities = None
-		if running_games[game]:
+		if game in running_games:
 			running_entities = running_games[game]['reply_queue'].get(True, 0.1)
 
 		for entity in result.entities:
@@ -265,7 +265,6 @@ def player_move(data):
 	if data['game_id']:
 		running_games[data['game_id']]['input_queue'].put({'type': 'player_move', 'input': data})
 
-	data['type'] = 'server'
 	emit('server_move', data, room = data['game_id'])
 
 @socketio.on('disconnect', namespace = '/game')
