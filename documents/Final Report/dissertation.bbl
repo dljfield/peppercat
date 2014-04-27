@@ -61,6 +61,25 @@ S.~Duckworth, ``{A picture of a kitten at Hellifield Peel},''
  \begin{quotation}\noindent This is my annotation. I should add in a
   description here. \end{quotation}
 
+\bibitem{citeulike:13151262}
+\BIBentryALTinterwordspacing
+M.~Foundation, \emph{{Mozilla Developer Network}}. [Online]. Available:
+  \url{http://developer.mozilla.org}
+\BIBentrySTDinterwordspacing
+ \begin{quotation}\noindent Online APIs for JavaScript and \textsc{html5}.
+  \end{quotation}
+
+\bibitem{citeulike:12394552}
+\BIBentryALTinterwordspacing
+M.~McShaffry and D.~Graham, \emph{{Game Coding Complete, Fourth Edition}},
+  4th~ed.\hskip 1em plus 0.5em minus 0.4em\relax Cengage Learning PTR, Mar.
+  2012. [Online]. Available:
+  \url{http://www.amazon.com/exec/obidos/redirect?tag=citeulike07-20\&path=ASIN/1133776574}
+  1133776574.
+\BIBentrySTDinterwordspacing
+ \begin{quotation}\noindent Popular and well respected book on the fundamentals
+  of creating a modern game engine. \end{quotation}
+
 \bibitem{citeulike:13139194}
 \BIBentryALTinterwordspacing
 Mozilla, L.~Workshop, F.~Lecollinet, and G.~Lecollinet, ``{BrowserQuest Source
