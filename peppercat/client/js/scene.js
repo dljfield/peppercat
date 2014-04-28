@@ -8,8 +8,6 @@ var Scene = Class.extend({
     init: function(scene) {
         if (scene)
             this.getSceneJSON(scene);
-        else
-            this.getSceneJSON('');
     },
 
     getTerrain: function() {
