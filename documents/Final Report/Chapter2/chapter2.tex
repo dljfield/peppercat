@@ -1,24 +1,153 @@
 %\addcontentsline{toc}{chapter}{Development Process}
 \chapter{Design}\label{chap:design}
 
-You should concentrate on the more important aspects of the design. It is essential that an overview is presented before going into detail. As well as describing the design adopted it must also explain what other designs were considered and why they were rejected.
+PUT INTRODUCTION HERE
 
-The design should describe what you expected to do, and might also explain areas that you had to revise after some investigation.
+\section{Tools}
+The nature of the project means that there are limitations on the languages that can be used to implement it, which means that the tools and frameworks that can be selected are limited as well. The first of these limitations is the browser, which has only one language capable of being run natively within it, and a few plugin options, with the Adobe Flash plugin being the most popular and providing the ActionScript language. JavaScript was specified for the client for this project and so that was used. The other limitation is the requirement to use Python for the server-side, with the intention of providing experience in the language.
 
-Typically, for an object-oriented design, the discussion will focus on the choice of objects and classes and the allocation of methods to classes. The use made of reusable components should be described and their source referenced. Particularly important decisions concerning data structures usually affect the architecture of a system and so should be described here.
+\subsection{Language Choices}
+Despite being limited by platform and specific project requirements, it's useful to discuss the various options that could be selected instead, or on top of, the specified languages.
 
-How much material you include on detailed design and implementation will depend very much on the nature of the project. It should not be padded out. Think about the significant aspects of your system. For example, describe the design of the user interface if it is a critical aspect of your system, or provide detail about methods and data structures that are not trivial. Do not spend time on long lists of trivial items and repetitive descriptions. If in doubt about what is appropriate, speak to your supervisor.
+\subsubsection{Client-Side}
+When discussing client-side technologies in the web world, the most obvious choice is JavaScript. It is the only language natively supported by all browsers, with a lot of development time having gone into something of a speed race between them all to have the fastest JavaScript platform.
 
-You should also identify any support tools that you used. You should discuss your choice of implementation tools - programming language, compilers, database management system, program development environment, etc.
+However, while JavaScript is essentially the only reasonable choice for standard web-apps, the somewhat more old-school ActionScript run in the Adobe Flash plug-in remains an option for games. Indeed, looking into how to create games for the web, Flash remains the most common result. For the most part this is simply the legacy of Flash being the only option in the past, with \textsc{html5} and JavaScript catching up, but there are still some advantages to the Flash platform.
 
-Some example sub-sections may be as follows, but the specific sections are for you to define.
+The primary advantage of Flash is the programming language used for it: ActionScript. ActionScript is like JavaScript in some ways, but it adds static types and more standard object-orientation. JavaScript is capable of simulating the more standard object-oriented style (as will be seen later in this section), but cannot simulate static types by itself.
+
+The advantage the classical object-oriented style gives is one of easy application of common game design patterns. Game design has been object-oriented almost since object-orientation was invented and all the patterns that have emerged from decades of game design experience utilise it heavily. By deciding to go against object-orientation you are forcing yourself to reinvent a lot of what is already done, for no particular reason.
+
+As mentioned previously, JavaScript can simulate this style, but with some limitations, primarily that it has no concept of public, private, protected or any of the other useful method and property types.
+
+The lack of type information in JavaScript also causes issues during development. Many problems arise from incorrect object types being passed into methods because the design has evolved and changed. It's an issue that the ability to add typing information to things would solve but that is simply impossible to do in JavaScript.
+
+So, considering the advantages that ActionScript offers over JavaScript in games programming, why not go for that instead?
+
+The primary reason in this project is that the goal was to create a \textsc{html5} game, using canvas, which ActionScript cannot interact with. The second reason is that to use ActionScript you require that the Flash plugin be installed. For most users this isn't an issue---Flash remains a big part of the web thanks to YouTube and other similar sites---but mobiles users in particular would suffer. Although mobile platforms were not targeted for this project, using \textsc{html5} and JavaScript does make it a lot easier to adjust to those devices in the future. There is also the case of being completely unfamiliar with ActionScript and the Flash development environment, particularly in regards to how to interact with a server.
+
+Although JavaScript was selected for the project, it was not required that all its disadvantages just be accepted and dealt with. There are ways to create some of the desired functionality in JavaScript, and further there are languages created which compile down to JavaScript.
+
+JavaScript was a language designed in a week to implement simple functionality on an otherwise static web page. Because of this it lacks a lot of features which make creating larger applications a lot easier, like the aforementioned static typing and classical object-orientation, which software engineers are already familiar with. Many attempts have been made to deal with these problems but there is only so much that can be done in the context of the language itself, without changing it fundamentally.
+
+Because one cannot change JavaScript itself, there have instead been attempts to create languages that compile down into JavaScript instead. The most popular of these are CoffeeScript, TypeScript and Dart.
+
+CoffeeScript's purpose is to act in the same way as standard JavaScript but with different syntax, making it more similar to Python by removing things like braces. Its other purpose is to add useful abstractions and functions to fill out JavaScript's feature set, and this includes a way to specific more traditional object-oriented classes. However, it does not offer static typing.
+
+TypeScript is another language that attempts to add features on top of JavaScript, created by Microsoft. However, it doesn't change the syntax and standard JavaScript can be used in TypeScript just fine. It adds traditional classes as well as the option for specifying type information, though it is optional to do so. The ability to use standard JavaScript code when writing TypeScript gives it the advantage of letting it use native JavaScript libraries without issue.
+
+Finally, Dart is a Google project that attempts to create an entirely new language with a native browser-parser (available as a plugin), or an option to compile down to JavaScript. It too offers classes and optional typing in the same way as TypeScript, though normal JavaScript is not valid Dart code so you cannot as easily use common JavaScript libraries.
+
+TypeScript was heavily considered for this project. It had the advantage of types and a more familiar syntax over CoffeeScript, and the advantage of being able to use JavaScript libraries over Dart. However, in the end it was decided against using it because it would require time to learn about the TypeScript development environment, compiling it and how to serve the compiled files from the server, which was already using an unfamiliar language.
+
+This left normal JavaScript, which still has all the previously mentioned disadvantages. The issue with typing could not be solved as JavaScript simply has no way to support it. The only way around this is to have a large amount of boilerplate code that manually checks the types of things before anything is done to them, which creates a huge amount of extra work. However, the more classical style object-orientation is at least partially possible with JavaScript. To get this functionality, a library by was used (INSERT CITATION), which simulates the standard class structure found in other languages.
+
+\subsubsection{Server-Side}
+The server-side language chosen was Python, for the simple reason for wanting to gain experience in it. However, it is worth exploring what advantages Python has and what other choices were considered.
+
+Python is a very popular language. This popularity means that it is never unreasonable to expect there to be a library or framework available that implements functionality you want to use. Its popularity is often attributed to the language itself being very good, with a clear syntax and well designed language features.
+
+Python is also popular as a platform for creating simple games or teaching games programming and has several libraries made for it to make these tasks easier. It is also able to be object-oriented in a traditional way, which, as discussed in the previous section, is useful when creating games.
+
+However, despite these things the web programming world mostly seems to have left it alone and taken up other languages instead. Many modern web development ideas and libraries are lacking in the Python eco-system. For example, the SocketIO framework that implements web-sockets is well supported in node.js but was surprisingly only recently well supported in an easy to use way in Python. Because this project requires an active server to support the multiplayer aspect, these problems caused some issues, though they were ultimately resolved.
+
+The other languages considered for this project were PHP and node.js. PHP was considered due to familiarity but offered no real advantages over Python anyway. node.js was a much more interesting option because it is JavaScript, which gives it the advantage of being able to share code with the client-side. On the other hand, it shares all the disadvantages of JavaScript on the client-side as well.
+
+\subsection{Frameworks and Libraries}
+There are a lot of frameworks and libraries available for creating games---both in JavaScript and Python---which offer everything that was created in this project and simply require you to implement your own game logic and art assets. However, the goal of this project was not to create a well polished game, but rather to implement an engine to run the game from and gain an understanding of game programming. Because of this it was decided against using any of the available frameworks.
+
+That said, there were frameworks and libraries used in this project. On the client-side the class.js library has already been mentioned. This allowed for a more traditional object-oriented class style when writing JavaScript, instead of JavaScript's own prototypal style.
+
+The other library used on the client-side was one that implemented the A* pathfinding algorithm (ADD REFERENCE NERD). The decision to use this library over implementing it directly was because it was already well made and included some useful optimisations.
+
+Across both server and client the library SocketIO was used, which is a more powerful implementation of the websocket technology that came about in \textsc(html5). On the client this was used directly, as by default it is a JavaScript library. On the server-side a plugin for the Python framework chosen was used instead.
+
+The framework mentioned above is Flask. Flask is a minimal framework for Python that provides basic features for a web application server, such as routing and rendering of templates to send to the client. Additional functionality is added in through plugins, such as the aforementioned SocketIO plugin to provide websockets.
+
+Beyond these few things, all code was custom written.
+
+\subsection{Database}
+Most modern game designs offer the saving of state to the user. This can be achieved in a lot of ways, depending on the needs of the game. For a single-player game, it may be reasonable to save the game's state in the user's client-side storage offered by their browser, for example.
+
+However, in a multiplayer game the server needs to keep track of everything, and there is also potentially more state to keep track of. Because of this a database is required.
+
+The database implementation used in this project is SQLite, which stores the database in a single file and requires little set up to get running. Although it lacks many advanced features of some of the other databases available it offered enough for this project to run well. Its only disadvantage is that it is not as fast as something like MySQL. However, because of the use of a Python framework to manage the database, swapping out which one is used is a case of changing only a few lines of code. This means that, should SQLite ever become a bottleneck for the game---which is unlikely given the design used---upgrades are easily implementable.
 
 \section{Overall Architecture}
+The overall architecture of a game is very important to making sure that features can be added and changed easily. A common example in the game world is that of heavy use of traditional object-oriented inheritance, where there is a very deep hierarchy. Having a few simple types of object in the world makes this manageable, but the moment you start wanting to add a lot of other different types, or special versions of something, you end up with a mess that's very hard to get out of.
 
-\section{Some detailed design}
+The solution to this is what is known as a Component-Entity System. In this model you have generic entities that are made up of lots of individual components that each have separate functionality. In this way you can easily create a lot of different types of objects without having the mess of inheritance that the more traditional model creates. However, while the CES model is most certainly better, it is a lot harder to implement and creates overhead for development time. In this project the decision was made to avoid going for a full CES model, as there are only two types of entity that exist: a basic entity and a character.
 
-\subsection{Even more detail}
+The client and the server share very similar architectures in concept. The server is intended to act in the same way as a client but have its state accessible by the clients when they connect or reload, and to save the state of the game in the database when the game is ended.
 
-\section{User Interface}
+% TODO: DIAGRAMS
 
-\section{Other relevant sections}
+\subsection{Game Loop}
+The central part of any game is what is known as the game loop. This is responsible for managing the entirety of the game, making sure every other part of it runs when it is supposed to.
+
+An important concept to understanding the purpose of the game loop is the \textbf{frame.} This is a slice of time in the game world, with the amount of time each frame represents being decided by how many frames you wish to have per second. Common numbers chosen here are 30 and 60, meaning a frame is 33.3 milliseconds and 16.7 milliseconds respectively. While it is usually trivial to have a simple game running at 60 frames per second, it isn't always the right choice. More frames per second means more processor time used, which drains more power or could cause issues on weak devices. For this project it is also unnecessary, as the game world does not require a simulation at that level of fidelity. 30 frames per second was chosen as a good balance between smoothness of gameplay (such as moving around) and demands on power.
+
+The purpose of the game loop is to update the simulation every frame while keeping track of whether the simulation is running at the correct speed. Every time it runs it first needs to check how much time has passed since the last frame was processed. If a frame took too long to process the last time, for some reason, then the next update will run as many times as necessary to catch back up to where it should be, regardless of whether that means things are moving too quickly or not.
+
+The game loop itself is not directly responsible for updating the simulation, however. Rather, it calls every entity that is currently active and asks it to update itself. Once all entities have updated themselves the frame is complete.
+
+\subsection{Entities}
+Entities are the next most important part of the game architecture, alongside the event manager, which will be discussed next. Each entity is an object in the game world. In the Component-Entity System mentioned previously, it would be made up of many individual components, linked to a component manager so that they could talk to each other and share necessary state. The entity itself would have no real idea about what it is or what it does, it simply gets each component to do something in turn, in a way similar to the game loop asking the entity to update in the first place.
+
+However, because implementing this is very complicated, entities in the project game don't work this way. Instead, they are more traditional objects, with methods and properties. This works fine because there are only two types of entity in the game: a basic entity and a character.
+
+When an entity is asked to update itself, it checks the list of events that it has received from the event manager since the last update and runs through them, applying a series of functions in order. Once it is done the game loop asks the next entity along to do the same thing. Basic entities don't do anything on an update, whereas characters will check for input from a player or the server and update their positions or perform an action.
+
+\subsection{Event Manager}
+The event manager is an important piece of the game engine, and acts as the communication method for all the other parts.
+
+Unlike almost all the other parts of the game, the event manager is not run per frame or controlled by the game loop. Rather, it receives and propagates events as it gets them. This means that events that are created in the middle of a frame's update are still sent to the things that need them.
+
+This has some advantages and some disadvantages. The main advantage is network latency. Because the network latency is several frames long, the ability to have the network send events back in the same frame that they happen helps to reduce any time wasted.
+
+The main disadvantage is in the case of entities affecting each other. In the case where an entity performing an action on another comes first in the update cycle, then the affected entity gets a chance to update itself based on that information in the same frame. In the case of an affected entity being updated first, however, it will only take into account the new information in the next frame. This isn't a huge issue, and a user should never really notice that something has happened one frame after, but the inconsistency is there and could potentially cause problems in situations where frames are taking a long time to process, or in very fast paced games.
+
+\subsection{Renderer}
+The renderer is responsible for displaying frames to the player, acting as the view into the simulation. It is also another part of the game engine that is separated from the game loop. It isn't required for this to be the case in order for the game to function; indeed, with the simplicity of the game in this project the renderer could be tied to the game loop's frames pretty easily and cause no problems.
+
+However, it is considered to be good practice to separate them, and for good reason. The renderer is almost always the most taxing part of the whole game. By adding the renderer to the central game loop's update process you cause each frame in the simulation to take a lot longer to complete. If this addition doesn't cause the frame to run over time then no problems will be noticed. However, it is very easy for the renderer to cause frames to run over time and, if it happens consistently, the game loop could get stuck in an infinite loop attempting to catch up.
+
+By separating the renderer out, you can make sure that the central game loop always updates correctly and keep the simulation running, regardless of how many frames the renderer is managing to actually display to the user. It is, of course, desirable to make sure that the renderer is managing to display all the frames, but it's less of a problem if the renderer can only display 20 of them than it is to have the central game loop stuck trying to catch up.
+
+\subsection{Input Manager}
+A game isn't much of a game if the user cannot create any input. To handle the user's input there is an input manager, which is responsible for capturing all of a player's input, working out what purpose that input has and then creating an event for it in the event manager, which propagates it to all interested parties.
+
+\subsection{Network}
+The networking class is responsible for managing the connection the game has to the server. At the end of every frame it will inform the server of anything the client's player has done, such as moved his character to a new location.
+
+If the server sends a message, however, the network manager will immediately create an event for it. Although this is mostly due to technical implementation reasons, there are advantages in this. Primarily, it means that entities being affected by network events can be updated sooner as they don't necessarily have to wait till the next frame. This is important for the same reason as the event manager, by reducing latency from a very high latency aspect of the game.
+
+\subsection{Server Differences}
+%todo: add diagrams here explaining the server architecture
+The game simulation running on the server operates with the same fundamental architecture, with the exception of having no input manager as there can never be any direct input to the server. However, because the server has to operate many games at once, there is another level higher than the client-side has.
+
+The server has a traditional web application router that receives and routes events from the client. These events are things like joining or leaving a game as well as the things a client cares about like movement. Each individual game is run in a separate thread due to the blocking nature of the game loop. The server keeps track of who is connected to what game and sends events that are relevant to a game to that game alone, which means that there is no pointless spamming of irrelevant events to games that don't care about it.
+
+This higher level part of the server is also responsible for creating game threads when a user first connects to a game. However, the game loop itself is responsible for shutting itself down, though the router can ask the game to do so as well.
+
+% You should concentrate on the more important aspects of the design. It is essential that an overview is presented before going into detail. As well as describing the design adopted it must also explain what other designs were considered and why they were rejected.
+
+% The design should describe what you expected to do, and might also explain areas that you had to revise after some investigation.
+
+% Typically, for an object-oriented design, the discussion will focus on the choice of objects and classes and the allocation of methods to classes. The use made of reusable components should be described and their source referenced. Particularly important decisions concerning data structures usually affect the architecture of a system and so should be described here.
+
+% How much material you include on detailed design and implementation will depend very much on the nature of the project. It should not be padded out. Think about the significant aspects of your system. For example, describe the design of the user interface if it is a critical aspect of your system, or provide detail about methods and data structures that are not trivial. Do not spend time on long lists of trivial items and repetitive descriptions. If in doubt about what is appropriate, speak to your supervisor.
+
+% You should also identify any support tools that you used. You should discuss your choice of implementation tools - programming language, compilers, database management system, program development environment, etc.
+
+% Some example sub-sections may be as follows, but the specific sections are for you to define.
+
+% \section{Overall Architecture}
+
+% \section{Some detailed design}
+
+% \subsection{Even more detail}
+
+% \section{User Interface}
+
+% \section{Other relevant sections}
