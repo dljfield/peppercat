@@ -28,6 +28,21 @@
 \usepackage{xltxtra}
 \usepackage{setspace}
 
+% http://tex.stackexchange.com/questions/20260/using-minionpro-for-the-main-font-and-fontspec-for-the-monospaced-font
+
+\setmainfont[
+SizeFeatures = {
+  {Size =     -8.41, OpticalSize = 8},
+  {Size = 8.41-13.1, OpticalSize = 11},
+  {Size = 13.1-20.0, OpticalSize = 19},
+  {Size = 20.0-,     OpticalSize = 72}},
+Ligatures          = {Required, Common, Contextual, TeX},
+Numbers            = {OldStyle, Proportional},
+RawFeature         = {expansion  = default},
+]{Minion Pro}
+
+\setmonofont[Scale=MatchLowercase]{Inconsolata}
+
 % package to do page headers nice and fancy
 \usepackage{fancyhdr}
 \usepackage{lastpage}
