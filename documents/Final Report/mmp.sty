@@ -9,7 +9,7 @@
 %%
 \ProvidesPackage{mmp}
 
-%\usepackage[a4paper,margin=2.5cm,nohead, headheight=3cm, headsep=20pt]{geometry}
+% \usepackage[a4paper,margin=2.5cm,nohead, headheight=3cm, headsep=20pt]{geometry}
 
 \usepackage{graphicx} %to allow images to be imported see example at end of template
 
@@ -23,6 +23,7 @@
 \usepackage{graphicx}
 \usepackage{subfigure}
 \usepackage{float}
+\usepackage[font=small,labelfont=bf]{caption}
 
 % package for fonts
 \usepackage{xltxtra}
@@ -42,6 +43,45 @@ RawFeature         = {expansion  = default},
 ]{Minion Pro}
 
 \setmonofont[Scale=MatchLowercase]{Consolas}
+
+% package for source code
+\usepackage{listings}
+\usepackage{color}
+\definecolor{lightgray}{rgb}{.95,.95,.95}
+\definecolor{numbergray}{rgb}{.5,.5,.5}
+
+% \DeclareCaptionFormat{listing}{\centering}
+
+\lstdefinelanguage{JavaScript}{
+  keywords={break, case, catch, continue, debugger, default, delete, do, else, finally, for, function, if, in, instanceof, new, return, switch, this, throw, try, typeof, var, void, while, with},
+  morecomment=[l]{//},
+  morecomment=[s]{/*}{*/},
+  morestring=[b]',
+  morestring=[b]",
+  sensitive=true
+}
+
+\lstdefinestyle{js}{
+  backgroundcolor=\color{lightgray},
+  aboveskip=\baselineskip,
+  belowcaptionskip=1\baselineskip,
+  breaklines=true,
+  language=JavaScript,
+  showstringspaces=false,
+  basicstyle=\footnotesize\ttfamily,
+  tabsize=4,
+  breaklines=true,
+  showtabs=false,
+  captionpos=b,
+  numbers=left,
+  numberstyle=\ttfamily\color{numbergray},
+  numbersep=12pt,
+  xleftmargin=6pt,
+  framexleftmargin=6pt,
+  framextopmargin=2pt,
+  framexbottommargin=2pt,
+  frame=tb, framerule=0pt
+}
 
 % package to do page headers nice and fancy
 \usepackage{fancyhdr}
