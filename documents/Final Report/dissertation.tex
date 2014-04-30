@@ -1,5 +1,5 @@
 %!TEX program = xelatex
-\documentclass[11pt,a4paper]{report}
+\documentclass[11pt,a4paper,twoside]{report}
 
 % Aberstwyth dissertation LaTeX Template
 % Authors: Dr. Hannah Dee (hmd1@aber.ac.uk), Neil Taylor (nst@aber.ac.uk)
@@ -32,8 +32,9 @@
 % Use the following to selectively exclude chapters
 %\includeonly{cover,abstract,acknowledge,declare,chapter1,chapter2}
 
-\begin{document}
+\newcommand{\todo}[1]{\textcolor{red}{\textbf{\texttt{TODO: #1}}}}
 
+\begin{document}
 % all of the include directives below refer to tex files
 % so \include{cover} includes cover.tex - to change the content,
 % edit the tex file
