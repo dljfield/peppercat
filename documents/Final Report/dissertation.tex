@@ -1,5 +1,5 @@
 %!TEX program = xelatex
-\documentclass[11pt,a4paper,twoside]{report}
+\documentclass[11pt,a4paper]{book}
 
 % Aberstwyth dissertation LaTeX Template
 % Authors: Dr. Hannah Dee (hmd1@aber.ac.uk), Neil Taylor (nst@aber.ac.uk)
@@ -33,7 +33,7 @@
 %\includeonly{cover,abstract,acknowledge,declare,chapter1,chapter2}
 
 \newcommand{\todo}[1]{\textcolor{red}{\textbf{\texttt{TODO: #1}}}}
-
+\usepackage{layout}
 \begin{document}
 % all of the include directives below refer to tex files
 % so \include{cover} includes cover.tex - to change the content,
@@ -42,6 +42,7 @@
 % \setmainfont[Ligatures=TeX]{Minion Pro}
 \pagenumbering{roman}
 
+% \layout
 % This is the front page
 \include{cover}
 
