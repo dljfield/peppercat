@@ -167,8 +167,7 @@ def game(id):
 
 	current_game = Game.query.filter_by(id = id).first()
 
-	# if id not in session['active_games']:
-	session['active_games'][id] = 0
+	session['active_games'][id] = True
 
 	import game, Queue
 	if id not in running_games:
@@ -179,10 +178,6 @@ def game(id):
 
 		running_games[id] = {'game': game.GameLoop(entities, scene, input_queue, reply_queue), 'input_queue': input_queue, 'reply_queue': reply_queue}
 		running_games[id]['game'].start()
-
-	# print "New connection."
-	session['active_games'][id] += 1
-	# print session[active_games][id]
 
 	return render_template('game.html', current_game = current_game)
 
@@ -280,16 +275,15 @@ def player_disconnect():
 
 @socketio.on('game_loaded', namespace = '/game')
 def on_join(data):
-	join_room(data['game_id'])
+	if data['game_id'] in running_games:
 
-	for game in session['active_games']:
-		if game in running_games:
+		join_room(data['game_id'])
 
-			if Game.query.filter_by(game_master = session['user_id']).first():
-				gamemaster = True
-			else:
-				gamemaster = False
+		if Game.query.filter_by(game_master = session['user_id']).first():
+			gamemaster = True
+		else:
+			gamemaster = False
 
-			user = {'id': session['user_id'], 'username': session['username'], 'game_master': gamemaster}
+		user = {'id': session['user_id'], 'username': session['username'], 'game_master': gamemaster}
 
-			running_games[game]['input_queue'].put({'type': "add_user", 'input': user})
+		running_games[data['game_id']]['input_queue'].put({'type': "add_user", 'input': user})
