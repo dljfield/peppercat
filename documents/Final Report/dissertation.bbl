@@ -18,6 +18,25 @@
 \fi
 #2}}
 
+\bibitem{citeulike:13160396}
+
+ \begin{quotation}\noindent Minimal web framework for Python. \end{quotation}
+
+\bibitem{citeulike:13160372}
+\BIBentryALTinterwordspacing
+``{PyGame framework for Python.}'' [Online]. Available:
+  \url{http://pygame.org/}
+\BIBentrySTDinterwordspacing
+ \begin{quotation}\noindent Framework for creating games in Python.
+  \end{quotation}
+
+\bibitem{citeulike:13160375}
+\BIBentryALTinterwordspacing
+``{pyget}.'' [Online]. Available: \url{http://www.pyglet.org/}
+\BIBentrySTDinterwordspacing
+ \begin{quotation}\noindent Python library offering cross-platform windowing
+  and multimedia capabilities. \end{quotation}
+
 \bibitem{citeulike:13141206}
 \BIBentryALTinterwordspacing
 ``{Roll20, online tabletop game engine.}'' [Online]. Available:
@@ -25,6 +44,23 @@
 \BIBentrySTDinterwordspacing
  \begin{quotation}\noindent Roll20, an online game engine for playing tabletop
   games on your computer. \end{quotation}
+
+\bibitem{citeulike:13160403}
+\BIBentryALTinterwordspacing
+{SQLite \& MySQL Speed Comparison}. [Online]. Available:
+  \url{http://www.sqlite.org/speed.html}
+\BIBentrySTDinterwordspacing
+ \begin{quotation}\noindent Speed comparison between SQLite and MySQL showing
+  that SQLite is slower. \end{quotation}
+
+\bibitem{citeulike:13160383}
+\BIBentryALTinterwordspacing
+(2014, May) {Server-side Language Usage Statistics}. [Online]. Available:
+  \url{http://w3techs.com/technologies/overview/programming\_language/all}
+\BIBentrySTDinterwordspacing
+ \begin{quotation}\noindent Statistics indicated the usage of various languages
+  on the server-side of web applications. For this project the relevant
+  languages are Python and JavaScript. \end{quotation}
 
 \bibitem{citeulike:13139216}
 \BIBentryALTinterwordspacing
@@ -45,6 +81,22 @@ J.~Bose, \emph{{Creating Isometric Worlds: A Primer for Game Developers}}, May
  \begin{quotation}\noindent Book about isometric game development in an
   ActionScript framework. The algorithms to convert from Cartesian to isometric
   coordinates and back are taken from this book. \end{quotation}
+
+\bibitem{citeulike:13160395}
+\BIBentryALTinterwordspacing
+M.~Grinberg. {Flask-SocketIO Documentation}. [Online]. Available:
+  \url{http://flask-socketio.readthedocs.org/en/latest/}
+\BIBentrySTDinterwordspacing
+ \begin{quotation}\noindent Extension implementing SocketIO in the Flask
+  framework. \end{quotation}
+
+\bibitem{citeulike:13160393}
+\BIBentryALTinterwordspacing
+B.~Grinstead, ``{JavaScript A* Library},'' May 2014. [Online]. Available:
+  \url{http://github.com/bgrins/javascript-astar}
+\BIBentrySTDinterwordspacing
+ \begin{quotation}\noindent JavaScript library implementing the A* pathfinding
+  algorithm. \end{quotation}
 
 \bibitem{citeulike:13139194}
 \BIBentryALTinterwordspacing
@@ -96,14 +148,6 @@ B.~Nystrom. {Game Programming Patterns}. Online. [Online]. Available:
   as well as examples on how to use more general design patterns in the context
   of games. \end{quotation}
 
-\bibitem{citeulike:13139212}
-\BIBentryALTinterwordspacing
-N.~G. Obbink, \emph{{Javascript tile engine tutorials}}, 2012. [Online].
-  Available: \url{http://nielsgrootobbink.com/wokflok/jte/}
-\BIBentrySTDinterwordspacing
- \begin{quotation}\noindent Series of tutorials going through the creation of a
-  simple RPG in JavaScript. \end{quotation}
-
 \bibitem{citeulike:13000170}
 \BIBentryALTinterwordspacing
 M.~A. Pagella, \emph{{Making Isometric Social Real-Time Games with
@@ -114,6 +158,14 @@ M.~A. Pagella, \emph{{Making Isometric Social Real-Time Games with
 \BIBentrySTDinterwordspacing
  \begin{quotation}\noindent A book about creating isometric games in the
   browser using and JavaScript \end{quotation}
+
+\bibitem{citeulike:13160361}
+\BIBentryALTinterwordspacing
+J.~Resig, ``{Library: class.js}.'' [Online]. Available:
+  \url{http://ejohn.org/blog/simple-javascript-inheritance/}
+\BIBentrySTDinterwordspacing
+ \begin{quotation}\noindent Library for implementing a more classical class
+  structure in JavaScript. \end{quotation}
 
 \bibitem{citeulike:13000145}
 \BIBentryALTinterwordspacing
