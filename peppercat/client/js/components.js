@@ -1,4 +1,4 @@
-var PlayerInputComponent = function(entity, engine) {
+var PlayerInputComponent = function(entity) {
 	while (entity.eventQueue.length != 0) {
 		var input = entity.eventQueue.pop();
 		if (input.type === 'player_move') {
@@ -20,7 +20,7 @@ var PlayerPathingComponent = function(scene, input, entity) {
 	}
 };
 
-var CharacterInputComponent = function(entity, engine) {
+var CharacterInputComponent = function(entity) {
 	while (entity.eventQueue.length != 0) {
 		var input = entity.eventQueue.pop();
 

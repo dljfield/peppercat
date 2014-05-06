@@ -100,7 +100,7 @@ The purpose of the game loop is to update the simulation every frame while keepi
 
 The game loop itself is not directly responsible for updating the simulation, however. Rather, it calls every entity that is currently active and asks it to update itself. Once all entities have updated themselves, the network manager is asked to inform the server of everything that happened it might need to know about and the frame is complete.
 
-\subsection{Entities}
+\subsection{Entities}\label{entities_design}
 Entities are the next most important part of the game architecture, alongside the event manager, which will be discussed next. Each entity is an object in the game world. In the Component-Entity System mentioned previously, it would be made up of many individual components, linked to a component manager so that they could talk to each other and share necessary state. The entity itself would have no real idea about what it is or what it does, it simply gets each component to do something in turn, in a way similar to the game loop asking the entity to update in the first place.
 
 However, because implementing this is very complicated, entities in the project game don't work this way. Instead, they are more traditional objects, with methods and properties. This works fine because there are only two types of entity in the game: a basic \texttt{Entity} and a \texttt{Character}.
