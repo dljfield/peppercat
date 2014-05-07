@@ -18,10 +18,6 @@
 \fi
 #2}}
 
-\bibitem{citeulike:13160396}
-
- \begin{quotation}\noindent Minimal web framework for Python. \end{quotation}
-
 \bibitem{citeulike:13160372}
 \BIBentryALTinterwordspacing
 ``{PyGame framework for Python.}'' [Online]. Available:
@@ -36,6 +32,12 @@
 \BIBentrySTDinterwordspacing
  \begin{quotation}\noindent Python library offering cross-platform windowing
   and multimedia capabilities. \end{quotation}
+
+\bibitem{citeulike:13160396}
+\BIBentryALTinterwordspacing
+{Python Flask Framework}. [Online]. Available: \url{http://flask.pocoo.org/}
+\BIBentrySTDinterwordspacing
+ \begin{quotation}\noindent Minimal web framework for Python. \end{quotation}
 
 \bibitem{citeulike:13141206}
 \BIBentryALTinterwordspacing
@@ -58,9 +60,9 @@
 (2014, May) {Server-side Language Usage Statistics}. [Online]. Available:
   \url{http://w3techs.com/technologies/overview/programming\_language/all}
 \BIBentrySTDinterwordspacing
- \begin{quotation}\noindent Statistics indicated the usage of various languages
-  on the server-side of web applications. For this project the relevant
-  languages are Python and JavaScript. \end{quotation}
+ \begin{quotation}\noindent Statistics indicating the usage of various
+  languages on the server-side of web applications. For this project the
+  relevant languages are Python and JavaScript. \end{quotation}
 
 \bibitem{citeulike:13139216}
 \BIBentryALTinterwordspacing

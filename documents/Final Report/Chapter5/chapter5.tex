@@ -1,14 +1,46 @@
 \chapter{Evaluation}
 
-Examiners expect to find in your dissertation a section addressing such questions as:
+\section{What Went Wrong}
+The earliest problem was probably research direction. Without any real understanding of how games are put together it was hard to judge what was actually going to be important or not. The biggest mistake made from this is the choice to focus early research on specific features of the engine, like graphics, rather than how the engine actually fits together. Had the idea occurred to instead look at game engine architecture first of all time could likely have been saved on rewriting architectural aspects, which cause lots of little problems that need fixing. By the time resources were found that pointed in the right direction a lot of code had already been written and iterated on that needed further development time to fit into newly understood structure.
 
-\begin{itemize}
-   \item Were the requirements correctly identified? 
-   \item Were the design decisions correct?
-   \item Could a more suitable set of tools have been chosen?
-   \item How well did the software meet the needs of those who were expecting to use it?
-   \item How well were any other project aims achieved?
-   \item If you were starting again, what would you do differently?
-\end{itemize}
+The second problem this caused was to create a mistaken belief that heavily iterative development would work properly. The process followed was supposed to be very agile, trying not to do work that wouldn't be necessary. However, game engines are very connected things and while the iterative idea works for some individual parts of it, once you're connecting the whole thing together it falls apart and creates a lot of extra work. A decent understanding of how game engines fit together might have warded off the temptation to go down this route.
 
-Such material is regarded as an important part of the dissertation; it should demonstrate that you are capable not only of carrying out a piece of work but also of thinking critically about how you did it and how you might have done it better. This is seen as an important part of an honours degree. There will be good things and room for improvement with any project. As you write this section, identify and discuss the parts of the work that went well and also consider ways in which the work could be improved. Review the discussion on the Evaluation section from the lectures. A recording is available on Blackboard. 
+The delays caused by these problems were certainly not welcome, but they were also not disastrous to the timeline of the project. The minimal system had plenty of room given in its estimation to account for unexpected problems, and by the time the server implementation started about half-way through the project these problems had started to be resolved and more time was spent thinking about the overall structure of things before implementing them.
+
+Unfortunately, despite the safety margins in time and the improvements in process and research, the server implementation totally blew everything apart. Although it was expected that there would be difficulties in getting the multi-server environment to work, the reality of implementing it was a lot tougher than at all anticipated, with a lot of work needed to just get what was already running in the client to operate properly with the server. The complete lack of familiarity with Python and the framework used to handle the web aspect further affected implementation time, and ultimately led to missing the minimal system target.
+
+\section{What Went Right}
+Despite the issues encountered and missing features, a lot did go right with the project. The features that are implemented work pretty well, with graphics being a particular highlight. The graphics renderer functions flawlessly, with the limitations it has being well understood and a deliberate choice, and those limitations have workarounds that wouldn't cause too much issue for the game. Movement also works well, and features that affect things like movement speed would not at all be an issue to implement on top of what is there.
+
+The client-side also improved a lot over the course of the project. The early missteps in research and architectural planning were unfortunate, but the final product is relatively solid. The game loop and the renderer are separated; frames are timed properly to avoid issues with any slow frames like those created by changing tabs in the browser; updates are handled generically so that entities can do whatever they like; messages are passed around the engine by a generic event manager; clicks are handled accurately; and generally the client-side engine ended up following the wisdom of games development pretty well.
+
+Perhaps most importantly for what went right is that the project proved challenging and an excellent learning experience.
+
+\section{What Would Be Done Differently}
+The client-side went very well, and the server-side proved to be a serious issue. There are a lot of reasons for this, but it ultimately came down to unfamiliarity with the language and framework used, and the nature of creating a multiplayer game in a web environment. The point of the game rather prohibits the complete removal of the multiplayer aspect, but the language used is definitely changeable. Although one of the goals was to learn Python, had that not been an issue it's likely that node.js would be chosen instead for its more familiar environment and similarity with the client-side implementation.
+
+Another language change would be to use one of the alternative languages over JavaScript. TypeScript in particular looked like a very good choice; a more solid and complete class implementation would have been nice, but types in particular would have helped a lot during the refactoring stages of the project. It's very easy to miss functions that are no longer getting the correct input because types have changed and there is no real way to handle this with plain JavaScript.
+
+Finally, the research focus would be changed to architectural elements over specific implementation elements, and the process would have started out slower and given more time to planning how things fit together from the beginning.
+
+\section{Conclusion}
+While I feel a certain degree of disappointment that some major features were left out by the end of the project, ultimately I think it went well and am happy with what has been achieved. The server-side was very problematic but the client-side is, in my opinion, done well and offers a lot of scope for adding features to it. Had the game not been multiplayer I think that a lot could have been done with what is there.
+
+Most importantly a lot was learned from the experience. Throughout the project the code and design was improved and even the process used was iterated upon. Having come into the project with no experience in game development or real idea of where to start and to come out of it with a good base of understanding in implementing a game is a big win, regardless of the results of this attempt.
+
+% Examiners expect to find in your dissertation a section addressing such questions as:
+
+% \begin{itemize}
+%    \item Were the requirements correctly identified?
+%    \item Were the design decisions correct?
+%    \item Could a more suitable set of tools have been chosen?
+%    \item How well did the software meet the needs of those who were expecting to use it?
+%    \item How well were any other project aims achieved?
+%    \item If you were starting again, what would you do differently?
+% \end{itemize}
+
+% Such material is regarded as an important part of the dissertation; it should demonstrate that you are capable not only of carrying out a piece of work but also of thinking critically about how you did it and how you might have done it better. This is seen as an important part of an honours degree.
+
+% There will be good things and room for improvement with any project. As you write this section, identify and discuss the parts of the work that went well and also consider ways in which the work could be improved.
+
+% Review the discussion on the Evaluation section from the lectures. A recording is available on Blackboard.
