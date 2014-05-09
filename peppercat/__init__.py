@@ -18,4 +18,4 @@ db.init_app(app)
 
 socketio = SocketIO(app)
 
-from peppercat import routes, sockets
+from peppercat import routes
