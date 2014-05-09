@@ -377,14 +377,14 @@ Wales, UK \\
 
 \def\setchapterheaderfooter{
 %%%%% Added to redefine the page style %%%%%%%%%%%%%%
-\fancypagestyle{plain}{%
-%\fancyhf{} % clear all header and footer fields
-\fancyhead[L]{\textsl{Chapter\ \thechapter}}
-\fancyhead[R]{\textsl{\leftmark}}
+% \fancypagestyle{plain}{%
+% %\fancyhf{} % clear all header and footer fields
+% % \fancyhead[L]{\textsl{Chapter\ \thechapter}}
+% % \fancyhead[R]{\textsl{\leftmark}}
 
-\fancyfoot[C]{{\thepage} of \pageref{LastPage}} % except the center
-\renewcommand{\headrulewidth}{0.4pt}
-\renewcommand{\footrulewidth}{0pt}}
+% \fancyfoot[C]{{\thepage} of \pageref{LastPage}} % except the center
+% % \renewcommand{\headrulewidth}{0.4pt}
+% \renewcommand{\footrulewidth}{0pt}}
 
 %%% Setting the header and footer
 \fancyhead[L]{\textsl{Chapter\ \thechapter}}
@@ -398,6 +398,7 @@ Wales, UK \\
 \def\setemptyheader{
 \fancypagestyle{plain}{%
 \fancyhead{}}
+
 
 \renewcommand{\headrulewidth}{0pt}
 }

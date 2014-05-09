@@ -18,7 +18,7 @@ Previously, the most popular and obvious choice for browser-based development of
 
 ActionScript has also remained popular for creating games, despite its disappearance from other types of web application. This means that there are plenty of resources available for it, from books to libraries and frameworks.
 
-However, despite all these advantages, ActionScript and Flash are unsuitable for this project for a few reasons. The first is ActionScript's requirement to be run in a Flash container. The project specified the use of \textsc{html5} canvas, which is a native browser construct that isn't usable by Flash, because Flash is a plugin. Its plugin status is also a potential problem for accessibility. Although it remains the most ubiquitous browser plugin for desktop use---a status most likely still conferred by its continued use for video sites like YouTube---it is an issue for mobile users who cannot install it at all, and there is plenty of evidence that it is a dying platform on the web more generally [REFERENCE], even if games are slower to catch up than other forms of web application. There is also the case of it being an unfamiliar environment, particularly in regards to how to interact with the network, a problem exacerbated by the server being written in the equally unfamiliar Python.
+However, despite all these advantages, ActionScript and Flash are unsuitable for this project for a few reasons. The first is ActionScript's requirement to be run in a Flash container. The project specified the use of \textsc{html5} canvas, which is a native browser construct that isn't usable by Flash, because Flash is a plugin. Its plugin status is also a potential problem for accessibility. Although it remains the most ubiquitous browser plugin for desktop use---a status most likely still conferred by its continued use for video sites like YouTube---it is an issue for mobile users who cannot install it at all, whereas a \textsc{html5} game can be run on modern mobile browsers just fine, in theory. There is also the case of it being an unfamiliar environment, particularly in regards to how to interact with the network, a problem exacerbated by the server being written in the equally unfamiliar Python.
 
 JavaScript has the advantage of being both familiar and natively supported by browsers, letting it interact with the \textsc{html5} canvas element. Indeed, JavaScript is the only language natively supported by browsers. However, as previously mentioned, JavaScript has some disadvantages for creating games and other larger applications. While neither the lack of a more traditional object-oriented structure nor the lack of static typing make it unworkable for creating games, it does cause unnecessary issues. The lack of typing is of course the traditional (and commonly argued about) trade-off between easy prototyping and easier refactoring and debugging. The prototypal inheritance style verses the classical class structure is more of an issue, however, as all game design patterns are designed to be implemented in the latter.
 
@@ -72,7 +72,12 @@ Because the game in this project was going to be very simple, with the minimal s
 
 Before getting to the details of each part, an overview is necessary to give context to their purposes. There are only a few individual components to the whole system, though they all have need to interact.
 
-\todo{Architecture diagram}
+\begin{figure}
+	\centering
+	\includegraphics[width=8cm]{Images/overall_architecture.eps}
+	\caption{The overall architecture of the game engine.}
+    \label{fig:architecture}
+\end{figure}
 
 The most important component in the engine is the game loop. This is responsible for the updating of the game simulation every frame by asking each entity it knows about to update itself in turn. When asked to update themselves, the entities check their event queues for any new events and process them as required, then proceed to perform any necessary updates to their state, such as movement, as well as creating their own event to inform the server if relevant. These events are passed around the system by an event manager, which sits outside of the game loop. Any part of the system that wants to know about something registers itself to receive event updates related to that thing and is then given them the moment the event comes in. Finally, there is an input manager and a network manager, which handle input (and output in the case of the network manager) from players and the server.
 
@@ -92,6 +97,14 @@ To load the scene from the server, the \texttt{Scene} class contains several met
 The \texttt{Scene} class also remains the only place where the new event manager was not implemented. Due to the issues with the previous event management system, discussed in section \ref{subsection:eventmanager}, network connectivity had to be implemented directly into \texttt{Scene}, rather than abstracted to the correct \texttt{Network} class. With the event manager, this shouldn't be necessary, but the retrofitting work was not completed in this case.
 
 \subsection{Game Loop}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=8cm]{Images/game_loop.eps}
+	\caption{The game loop updating.}
+    \label{fig:gameloop}
+\end{figure}
+
 The central part of any game is what is known as the game loop. It is run from the main \texttt{Engine} class and is responsible for managing the entirety of the game, making sure every other part of it runs when it is supposed to.
 
 An important concept to understanding the purpose of the game loop is the \textbf{frame.} This is a slice of time in the game world, with the amount of time each frame represents being decided by how many frames you wish to have per second. Common numbers chosen here are 30 and 60, meaning a frame is 33.3 milliseconds and 16.7 milliseconds respectively. While it is usually trivial to have a simple game running at 60 frames per second, it isn't always the right choice. More frames per second means more processor time used, which drains more power or could cause issues on weak devices. For this project it is also unnecessary, as the game world does not require a simulation at that level of fidelity. 30 frames per second was chosen as a good balance between smoothness of gameplay (such as moving around) and demands on power.
@@ -101,11 +114,11 @@ The purpose of the game loop is to update the simulation every frame while keepi
 The game loop itself is not directly responsible for updating the simulation, however. Rather, it calls every entity that is currently active and asks it to update itself. Once all entities have updated themselves, the network manager is asked to inform the server of everything that happened it might need to know about and the frame is complete.
 
 \subsection{Entities}\label{entities_design}
-Entities are the next most important part of the game architecture, alongside the event manager, which will be discussed next. Each entity is an object in the game world. In the Component-Entity System mentioned previously, it would be made up of many individual components, linked to a component manager so that they could talk to each other and share necessary state. The entity itself would have no real idea about what it is or what it does, it simply gets each component to do something in turn, in a way similar to the game loop asking the entity to update in the first place.
+Entities are the next most important part of the game architecture, alongside the event manager, which will be discussed next. Each entity is an object in the game world. In the Component-Entity System mentioned previously, it would be made up of many individual components, linked to a component manager so that they could talk to each other and share necessary state. The entity itself would have no real idea about what it is or what it does, simply getting each component to do something in turn, in a way similar to the game loop asking the entity to update in the first place.
 
 However, because implementing this is very complicated, entities in the project game don't work this way. Instead, they are more traditional objects, with methods and properties. This works fine because there are only two types of entity in the game: a basic \texttt{Entity} and a \texttt{Character}.
 
-The basic \texttt{Entity} class is a simple object in the game world like a wall. It has no properties beyond it's size, position and the sprite that represents it if one exists. A \texttt{Character} is a lot more complicated, and has methods for handling user input and updating its position, as well as dealing with any other interactions that might occur, such as taking damage from another entity.
+The basic \texttt{Entity} class is a simple object in the game world like a wall. It has no properties beyond its size, position and the sprite that represents it if one exists. A \texttt{Character} is a lot more complicated, and has methods for handling user input and updating its position, as well as dealing with any other interactions that might occur, such as taking damage from another entity.
 
 When an entity is asked to update itself, it checks the list of events that it has received from the event manager since the last update and runs through them, applying a series of functions in order. Once it is done the game loop asks the next entity along to do the same thing. Basic entities don't do anything on an update, whereas \texttt{Character}s will check for input from a player or the server and update their positions or perform an action.
 
@@ -114,6 +127,14 @@ The existence of two types of player with different capabilities created some is
 As there were two ways to interpret any input events, and they needed to be switched out, two functions were made into components: input handling and path finding. The input handler for an active player listens for events from the input manager, whereas the input handler for a remote player listens for network events. The pathfinding component on an active player actually creates paths, whereas the remote entities simply get given them from the network.
 
 \subsection{Event Manager}\label{subsection:eventmanager}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=8cm]{Images/event_manager.eps}
+	\caption{The event manager.}
+    \label{fig:event_manager}
+\end{figure}
+
 The event manager is an important piece of the game engine, and is the communication method for all the other system components, acting as a sort of glue between them.
 
 Unlike almost all the other parts of the game, the event manager is not run per frame or controlled by the game loop. Rather, it receives and propagates events as it gets them. This means that events that are created in the middle of a frame's update are still sent to the things that need them.
@@ -145,6 +166,14 @@ If the server sends a message, however, the network manager will immediately cre
 
 \subsection{Server Differences}
 %todo: add diagrams here explaining the server architecture
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=8cm]{Images/server_design.eps}
+	\caption{The server contains the router and some games. The clients interact with the game they are interested in through the router.}
+    \label{fig:server_design}
+\end{figure}
+
 
 The server's purpose is to act as a central version of the game that links all the clients together, and is responsible for being something of an authority in the game simulation to make sure that clients see the correct things. Because of this it makes sense that the server and client have the same structure.
 

@@ -1,5 +1,12 @@
 \chapter{Background \& Objectives}
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=10cm]{Images/the_game.png}
+    \caption{The game. Graphics from \cite{GameArt}.}
+    \label{fig:the_game}
+\end{figure}
+
 Games are interesting projects to take on; they have a history of being difficult to make and pushing technology to its limits. There are a great many systems and features that can be included in them---AI, physics, graphics, audio, UI, multiplayer and more---and a great many ways to implement each, from simple to very complicated depending on the needs of the project.
 
 Games also have a history of aiming for too many of these features in too little time. In most cases, every one of the features thought up would enhance the final product in some way, from a significant improvement that changes the way the game is played to a minor enhancement that makes things just a little more pleasant for the user. Many of these features may be considered mandatory for the game to be worth making at all. For example, a single-player chess game would probably not be very good if there were no AI to play against.
@@ -27,7 +34,7 @@ The design also called for interactions outside of combat. For instance, a playe
 
 There are a few specific implementation details as well. Apart from the game being played via a browser, there needed to be graphics and those graphics needed to be \textsc{2d} isometric tiles. Further, the server was to be written in Python with the goal of gaining experience in the language.
 
-With this overview of the game---a full account of the original game design can be found in Appendix \ref{appendix:designspec}---it is now important to answer why the project was worth doing.
+With this overview of the game it is now important to answer why the project was worth doing.
 
 \subsection{Why Make The Game?}
 The first answer to this is that games are interesting in general. Most obviously, the final product of a game is (hopefully) something fun to play with appeal to a wide range of people. More relevant to the context of a project, however, is that games are interesting from a software perspective.
@@ -62,7 +69,7 @@ An online resource which proved to be very useful was a tutorial on how to rende
 Finally, other than the \textit{Mozilla Developer Network,} there were APIs referenced for the various languages and libraries used in the project, which will be introduced in Chapter 3.
 
 \section{Analysis}
-With the knowledge that the scope of games can expand to encompass a ridiculous area, and that everything within that scope is likely to be time consuming to implement, it is important to define what features are absolutely mandatory for the game to be worth making, and figure out how long it might take to implement them. This section provides a discussion of how the minimal system was decided upon, with the list of features in the minimal system being available in Appendix D.
+With the knowledge that the scope of games can expand to encompass a ridiculous area, and that everything within that scope is likely to be time consuming to implement, it is important to define what features are absolutely mandatory for the game to be worth making, and figure out how long it might take to implement them. This section lists the features chosen for the minimal system and how they were decided upon.
 
 \subsection{Necessary Features}
 The first of the necessary features is graphics. Graphics are the player's view into the world, letting them see the state of the game and figure out what their input needs to be. Without this view the only way to see into the world would be to debug the code as it was playing, which is not a very efficient or pleasant way to play a game. Of course, it is reasonable to operate a game with a textual interface; however, the game design specified that graphics be implemented and that those graphics be isometric tiles.

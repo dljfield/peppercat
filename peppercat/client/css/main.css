@@ -1,7 +1,7 @@
-body {
+/*body {
     background-color: #ffefef;
 }
-
+*/
 div#canvas_container {
     width: 800px;
     margin: 0 auto;
@@ -14,6 +14,11 @@ div#output {
     font-family: "Source Code Pro";
 }
 
-canvas#game_canvas {
-    border: 1px dotted #F096C1;
+div.container{
+	margin-top: 20px;
+	width: 1050px;
 }
+
+/*canvas#game_canvas {
+    border: 1px dotted #F096C1;
+}*/

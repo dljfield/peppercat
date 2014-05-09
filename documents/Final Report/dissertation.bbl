@@ -18,6 +18,102 @@
 \fi
 #2}}
 
+\bibitem{GameArt}
+laetissima, ``{Isometric Painted Game Assets},''
+  \url{http://opengameart.org/content/isometric-painted-game-assets}, Nov.
+  2012, licensed for use under a Creative Commons Public Domain Dedication
+  License. Accessed February 2014.
+ \begin{quotation}\noindent These are the graphics used in the game.
+  \end{quotation}
+
+\bibitem{citeulike:13139186}
+\BIBentryALTinterwordspacing
+F.~Lecollinet and G.~Lecollinet, ``{Mozilla's BrowserQuest Game},'' 2012.
+  [Online]. Available: \url{http://browserquest.mozilla.org/}
+\BIBentrySTDinterwordspacing
+ \begin{quotation}\noindent The BrowserQuest game itself. \end{quotation}
+
+\bibitem{citeulike:13139189}
+\BIBentryALTinterwordspacing
+{Little Workshop}. (2012) {Little Workshop Information on BrowserQuest}.
+  [Online]. Available: \url{http://www.littleworkshop.fr/browserquest.html}
+\BIBentrySTDinterwordspacing
+ \begin{quotation}\noindent Web page by the authors of the BrowserQuest game
+  giving some information on it. \end{quotation}
+
+\bibitem{citeulike:13139194}
+\BIBentryALTinterwordspacing
+F.~Lecollinet and G.~Lecollinet, ``{BrowserQuest Source Code},'' GitHub, 2012.
+  [Online]. Available: \url{http://github.com/mozilla/BrowserQuest}
+\BIBentrySTDinterwordspacing
+ \begin{quotation}\noindent BrowserQuest source code. \end{quotation}
+
+\bibitem{citeulike:12394552}
+\BIBentryALTinterwordspacing
+M.~McShaffry and D.~Graham, \emph{{Game Coding Complete, Fourth Edition}},
+  4th~ed.\hskip 1em plus 0.5em minus 0.4em\relax Cengage Learning PTR, Mar.
+  2012. [Online]. Available:
+  \url{http://www.amazon.com/exec/obidos/redirect?tag=citeulike07-20\&path=ASIN/1133776574}
+  1133776574.
+\BIBentrySTDinterwordspacing
+ \begin{quotation}\noindent Popular and well respected book on the fundamentals
+  of creating a modern game engine. \end{quotation}
+
+\bibitem{citeulike:13049596}
+\BIBentryALTinterwordspacing
+B.~Nystrom. {Game Programming Patterns}. Online. [Online]. Available:
+  \url{http://gameprogrammingpatterns.com/index.html}
+\BIBentrySTDinterwordspacing
+ \begin{quotation}\noindent Online book detailing common game design patterns,
+  as well as examples on how to use more general design patterns in the context
+  of games. \end{quotation}
+
+\bibitem{citeulike:13000145}
+\BIBentryALTinterwordspacing
+P.~Rettig, \emph{{Professional \textsc{html5} Mobile Game Development}},
+  1st~ed.\hskip 1em plus 0.5em minus 0.4em\relax Wrox, Aug. 2012. [Online].
+  Available:
+  \url{http://www.amazon.com/exec/obidos/redirect?tag=citeulike07-20\&path=ASIN/B0094P2TU6}
+\BIBentrySTDinterwordspacing
+ \begin{quotation}\noindent Book on creating browser games using HTML5 and
+  JavaScript \end{quotation}
+
+\bibitem{citeulike:13000170}
+\BIBentryALTinterwordspacing
+M.~A. Pagella, \emph{{Making Isometric Social Real-Time Games with
+  \textsc{html5}, \textsc{css3}, and Javascript}}.\hskip 1em plus 0.5em minus
+  0.4em\relax O'Reilly Media, Sept. 2011. [Online]. Available:
+  \url{http://www.amazon.com/exec/obidos/redirect?tag=citeulike07-20\&path=ASIN/1449304753}
+  1449304753.
+\BIBentrySTDinterwordspacing
+ \begin{quotation}\noindent A book about creating isometric games in the
+  browser using and JavaScript \end{quotation}
+
+\bibitem{citeulike:13151262}
+\BIBentryALTinterwordspacing
+{Mozilla Foundation}, \emph{{Mozilla Developer Network}}. [Online]. Available:
+  \url{http://developer.mozilla.org}
+\BIBentrySTDinterwordspacing
+ \begin{quotation}\noindent Online APIs for JavaScript and HTML5.
+  \end{quotation}
+
+\bibitem{citeulike:13139216}
+\BIBentryALTinterwordspacing
+J.~Bose, \emph{{Creating Isometric Worlds: A Primer for Game Developers}}, May
+  2013. [Online]. Available:
+  \url{http://gamedevelopment.tutsplus.com/tutorials/creating-isometric-worlds-a-primer-for-game-developers--gamedev-6511}
+\BIBentrySTDinterwordspacing
+ \begin{quotation}\noindent Tutorial series used to understand the basics of
+  rendering isometric graphics. \end{quotation}
+
+\bibitem{citeulike:13160361}
+\BIBentryALTinterwordspacing
+J.~Resig, ``{Library: class.js}.'' [Online]. Available:
+  \url{http://ejohn.org/blog/simple-javascript-inheritance/}
+\BIBentrySTDinterwordspacing
+ \begin{quotation}\noindent Library for implementing a more classical class
+  structure in JavaScript. \end{quotation}
+
 \bibitem{citeulike:13160372}
 \BIBentryALTinterwordspacing
 ``{PyGame framework for Python.}'' [Online]. Available:
@@ -33,28 +129,6 @@
  \begin{quotation}\noindent Python library offering cross-platform windowing
   and multimedia capabilities. \end{quotation}
 
-\bibitem{citeulike:13160396}
-\BIBentryALTinterwordspacing
-{Python Flask Framework}. [Online]. Available: \url{http://flask.pocoo.org/}
-\BIBentrySTDinterwordspacing
- \begin{quotation}\noindent Minimal web framework for Python. \end{quotation}
-
-\bibitem{citeulike:13141206}
-\BIBentryALTinterwordspacing
-``{Roll20, online tabletop game engine.}'' [Online]. Available:
-  \url{http://roll20.net/}
-\BIBentrySTDinterwordspacing
- \begin{quotation}\noindent Roll20, an online game engine for playing tabletop
-  games on your computer. \end{quotation}
-
-\bibitem{citeulike:13160403}
-\BIBentryALTinterwordspacing
-{SQLite \& MySQL Speed Comparison}. [Online]. Available:
-  \url{http://www.sqlite.org/speed.html}
-\BIBentrySTDinterwordspacing
- \begin{quotation}\noindent Speed comparison between SQLite and MySQL showing
-  that SQLite is slower. \end{quotation}
-
 \bibitem{citeulike:13160383}
 \BIBentryALTinterwordspacing
 (2014, May) {Server-side Language Usage Statistics}. [Online]. Available:
@@ -64,25 +138,13 @@
   languages on the server-side of web applications. For this project the
   relevant languages are Python and JavaScript. \end{quotation}
 
-\bibitem{citeulike:13139216}
+\bibitem{citeulike:13160393}
 \BIBentryALTinterwordspacing
-J.~Bose, \emph{{Creating Isometric Worlds: A Primer for Game Developers}}, May
-  2013. [Online]. Available:
-  \url{http://gamedevelopment.tutsplus.com/tutorials/creating-isometric-worlds-a-primer-for-game-developers--gamedev-6511}
+B.~Grinstead, ``{JavaScript A* Library},'' May 2014. [Online]. Available:
+  \url{http://github.com/bgrins/javascript-astar}
 \BIBentrySTDinterwordspacing
- \begin{quotation}\noindent Tutorial series used to understand the basics of
-  rendering isometric graphics. \end{quotation}
-
-\bibitem{citeulike:13155325}
-\BIBentryALTinterwordspacing
-------, \emph{{Starling Game Development Essentials}}.\hskip 1em plus 0.5em
-  minus 0.4em\relax Packt Publishing, Dec. 2013. [Online]. Available:
-  \url{http://www.amazon.com/exec/obidos/redirect?tag=citeulike07-20\&path=ASIN/178398354X}
-  178398354X.
-\BIBentrySTDinterwordspacing
- \begin{quotation}\noindent Book about isometric game development in an
-  ActionScript framework. The algorithms to convert from Cartesian to isometric
-  coordinates and back are taken from this book. \end{quotation}
+ \begin{quotation}\noindent JavaScript library implementing the A* pathfinding
+  algorithm. \end{quotation}
 
 \bibitem{citeulike:13160395}
 \BIBentryALTinterwordspacing
@@ -92,91 +154,61 @@ M.~Grinberg. {Flask-SocketIO Documentation}. [Online]. Available:
  \begin{quotation}\noindent Extension implementing SocketIO in the Flask
   framework. \end{quotation}
 
-\bibitem{citeulike:13160393}
+\bibitem{citeulike:13160396}
 \BIBentryALTinterwordspacing
-B.~Grinstead, ``{JavaScript A* Library},'' May 2014. [Online]. Available:
-  \url{http://github.com/bgrins/javascript-astar}
+{Python Flask Framework}. [Online]. Available: \url{http://flask.pocoo.org/}
 \BIBentrySTDinterwordspacing
- \begin{quotation}\noindent JavaScript library implementing the A* pathfinding
-  algorithm. \end{quotation}
+ \begin{quotation}\noindent Minimal web framework for Python. \end{quotation}
 
-\bibitem{citeulike:13139194}
+\bibitem{citeulike:13160403}
 \BIBentryALTinterwordspacing
-F.~Lecollinet and G.~Lecollinet, ``{BrowserQuest Source Code},'' GitHub, 2012.
-  [Online]. Available: \url{http://github.com/mozilla/BrowserQuest}
+{SQLite \& MySQL Speed Comparison}. [Online]. Available:
+  \url{http://www.sqlite.org/speed.html}
 \BIBentrySTDinterwordspacing
- \begin{quotation}\noindent BrowserQuest source code. \end{quotation}
+ \begin{quotation}\noindent Speed comparison between SQLite and MySQL showing
+  that SQLite is slower. \end{quotation}
 
-\bibitem{citeulike:13139186}
+\bibitem{citeulike:13155325}
 \BIBentryALTinterwordspacing
-------, ``{Mozilla's BrowserQuest Game},'' 2012. [Online]. Available:
-  \url{http://browserquest.mozilla.org/}
+J.~Bose, \emph{{Starling Game Development Essentials}}.\hskip 1em plus 0.5em
+  minus 0.4em\relax Packt Publishing, Dec. 2013. [Online]. Available:
+  \url{http://www.amazon.com/exec/obidos/redirect?tag=citeulike07-20\&path=ASIN/178398354X}
+  178398354X.
 \BIBentrySTDinterwordspacing
- \begin{quotation}\noindent The BrowserQuest game itself. \end{quotation}
+ \begin{quotation}\noindent Book about isometric game development in an
+  ActionScript framework. The algorithms to convert from Cartesian to isometric
+  coordinates and back are taken from this book. \end{quotation}
 
-\bibitem{citeulike:13139189}
+\bibitem{citeulike:13161624}
 \BIBentryALTinterwordspacing
-{Little Workshop}. (2012) {Little Workshop Information on BrowserQuest}.
-  [Online]. Available: \url{http://www.littleworkshop.fr/browserquest.html}
+``{Twisted Framework for Python}.'' [Online]. Available:
+  \url{http://twistedmatrix.com}
 \BIBentrySTDinterwordspacing
- \begin{quotation}\noindent Web page by the authors of the BrowserQuest game
-  giving some information on it. \end{quotation}
-
-\bibitem{citeulike:12394552}
-\BIBentryALTinterwordspacing
-M.~McShaffry and D.~Graham, \emph{{Game Coding Complete, Fourth Edition}},
-  4th~ed.\hskip 1em plus 0.5em minus 0.4em\relax Cengage Learning PTR, Mar.
-  2012. [Online]. Available:
-  \url{http://www.amazon.com/exec/obidos/redirect?tag=citeulike07-20\&path=ASIN/1133776574}
-  1133776574.
-\BIBentrySTDinterwordspacing
- \begin{quotation}\noindent Popular and well respected book on the fundamentals
-  of creating a modern game engine. \end{quotation}
-
-\bibitem{citeulike:13151262}
-\BIBentryALTinterwordspacing
-{Mozilla Foundation}, \emph{{Mozilla Developer Network}}. [Online]. Available:
-  \url{http://developer.mozilla.org}
-\BIBentrySTDinterwordspacing
- \begin{quotation}\noindent Online APIs for JavaScript and HTML5.
+ \begin{quotation}\noindent Python framework providing a variety of network
+  connectivity options, as well as an event loop implementation.
   \end{quotation}
 
-\bibitem{citeulike:13049596}
+\bibitem{MITLicense}
 \BIBentryALTinterwordspacing
-B.~Nystrom. {Game Programming Patterns}. Online. [Online]. Available:
-  \url{http://gameprogrammingpatterns.com/index.html}
+``{MIT License}.'' [Online]. Available:
+  \url{http://opensource.org/licenses/MIT}
 \BIBentrySTDinterwordspacing
- \begin{quotation}\noindent Online book detailing common game design patterns,
-  as well as examples on how to use more general design patterns in the context
-  of games. \end{quotation}
+ \begin{quotation}\noindent The MIT License. \end{quotation}
 
-\bibitem{citeulike:13000170}
+\bibitem{FlaskBSDLicense}
 \BIBentryALTinterwordspacing
-M.~A. Pagella, \emph{{Making Isometric Social Real-Time Games with
-  \textsc{html5}, \textsc{css3}, and Javascript}}.\hskip 1em plus 0.5em minus
-  0.4em\relax O'Reilly Media, Sept. 2011. [Online]. Available:
-  \url{http://www.amazon.com/exec/obidos/redirect?tag=citeulike07-20\&path=ASIN/1449304753}
-  1449304753.
+``{Flask BSD License}.'' [Online]. Available:
+  \url{http://flask.pocoo.org/docs/license/#flask-license}
 \BIBentrySTDinterwordspacing
- \begin{quotation}\noindent A book about creating isometric games in the
-  browser using and JavaScript \end{quotation}
+ \begin{quotation}\noindent The BSD License used by the Flask framework.
+  \end{quotation}
 
-\bibitem{citeulike:13160361}
+\bibitem{WTFBSDLicense}
 \BIBentryALTinterwordspacing
-J.~Resig, ``{Library: class.js}.'' [Online]. Available:
-  \url{http://ejohn.org/blog/simple-javascript-inheritance/}
+``{Flask-WTF BSD License}.'' [Online]. Available:
+  \url{https://flask-wtf.readthedocs.org/en/latest/license.html}
 \BIBentrySTDinterwordspacing
- \begin{quotation}\noindent Library for implementing a more classical class
-  structure in JavaScript. \end{quotation}
-
-\bibitem{citeulike:13000145}
-\BIBentryALTinterwordspacing
-P.~Rettig, \emph{{Professional \textsc{html5} Mobile Game Development}},
-  1st~ed.\hskip 1em plus 0.5em minus 0.4em\relax Wrox, Aug. 2012. [Online].
-  Available:
-  \url{http://www.amazon.com/exec/obidos/redirect?tag=citeulike07-20\&path=ASIN/B0094P2TU6}
-\BIBentrySTDinterwordspacing
- \begin{quotation}\noindent Book on creating browser games using HTML5 and
-  JavaScript \end{quotation}
+ \begin{quotation}\noindent The BSD License used by the Flask-WTF plugin for
+  the Flask framework. \end{quotation}
 
 \end{thebibliography}

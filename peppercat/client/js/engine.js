@@ -44,7 +44,7 @@ var Engine = Class.extend({
         this.camera   = new Camera();
         this.renderer = new Renderer();
 
-        this.camera.setPos(432, 100)
+        this.camera.setPos(450, 100)
     },
 
     tick: function() {
@@ -76,7 +76,7 @@ var Engine = Class.extend({
         var canvas = document.createElement("canvas");
         canvas.id     = "game_canvas";
         canvas.height = 600;
-        canvas.width  = 800;
+        canvas.width  = 1000;
 
         var canvasContainer = document.getElementById("canvas_container");
         canvasContainer.appendChild(canvas);

@@ -1,6 +1,11 @@
 {% extends "layout.html" %}
 {% block content %}
 
-	You can <a href="{{ url_for('login') }}">LOG IN</a> or you can <a href="{{ url_for('register') }}">REGISTER</a>.
+	<div class="jumbotron">
+	  <h1>Welcome to Peppercat!</h1>
+	  <p>Peppercat is a game (engine). You can play it. Why not sign up and try it out?</p>
+	  <p><a class="btn btn-primary btn-lg" role="button" href="{{ url_for('register') }}">Sign Up</a></p>
+	</div>
+
 
 {% endblock %}

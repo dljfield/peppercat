@@ -7,7 +7,7 @@ UPDATE_INTERVAL = (1.0 / 30)
 class GameLoop(threading.Thread):
 
 	def __init__(self, entities = None, scene = None, input_queue = None, reply_queue = None):
-		print "makin a game loop mon"
+		print "Starting up a game loop."
 
 		super(GameLoop, self).__init__()
 		self.input_queue = input_queue
@@ -82,7 +82,7 @@ class GameLoop(threading.Thread):
 			# disconnect event comes through
 			print "The user already exists. Added to refreshed user list."
 			if input['input']['id'] in self.refreshed_users:
-				print "Multiple refreshes? My My."
+				print "Multiple refreshes."
 				self.refreshed_users[input['input']['id']] += 1
 			else:
 				print "First refresh."
@@ -96,7 +96,7 @@ class GameLoop(threading.Thread):
 			print "The user has refreshed, not a real disconnect."
 			self.refreshed_users[input['input']] -= 1
 			if self.refreshed_users[input['input']] <= 0:
-				print "Reached last refresh. S'all good now."
+				print "Reached last refresh for user."
 				del self.refreshed_users[input['input']]
 		elif input['input'] in self.users:
 			del self.users[input['input']]
@@ -108,9 +108,10 @@ class GameLoop(threading.Thread):
 			self.entities[entity].shutDown()
 
 		self.alive.clear()
-		print "persisting game"
+		print "Persisting game."
 		self.persist()
-		print "stopping thread (hopefully)"
+		print "Stopping thread."
+		self.reply_queue.put("shutdown")
 
 	def persist(self):
 		from models import db, Entity
@@ -132,7 +133,7 @@ class GameLoop(threading.Thread):
 			entity_json = {"user_id": the_entity.user_id, "x": the_entity.x, "y": the_entity.y, "path": the_entity.path, "destination": the_entity.destination}
 			entity_list[entity] = entity_json
 
-		print "returning entities"
+		print "Returning entities."
 		self.reply_queue.put(entity_list)
 
 class Entity():

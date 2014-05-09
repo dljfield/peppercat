@@ -3,17 +3,13 @@
 
     <meta name="game_id" content="{{ current_game.id }}">
 
-    <p><strong>User:</strong> {{ session['username'] }}</p>
-    <a href="{{ url_for('logout') }}">log yoself out</a>
-
-    <p class="current_game"><strong>Current Game:</strong> {{ current_game.name }} </p>
-    <p><a href="{{ url_for('gamelist') }}">Game List</a></p>
+    <div>
+        <p class="current_game"><strong>Current Game:</strong> {{ current_game.name }} </p>
+    </div>
 
     <!-- CANVAS -->
     <div id='canvas_container'></div>
     <div id='output'></div>
-
-    <div id='stop_game'><a href="{{ url_for('stop_game', id = current_game.id) }}">Stop Game</a>
 
     <!-- LIBS -->
     <script src="{{ url_for('static', filename='js/lib/socket.io.js') }}"></script>

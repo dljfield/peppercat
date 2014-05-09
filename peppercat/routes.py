@@ -7,7 +7,10 @@ running_games = {}
 
 @app.route('/')
 def index():
-	return render_template('index.html')
+	if 'email' not in session:
+		return render_template('index.html')
+	else:
+		return redirect(url_for('gamelist'))
 
 #############
 ### LOGIN ###
@@ -191,7 +194,7 @@ def stop_game(id):
 @app.route('/scene/<path:game>')
 def scene(game):
 	if 'email' not in session:
-		return "SWAG"
+		return "auth_fail"
 
 	if game in running_games:
 		running_games[game]['input_queue'].put({'type': 'get_entities'})
@@ -266,12 +269,13 @@ def player_disconnect():
 			print "sending disconnect event to game loop for " + session['username']
 			running_games[game]['input_queue'].put({'type': 'player_disconnect', 'input': session['user_id']})
 
-			# session['active_games'][game] -= 1
-			# print "counted down session"
-			# print session['active_games'][game]
-			# if session['active_games'][game] <= 0:
-			# 	print "it's dead, cap'n"
-			# 	del session['active_games'][game]
+			try:
+				input = running_games[game]['reply_queue'].get(True, 0.01)
+				if input == "shutdown":
+					print "Removing game from running games list."
+					del running_games[game]
+			except Queue.Empty as e:
+				pass
 
 @socketio.on('game_loaded', namespace = '/game')
 def on_join(data):
